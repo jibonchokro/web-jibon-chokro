@@ -65,7 +65,7 @@ export default function SearchResultItem({
 
             </div>
 
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 text-left">
 
                 {post.category && (
                     <p className="mb-1 text-xs font-medium text-green-700">
