@@ -1,10 +1,10 @@
+import SearchBox from "@/components/search/SearchBox";
 import Container from "@/components/ui/Container";
 import {
     ArrowRight,
     BookOpen,
-    Search,
     Sparkles,
-    Users,
+    Users
 } from "lucide-react";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default function Hero() {
 
             <Container>
 
-                <div className="relative mx-auto flex max-w-5xl flex-col items-center py-20 text-center lg:py-28">
+                <div className="relative mx-auto flex max-w-5xl flex-col items-center py-15 text-center lg:py-15">
 
                     {/* Badge */}
 
@@ -32,7 +32,7 @@ export default function Hero() {
 
                     {/* Title */}
 
-                    <h1 className="max-w-4xl text-5xl font-black leading-tight tracking-tight text-gray-900 md:text-7xl">
+                    <h1 className="max-w-4xl text-[40px] font-black leading-tight tracking-tight text-gray-900 md:text-[45px]">
                         জীবনকে সমৃদ্ধ করার
                         <span className="block text-green-700">
                             বাংলা জ্ঞানভান্ডার
@@ -50,19 +50,8 @@ export default function Hero() {
 
                     {/* Search */}
 
-                    <div className="mt-12 flex w-full max-w-2xl items-center rounded-2xl border border-[#e7e7e7] bg-white px-5 py-4 shadow-sm transition focus-within:border-green-600 focus-within:shadow-lg">
-
-                        <Search
-                            size={22}
-                            className="mr-4 text-gray-400"
-                        />
-
-                        <input
-                            type="text"
-                            placeholder="আপনি কী খুঁজছেন?"
-                            className="flex-1 bg-transparent text-[15px] outline-none placeholder:text-gray-400"
-                        />
-
+                    <div className="mt-12 flex w-full max-w-2xl items-center">
+                        <SearchBox />
                     </div>
 
                     {/* Popular Search */}
