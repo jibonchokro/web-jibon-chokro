@@ -12,6 +12,8 @@
     "@portabletext/react": "^6.2.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.31.1",
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.5",
     "clsx": "^2.1.1",
     "groq": "^6.4.0",
     "lucide-react": "^1.23.0",

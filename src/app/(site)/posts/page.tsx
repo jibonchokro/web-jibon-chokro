@@ -66,21 +66,6 @@ export default async function PostsPage() {
 
             <div className="grid gap-10 lg:grid-cols-[320px_1fr]">
 
-                {/* Sidebar */}
-
-                <aside className="space-y-8">
-
-                    <FeaturedCarousel posts={featuredPosts} />
-
-                    <LatestPostsWidget posts={latestPosts} />
-
-                    <PopularPostsWidget posts={popularPosts} />
-
-                    <CategoriesWidget categories={categories} />
-
-                </aside>
-
-
                 {/* Main Content */}
 
                 <section className="space-y-16">
@@ -141,6 +126,20 @@ export default async function PostsPage() {
                     })}
 
                 </section>
+
+                {/* Sidebar */}
+
+                <aside className="space-y-8">
+
+                    <FeaturedCarousel posts={featuredPosts} />
+
+                    <LatestPostsWidget posts={latestPosts} />
+
+                    <PopularPostsWidget posts={popularPosts} />
+
+                    <CategoriesWidget categories={categories} />
+
+                </aside>
 
             </div>
 

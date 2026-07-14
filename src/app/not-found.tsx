@@ -1,23 +1,32 @@
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
-export default function NotFound() {
+export default async function NotFound() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
     return (
         <>
-            <Header />
+            <Header user={user} />
 
             <main className="flex min-h-[70vh] items-center justify-center p-6">
                 <div className="max-w-lg text-center">
-                    <h1 className="text-7xl font-bold text-green-700">404</h1>
+                    <h1 className="text-7xl font-bold text-green-700">
+                        404
+                    </h1>
 
                     <h2 className="mt-6 text-3xl font-bold">
                         পৃষ্ঠাটি খুঁজে পাওয়া যায়নি
                     </h2>
 
                     <p className="mt-4 text-gray-600">
-                        আপনি যে পৃষ্ঠাটি খুঁজছেন সেটি হয় মুছে ফেলা হয়েছে, নয়তো এর
-                        ঠিকানা পরিবর্তন করা হয়েছে।
+                        আপনি যে পৃষ্ঠাটি খুঁজছেন সেটি হয় মুছে ফেলা হয়েছে,
+                        নয়তো এর ঠিকানা পরিবর্তন করা হয়েছে।
                     </p>
 
                     <Link
