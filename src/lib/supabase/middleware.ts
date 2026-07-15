@@ -16,22 +16,26 @@ export async function updateSession(request: NextRequest) {
                 },
 
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value }) =>
-                        request.cookies.set(name, value)
-                    );
+                    // Update request cookies
+                    cookiesToSet.forEach(({ name, value }) => {
+                        request.cookies.set(name, value);
+                    });
 
+                    // Create a fresh response
                     response = NextResponse.next({
                         request,
                     });
 
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        response.cookies.set(name, value, options)
-                    );
+                    // Update response cookies
+                    cookiesToSet.forEach(({ name, value, options }) => {
+                        response.cookies.set(name, value, options);
+                    });
                 },
             },
         }
     );
 
+    // Refresh the user's session if needed
     await supabase.auth.getUser();
 
     return response;

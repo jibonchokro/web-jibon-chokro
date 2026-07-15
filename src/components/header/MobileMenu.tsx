@@ -1,9 +1,9 @@
 "use client";
 
+import SearchBox from "@/components/search/SearchBox";
 import { mobileNavigation } from "@/constants/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import HeaderSearch from "./HeaderSearch";
 
 interface Props {
     mobileOpen: boolean;
@@ -31,13 +31,15 @@ export default function MobileMenu({
     }
 
     return (
-        <div className="border-t border-gray-200 py-5 lg:hidden">
+        <div className="flex max-h-[calc(100vh-4rem)] flex-col border-t border-gray-200 py-5 lg:hidden">
 
-            <div className="mb-6">
-                <HeaderSearch />
+            {/* Search */}
+            <div className="mb-6 shrink-0">
+                <SearchBox />
             </div>
 
-            <nav className="space-y-1">
+            {/* Scrollable Navigation */}
+            <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
 
                 {mobileNavigation.map((item) => (
                     <Link

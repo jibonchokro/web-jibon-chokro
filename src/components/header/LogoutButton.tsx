@@ -1,8 +1,15 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+    className?: string;
+}
+
+export default function LogoutButton({
+    className,
+}: LogoutButtonProps) {
     async function handleLogout() {
         const supabase = createClient();
 
@@ -14,7 +21,10 @@ export default function LogoutButton() {
     return (
         <button
             onClick={handleLogout}
-            className="w-full rounded-lg bg-red-50 px-4 py-2 text-left text-red-600 transition hover:bg-red-100"
+            className={cn(
+                "rounded-lg bg-red-50 px-4 py-2 text-red-600 transition hover:bg-red-100",
+                className
+            )}
         >
             Logout
         </button>

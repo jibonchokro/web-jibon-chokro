@@ -106,7 +106,7 @@ export default function SearchBox() {
     return (
         <div
             ref={wrapperRef}
-            className="relative w-full"
+            className="relative"
         >
             <div className="relative">
 
