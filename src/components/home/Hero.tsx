@@ -51,7 +51,7 @@ export default function Hero() {
                     {/* Search */}
 
                     <div className="mt-12 flex w-full items-center justify-center">
-                        <SearchBox className="w-full max-w-[500px]" />
+                        <SearchBox className="w-full max-w-[520px]" />
                     </div>
 
                     {/* Popular Search */}
