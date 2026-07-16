@@ -1,9 +1,6 @@
 "use client";
 
-import {
-    navigationGroups,
-} from "@/constants/navigation";
-
+import { navigationGroups } from "@/constants/navigation";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
@@ -32,59 +29,65 @@ export default function DesktopMoreMenu({
                 onClick={() =>
                     setDesktopMenuOpen((prev) => !prev)
                 }
-                className="flex items-center gap-1 text-gray-700 transition hover:text-green-700"
+                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
                 আরও
 
                 <ChevronDown
-                    size={18}
-                    className={`transition ${desktopMenuOpen
-                            ? "rotate-180"
-                            : ""
+                    size={16}
+                    className={`transition-transform duration-200 ${desktopMenuOpen ? "rotate-180" : ""
                         }`}
                 />
             </button>
 
             {desktopMenuOpen && (
-                <div className="absolute right-0 mt-4 w-[520px] rounded-2xl border border-gray-200 bg-white p-6 shadow-xl">
+                <div className="absolute right-0 top-13 z-50">
 
-                    <div className="grid grid-cols-2 gap-8">
+                    {/* Menu */}
+                    <div className="relative w-[560px] rounded-xl border bg-white p-6 shadow-xl">
 
-                        {navigationGroups.map((group) => (
-                            <div key={group.title}>
+                        <div className="grid grid-cols-2 gap-8">
 
-                                <h3 className="mb-4 font-semibold text-green-700">
-                                    {group.title}
-                                </h3>
+                            {navigationGroups.map((group) => (
+                                <div key={group.title}>
 
-                                <div className="space-y-3">
+                                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                                        {group.title}
+                                    </p>
 
-                                    {group.items.map((item) => (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            onClick={() =>
-                                                setDesktopMenuOpen(false)
-                                            }
-                                            className={`block transition ${isActive(item.href)
-                                                    ? "font-semibold text-green-700"
-                                                    : "text-gray-700 hover:text-green-700"
-                                                }`}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    ))}
+                                    <div className="space-y-1">
+
+                                        {group.items.map((item) => {
+                                            const active = isActive(item.href);
+
+                                            return (
+                                                <Link
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    onClick={() =>
+                                                        setDesktopMenuOpen(false)
+                                                    }
+                                                    className={`block rounded-lg px-3 py-2 text-sm transition-colors ${active
+                                                        ? "bg-gray-100 font-medium text-foreground"
+                                                        : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
+                                                        }`}
+                                                >
+                                                    {item.label}
+                                                </Link>
+                                            );
+                                        })}
+
+                                    </div>
 
                                 </div>
+                            ))}
 
-                            </div>
-                        ))}
+                        </div>
 
                     </div>
 
                 </div>
             )}
-
         </div>
     );
 }

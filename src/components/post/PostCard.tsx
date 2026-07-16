@@ -14,7 +14,7 @@ export default function PostCard({ post }: PostCardProps) {
         : "/images/placeholder.jpg";
 
     return (
-        <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow duration-300 hover:shadow-lg">
+        <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow duration-300 hover:shadow-md">
             <Link href={`/posts/${post.slug.current}`}>
                 <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
                     <Image
@@ -36,16 +36,16 @@ export default function PostCard({ post }: PostCardProps) {
                 </Link>
 
                 <Link href={`/posts/${post.slug.current}`}>
-                    <h3 className="mt-3 text-2xl font-bold leading-snug transition hover:text-green-700">
+                    <h3 className="mt-3 text-[17px] font-semibold leading-snug transition hover:text-green-700">
                         {post.title}
                     </h3>
                 </Link>
 
-                <p className="mt-3 line-clamp-3 text-gray-600">
+                <p className="mt-3 line-clamp-3 text-[14px] text-gray-600">
                     {post.excerpt}
                 </p>
 
-                <div className="mt-6 flex items-center justify-between text-sm text-gray-500">
+                <div className="mt-3 flex items-center justify-between text-[10px] font-semibold text-gray-400">
                     <span>
                         {post.readingTime
                             ? `${post.readingTime} মিনিট পড়া`

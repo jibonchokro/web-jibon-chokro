@@ -3,9 +3,6 @@ import Link from "next/link";
 import {
     FaFacebookF,
     FaInstagram,
-    FaLinkedinIn,
-    FaTelegram,
-    FaWhatsapp,
     FaXTwitter,
     FaYoutube,
 } from "react-icons/fa6";
@@ -34,24 +31,6 @@ export default function SidebarFollowUs() {
             name: "YouTube",
             href: "https://youtube.com/@jibonchokro",
             icon: FaYoutube,
-            color: "hover:bg-gray-100 hover:border-gray-150",
-        },
-        {
-            name: "LinkedIn",
-            href: "https://linkedin.com/company/jibonchokro",
-            icon: FaLinkedinIn,
-            color: "hover:bg-gray-100 hover:border-gray-150",
-        },
-        {
-            name: "Telegram",
-            href: "https://t.me/jibonchokro",
-            icon: FaTelegram,
-            color: "hover:bg-gray-100 hover:border-gray-150",
-        },
-        {
-            name: "WhatsApp",
-            href: "https://whatsapp.com",
-            icon: FaWhatsapp,
             color: "hover:bg-gray-100 hover:border-gray-150",
         },
     ];
@@ -90,7 +69,7 @@ export default function SidebarFollowUs() {
                                 transition-all
                                 duration-200
                                 hover:text-white
-                                hover:shadow-md
+                                hover:shadow-sm
                                 ${item.color}
                             `}
                         >

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Anek_Bangla } from "next/font/google";
-
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const anekBangla = Anek_Bangla({
@@ -32,6 +32,19 @@ export default function RootLayout({
       <body
         className={`${anekBangla.className} min-h-screen bg-white text-gray-900 antialiased`}
       >
+
+        <NextTopLoader
+          color="#333"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={2}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 5px #555,0 0 3px #555"
+        />
+
         <div className="flex min-h-screen flex-col">
           <main className="flex-1">
             {children}

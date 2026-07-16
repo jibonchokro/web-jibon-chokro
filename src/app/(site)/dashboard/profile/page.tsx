@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import {
     Calendar,
+    CheckCircle2,
     Mail,
     ShieldCheck,
     User as UserIcon,
@@ -37,209 +38,184 @@ export default async function Page() {
 
     return (
         <div className="space-y-8">
-
             {/* Header */}
 
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+            <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tight">
                     প্রোফাইল
                 </h1>
 
-                <p className="mt-2 text-gray-500">
-                    আপনার ব্যক্তিগত তথ্য দেখুন ও ভবিষ্যতে এখান থেকে সম্পাদনা করুন।
+                <p className="max-w-2xl text-muted-foreground">
+                    আপনার অ্যাকাউন্টের তথ্য, পরিচয় এবং কার্যক্রমের
+                    সারসংক্ষেপ।
                 </p>
             </div>
 
             {/* Profile Card */}
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-8">
-
-                <div className="flex flex-col items-center gap-6 md:flex-row">
-
+            <div className="rounded-xl border bg-card p-8">
+                <div className="flex flex-col gap-6 md:flex-row md:items-center">
                     {avatar ? (
                         <Image
                             src={avatar}
                             alt={fullName}
-                            width={120}
-                            height={120}
-                            className="rounded-3xl border border-gray-200 object-cover"
+                            width={112}
+                            height={112}
+                            className="h-28 w-28 rounded-2xl border object-cover"
                         />
                     ) : (
-                        <div className="flex h-[120px] w-[120px] items-center justify-center rounded-3xl bg-green-700 text-5xl font-bold text-white">
+                        <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-muted text-4xl font-bold">
                             {fullName.charAt(0).toUpperCase()}
                         </div>
                     )}
 
                     <div className="min-w-0 flex-1">
-
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="truncate text-2xl font-semibold tracking-tight">
                             {fullName}
                         </h2>
 
-                        <p className="mt-1 text-gray-500">
+                        <p className="mt-1 break-all text-muted-foreground">
                             {user.email}
                         </p>
 
                         <div className="mt-5 flex flex-wrap gap-3">
-
-                            <span className="rounded-full bg-green-50 px-4 py-2 text-sm font-medium text-green-700">
+                            <span className="inline-flex items-center gap-2 rounded-full border bg-muted px-3 py-1.5 text-sm">
+                                <ShieldCheck size={15} />
                                 Google Account
                             </span>
 
-                            <span className="rounded-full bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700">
+                            <span className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700">
+                                <CheckCircle2 size={15} />
                                 Active
                             </span>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
-            {/* Information */}
+            {/* Content */}
 
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+                {/* Account */}
 
-                <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                <section className="rounded-xl border bg-card">
+                    <div className="border-b px-6 py-4">
+                        <h3 className="font-semibold tracking-tight">
+                            Account Information
+                        </h3>
+                    </div>
 
-                    <h3 className="mb-5 text-lg font-semibold">
-                        Account Information
-                    </h3>
-
-                    <div className="space-y-5">
-
-                        <div className="flex items-center gap-4">
-
-                            <UserIcon className="text-green-700" />
+                    <div className="divide-y">
+                        <div className="flex items-start gap-4 p-6">
+                            <div className="rounded-lg border bg-muted p-2.5">
+                                <UserIcon size={18} />
+                            </div>
 
                             <div>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-muted-foreground">
                                     Full Name
                                 </p>
 
-                                <p className="font-medium">
+                                <p className="mt-1 font-medium">
                                     {fullName}
                                 </p>
                             </div>
-
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-start gap-4 p-6">
+                            <div className="rounded-lg border bg-muted p-2.5">
+                                <Mail size={18} />
+                            </div>
 
-                            <Mail className="text-green-700" />
-
-                            <div>
-                                <p className="text-sm text-gray-500">
-                                    Email
+                            <div className="min-w-0">
+                                <p className="text-sm text-muted-foreground">
+                                    Email Address
                                 </p>
 
-                                <p className="font-medium break-all">
+                                <p className="mt-1 break-all font-medium">
                                     {user.email}
                                 </p>
                             </div>
-
                         </div>
 
-                        <div className="flex items-center gap-4">
-
-                            <Calendar className="text-green-700" />
+                        <div className="flex items-start gap-4 p-6">
+                            <div className="rounded-lg border bg-muted p-2.5">
+                                <Calendar size={18} />
+                            </div>
 
                             <div>
-                                <p className="text-sm text-gray-500">
-                                    Joined
+                                <p className="text-sm text-muted-foreground">
+                                    Member Since
                                 </p>
 
-                                <p className="font-medium">
+                                <p className="mt-1 font-medium">
                                     {joinedDate}
                                 </p>
                             </div>
-
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-start gap-4 p-6">
+                            <div className="rounded-lg border bg-muted p-2.5">
+                                <ShieldCheck size={18} />
+                            </div>
 
-                            <ShieldCheck className="text-green-700" />
-
-                            <div>
-                                <p className="text-sm text-gray-500">
+                            <div className="min-w-0">
+                                <p className="text-sm text-muted-foreground">
                                     User ID
                                 </p>
 
-                                <p className="break-all font-medium text-sm">
+                                <p className="mt-1 break-all font-mono text-xs text-muted-foreground">
                                     {user.id}
                                 </p>
                             </div>
-
                         </div>
+                    </div>
+                </section>
 
+                {/* Statistics */}
+
+                <section className="rounded-xl border bg-card">
+                    <div className="border-b px-6 py-4">
+                        <h3 className="font-semibold tracking-tight">
+                            Statistics
+                        </h3>
                     </div>
 
-                </div>
+                    <div className="grid grid-cols-2 gap-4 p-6">
+                        {[
+                            {
+                                label: "Bookmarks",
+                                value: 0,
+                            },
+                            {
+                                label: "Likes",
+                                value: 0,
+                            },
+                            {
+                                label: "Comments",
+                                value: 0,
+                            },
+                            {
+                                label: "Followers",
+                                value: 0,
+                            },
+                        ].map((item) => (
+                            <div
+                                key={item.label}
+                                className="rounded-xl border bg-muted/40 p-5 text-center"
+                            >
+                                <p className="text-3xl font-bold tracking-tight">
+                                    {item.value}
+                                </p>
 
-                <div className="rounded-2xl border border-gray-200 bg-white p-6">
-
-                    <h3 className="mb-5 text-lg font-semibold">
-                        Statistics
-                    </h3>
-
-                    <div className="grid grid-cols-2 gap-4">
-
-                        <div className="rounded-xl bg-gray-50 p-5 text-center">
-
-                            <p className="text-3xl font-bold text-green-700">
-                                0
-                            </p>
-
-                            <p className="mt-1 text-sm text-gray-500">
-                                Bookmarks
-                            </p>
-
-                        </div>
-
-                        <div className="rounded-xl bg-gray-50 p-5 text-center">
-
-                            <p className="text-3xl font-bold text-green-700">
-                                0
-                            </p>
-
-                            <p className="mt-1 text-sm text-gray-500">
-                                Likes
-                            </p>
-
-                        </div>
-
-                        <div className="rounded-xl bg-gray-50 p-5 text-center">
-
-                            <p className="text-3xl font-bold text-green-700">
-                                0
-                            </p>
-
-                            <p className="mt-1 text-sm text-gray-500">
-                                Comments
-                            </p>
-
-                        </div>
-
-                        <div className="rounded-xl bg-gray-50 p-5 text-center">
-
-                            <p className="text-3xl font-bold text-green-700">
-                                0
-                            </p>
-
-                            <p className="mt-1 text-sm text-gray-500">
-                                Followers
-                            </p>
-
-                        </div>
-
+                                <p className="mt-2 text-sm text-muted-foreground">
+                                    {item.label}
+                                </p>
+                            </div>
+                        ))}
                     </div>
-
-                </div>
-
+                </section>
             </div>
-
         </div>
     );
 }

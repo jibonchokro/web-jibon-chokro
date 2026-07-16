@@ -1,5 +1,6 @@
 import {
     Bookmark,
+    ChevronRight,
     Heart,
     MessageCircle,
     Settings,
@@ -42,20 +43,21 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div>
-            <div className="mb-10">
-                <h1 className="text-3xl font-bold text-gray-900">
+        <div className="space-y-10">
+            {/* Header */}
+            <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tight">
                     ড্যাশবোর্ড
                 </h1>
 
-                <p className="mt-2 text-gray-600">
-                    জীবন চক্রে স্বাগতম। এখান থেকে আপনার প্রোফাইল,
-                    বুকমার্ক, লাইক, মন্তব্য এবং অ্যাকাউন্ট সেটিংস
-                    পরিচালনা করতে পারবেন।
+                <p className="max-w-2xl text-muted-foreground">
+                    আপনার অ্যাকাউন্ট, বুকমার্ক, লাইক, মন্তব্য এবং
+                    ব্যক্তিগত সেটিংস এখান থেকে সহজেই পরিচালনা করুন।
                 </p>
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {/* Cards */}
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {cards.map((card) => {
                     const Icon = card.icon;
 
@@ -65,28 +67,36 @@ export default function DashboardPage() {
                             href={card.href}
                             className="
                                 group
-                                rounded-2xl
+                                rounded-xl
                                 border
-                                border-[#e7e7e7]
-                                bg-white
+                                bg-card
                                 p-6
                                 transition-all
-                                hover:-translate-y-1
-                                hover:border-green-600
-                                hover:shadow-lg
+                                hover:-translate-y-0.5
+                                hover:border-gray-300
+                                hover:shadow-sm
                             "
                         >
-                            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-green-700 transition group-hover:bg-green-700 group-hover:text-white">
-                                <Icon size={24} />
+                            <div className="flex items-start justify-between">
+                                <div className="flex h-11 w-11 items-center justify-center rounded-lg border bg-muted text-muted-foreground transition-colors group-hover:bg-gray-100 group-hover:text-gray-900">
+                                    <Icon size={20} />
+                                </div>
+
+                                <ChevronRight
+                                    size={18}
+                                    className="text-gray-400 transition-transform group-hover:translate-x-1"
+                                />
                             </div>
 
-                            <h2 className="text-lg font-semibold text-gray-900">
-                                {card.title}
-                            </h2>
+                            <div className="mt-5">
+                                <h2 className="text-lg font-semibold tracking-tight">
+                                    {card.title}
+                                </h2>
 
-                            <p className="mt-2 text-sm leading-6 text-gray-600">
-                                {card.description}
-                            </p>
+                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                    {card.description}
+                                </p>
+                            </div>
                         </Link>
                     );
                 })}

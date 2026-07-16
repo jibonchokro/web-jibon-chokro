@@ -2,6 +2,9 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import { LogOut } from "lucide-react";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 
 interface LogoutButtonProps {
     className?: string;
@@ -10,23 +13,86 @@ interface LogoutButtonProps {
 export default function LogoutButton({
     className,
 }: LogoutButtonProps) {
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     async function handleLogout() {
-        const supabase = createClient();
+        try {
+            setLoading(true);
 
-        await supabase.auth.signOut();
+            const supabase = createClient();
 
-        location.reload();
+            await supabase.auth.signOut();
+
+            window.location.reload();
+
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     }
 
+    const modal = confirmOpen && typeof window !== "undefined"
+        ? createPortal(
+            <div
+                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4"
+                onClick={() => setConfirmOpen(false)}
+            >
+                <div
+                    className="w-full max-w-[300px] rounded-xl border bg-white p-6 shadow-xl"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <h2 className="text-lg font-semibold">
+                        লগ আউট করবেন?
+                    </h2>
+
+                    <p className="mt-2 text-sm text-muted-foreground">
+                        আপনি কি নিশ্চিত যে আপনার অ্যাকাউন্ট থেকে লগ আউট করতে চান?
+                    </p>
+
+                    <div className="mt-6 flex justify-between gap-3">
+                        <button
+                            type="button"
+                            onClick={() => setConfirmOpen(false)}
+                            className="rounded-lg border px-4 py-2 text-sm font-medium hover:bg-muted"
+                        >
+                            বাতিল
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            disabled={loading}
+                            className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+                        >
+                            {loading ? "অপেক্ষা করুন..." : "লগ আউট"}
+                        </button>
+                    </div>
+                </div>
+            </div>,
+            document.body
+        )
+        : null;
+
+
     return (
-        <button
-            onClick={handleLogout}
-            className={cn(
-                "rounded-lg bg-red-50 px-4 py-2 text-red-600 transition hover:bg-red-100",
-                className
-            )}
-        >
-            Logout
-        </button>
+        <>
+            <button
+                type="button"
+                onClick={() => setConfirmOpen(true)}
+                disabled={loading}
+                className={cn(
+                    "inline-flex items-center gap-2 rounded-lg border border-border text-sm font-medium text-muted-foreground transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+                    className
+                )}
+            >
+                <LogOut size={16} />
+
+                <span>
+                    {loading ? "লগ আউট হচ্ছে..." : "লগ আউট"}
+                </span>
+            </button>
+
+            {modal}
+        </>
     );
 }

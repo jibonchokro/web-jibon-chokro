@@ -25,7 +25,13 @@ interface SearchPost {
     };
 }
 
-export default function SearchBox() {
+interface SearchBoxProps {
+    className?: string;
+}
+
+export default function SearchBox({
+    className = "",
+}: SearchBoxProps) {
     const [query, setQuery] = useState("");
 
     const [results, setResults] = useState<SearchPost[]>([]);
@@ -53,7 +59,6 @@ export default function SearchBox() {
         };
 
         document.addEventListener("mousedown", handleClickOutside);
-
         document.addEventListener("keydown", handleEscape);
 
         return () => {
@@ -72,9 +77,7 @@ export default function SearchBox() {
     useEffect(() => {
         if (query.trim().length < 2) {
             setResults([]);
-
             setOpen(false);
-
             return;
         }
 
@@ -89,11 +92,9 @@ export default function SearchBox() {
                 const data = await response.json();
 
                 setResults(data);
-
                 setOpen(true);
             } catch (error) {
                 console.error(error);
-
                 setResults([]);
             } finally {
                 setLoading(false);
@@ -106,10 +107,9 @@ export default function SearchBox() {
     return (
         <div
             ref={wrapperRef}
-            className="relative"
+            className={`relative ${className}`}
         >
             <div className="relative">
-
                 <Search
                     size={18}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -130,7 +130,6 @@ export default function SearchBox() {
                     autoComplete="off"
                     className="w-full rounded-xl border border-gray-300 bg-gray-50 py-2 pl-10 pr-4 outline-none transition focus:border-green-600 focus:bg-white"
                 />
-
             </div>
 
             <SearchResults

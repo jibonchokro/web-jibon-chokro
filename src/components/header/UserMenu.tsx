@@ -61,10 +61,16 @@ export default function UserMenu({
             }
         }
 
-        document.addEventListener("mousedown", handleClick);
+        document.addEventListener(
+            "mousedown",
+            handleClick
+        );
 
         return () => {
-            document.removeEventListener("mousedown", handleClick);
+            document.removeEventListener(
+                "mousedown",
+                handleClick
+            );
         };
     }, []);
 
@@ -79,6 +85,7 @@ export default function UserMenu({
 
     const avatar =
         user.user_metadata.avatar_url ?? null;
+
 
     const menu = [
         {
@@ -113,11 +120,14 @@ export default function UserMenu({
         },
     ];
 
+
     return (
         <div
             ref={menuRef}
             className="relative"
         >
+
+            {/* Trigger */}
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
@@ -126,13 +136,15 @@ export default function UserMenu({
 
                     lg:gap-3
                     lg:rounded-xl
-                    lg:border lg:border-gray-200
-                    lg:bg-white
-                    lg:px-2 lg:py-1
-                    lg:hover:bg-gray-50
+                    lg:border
+                    lg:border-border
+                    lg:bg-background
+                    lg:px-2
+                    lg:py-1
+                    lg:hover:bg-muted
                 "
             >
-                {/* Avatar */}
+
                 <div className="relative">
 
                     <UserAvatar
@@ -140,13 +152,12 @@ export default function UserMenu({
                         avatar={avatar}
                     />
 
-                    {/* Mobile Chevron */}
+
                     <div
                         className="
                             absolute
                             -bottom-1
                             -right-1
-                            z-10
                             flex
                             h-5
                             w-5
@@ -154,44 +165,66 @@ export default function UserMenu({
                             justify-center
                             rounded-full
                             border
-                            border-white
-                            bg-gray-100
+                            border-background
+                            bg-muted
                             lg:hidden
                         "
                     >
                         <ChevronDown
                             size={12}
-                            className={`transition ${open ? "rotate-180" : ""
-                                }`}
+                            className={
+                                open
+                                    ? "rotate-180 transition"
+                                    : "transition"
+                            }
                         />
                     </div>
 
                 </div>
 
-                {/* Desktop Info */}
+
                 <div className="hidden text-left lg:block">
-                    <p className="text-sm font-semibold text-gray-900">
+                    <p className="text-sm font-medium">
                         {fullName}
                     </p>
 
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                         My Account
                     </p>
                 </div>
 
-                {/* Desktop Chevron */}
-                <ChevronDown
-                    size={18}
-                    className={`hidden text-gray-500 transition lg:block ${open ? "rotate-180" : ""
-                        }`}
-                />
+                <span className="hidden lg:flex">
+                    <ChevronDown
+                        size={16}
+                        className={`text-muted-foreground transition-transform ${open ? "rotate-180" : ""
+                            }`}
+                    />
+                </span>
+
             </button>
 
-            {open && (
-                <div className="absolute right-0 mt-3 flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
 
-                    {/* User */}
-                    <div className="shrink-0 border-b border-gray-200 p-4">
+            {open && (
+                <div
+                    className="
+                        absolute
+                        right-0
+                        mt-3
+                        flex
+                        max-h-[80vh]
+                        w-72
+                        flex-col
+                        overflow-hidden
+                        rounded-xl
+                        border
+                        bg-white
+                        shadow-md
+                    "
+                >
+
+                    {/* User Info */}
+                    <div className="border-b p-4">
+
                         <div className="flex items-center gap-3">
 
                             <UserAvatar
@@ -200,22 +233,33 @@ export default function UserMenu({
                             />
 
                             <div className="min-w-0">
-                                <p className="truncate font-semibold text-gray-900">
+
+                                <p className="truncate text-sm font-medium">
                                     {fullName}
                                 </p>
 
-                                <p className="truncate text-xs text-gray-500">
+                                <p className="truncate text-xs text-muted-foreground">
                                     {user.email}
                                 </p>
+
                             </div>
 
                         </div>
+
                     </div>
 
-                    {/* Menu */}
-                    <nav className="flex-1 overflow-y-auto p-2">
+
+                    {/* Navigation */}
+                    <nav
+                        className="
+                            flex-1
+                            overflow-y-auto
+                            p-2
+                        "
+                    >
 
                         {menu.map((item) => {
+
                             const Icon = item.icon;
 
                             const active =
@@ -223,32 +267,61 @@ export default function UserMenu({
                                     ? pathname === "/dashboard"
                                     : pathname.startsWith(item.href);
 
+
                             return (
                                 <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className={`mb-1 flex items-center gap-3 rounded-lg border px-3 py-2 transition ${active
-                                            ? "border-green-200 bg-green-100 font-medium text-green-700"
-                                            : "border-transparent text-gray-700 hover:border-gray-200 hover:bg-gray-100 hover:text-green-700"
-                                        }`}
-                                >
-                                    <Icon size={18} />
+                                    className={`
+                                        mb-1
+                                        flex
+                                        items-center
+                                        gap-3
+                                        rounded-lg
+                                        px-3
+                                        py-2
+                                        text-sm
+                                        transition
+                                        border
 
-                                    <span>{item.label}</span>
+                                        ${active
+                                            ? "bg-black font-medium border-black text-white"
+                                            : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
+                                        }
+                                    `}
+                                >
+                                    <Icon size={17} />
+
+                                    <span>
+                                        {item.label}
+                                    </span>
                                 </Link>
                             );
                         })}
 
                     </nav>
 
+
                     {/* Logout */}
-                    <div className="shrink-0 border-t border-gray-200 p-2">
-                        <LogoutButton className="w-full justify-start text-left" />
+                    <div className="border-t p-2">
+
+                        <LogoutButton
+                            className="
+                                w-full
+                                justify-start
+                                text-left
+                                px-3
+                                py-2
+                                text-sm
+                            "
+                        />
+
                     </div>
 
                 </div>
             )}
+
         </div>
     );
 }

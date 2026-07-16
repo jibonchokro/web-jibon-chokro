@@ -5,6 +5,8 @@ import UserAvatar from "@/components/header/UserAvatar";
 import type { User } from "@supabase/supabase-js";
 import {
     Bookmark,
+    ChevronRight,
+    EllipsisVertical,
     Heart,
     LayoutDashboard,
     MessageCircle,
@@ -13,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 interface DashboardSidebarProps {
     user: User;
@@ -22,6 +25,29 @@ export default function DashboardSidebar({
     user,
 }: DashboardSidebarProps) {
     const pathname = usePathname();
+
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClick(event: MouseEvent) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setMenuOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClick);
+
+        return () =>
+            document.removeEventListener(
+                "mousedown",
+                handleClick
+            );
+    }, []);
 
     const fullName =
         user.user_metadata.full_name ??
@@ -66,9 +92,9 @@ export default function DashboardSidebar({
 
     return (
         <>
-            {/* ---------------- Desktop Sidebar ---------------- */}
+            {/* Desktop Sidebar */}
 
-            <aside className="sticky top-24 hidden h-fit w-72 shrink-0 rounded-2xl border border-[#e7e7e7] bg-white p-6 lg:block">
+            <aside className="sticky top-24 hidden h-fit w-72 shrink-0 rounded-xl border bg-white p-6 lg:block">
 
                 <div className="mb-8 flex items-center gap-4">
 
@@ -78,11 +104,11 @@ export default function DashboardSidebar({
                     />
 
                     <div className="min-w-0">
-                        <h2 className="truncate font-semibold text-gray-900">
+                        <h2 className="truncate font-semibold">
                             {fullName}
                         </h2>
 
-                        <p className="truncate text-sm text-gray-500">
+                        <p className="truncate text-sm text-muted-foreground">
                             {user.email}
                         </p>
                     </div>
@@ -103,58 +129,98 @@ export default function DashboardSidebar({
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`flex items-center gap-3 rounded-xl px-4 py-3 transition ${active
-                                    ? "bg-green-100 border border-green-200 font-semibold text-green-700"
-                                    : "border border-gray-100 text-gray-700 hover:bg-gray-100 hover:text-green-700"
+                                className={`group flex items-center justify-between rounded-lg border px-3 py-2 transition ${active
+                                    ? "border-black bg-black text-white"
+                                    : "border-transparent hover:border-border hover:bg-gray-100"
                                     }`}
                             >
-                                <Icon size={20} />
+                                <div className="flex items-center gap-3">
+                                    <Icon size={19} />
+                                    {item.label}
+                                </div>
 
-                                {item.label}
+                                <ChevronRight size={16} />
                             </Link>
                         );
                     })}
 
                 </nav>
 
-                <div className="mt-8 border-t border-gray-200 pt-6">
-                    <LogoutButton className="w-full text-left" />
+                <div className="mt-8 border-t pt-6">
+                    <LogoutButton className="w-full justify-start px-3 py-2" />
                 </div>
 
             </aside>
 
-            {/* ---------------- Mobile Navigation ---------------- */}
+            {/* Mobile */}
 
             <div className="lg:hidden">
 
-                <div className="mb-5 rounded-2xl border border-[#e7e7e7] bg-white p-4">
+                {/* User */}
 
-                    <div className="flex items-center gap-3">
+                <div className="relative mb-5 rounded-xl border bg-white p-4">
 
-                        <UserAvatar
-                            name={fullName}
-                            avatar={avatar}
-                        />
+                    <div className="flex items-center justify-between">
 
-                        <div className="min-w-0">
-                            <h2 className="truncate font-semibold">
-                                {fullName}
-                            </h2>
+                        <div className="flex min-w-0 items-center gap-3">
 
-                            <p className="truncate text-sm text-gray-500">
-                                {user.email}
-                            </p>
+                            <UserAvatar
+                                name={fullName}
+                                avatar={avatar}
+                            />
+
+                            <div className="min-w-0">
+
+                                <h2 className="truncate font-medium">
+                                    {fullName}
+                                </h2>
+
+                                <p className="truncate text-sm text-muted-foreground">
+                                    {user.email}
+                                </p>
+
+                            </div>
+
                         </div>
 
-                        <LogoutButton />
+                        <div
+                            ref={menuRef}
+                            className="relative"
+                        >
+                            <button
+                                onClick={() =>
+                                    setMenuOpen(!menuOpen)
+                                }
+                                className="rounded-md p-2 transition hover:bg-muted"
+                            >
+                                <EllipsisVertical size={18} />
+                            </button>
+
+                            {menuOpen && (
+                                <div className="absolute right-0 top-11 z-20">
+
+                                    {/* Arrow */}
+                                    <div className="absolute -top-1.5 right-4 h-3 w-3 rotate-45 border-l border-t border-gray-50 bg-white" />
+
+                                    {/* Menu */}
+                                    <div className="relative w-44 rounded-lg border border-gray-50 bg-white p-2 shadow-md">
+                                        <LogoutButton className="w-full justify-start px-3 py-2" />
+                                    </div>
+
+                                </div>
+                            )}
+
+                        </div>
 
                     </div>
 
                 </div>
 
+                {/* Navigation */}
+
                 <div className="mb-6 overflow-x-auto">
 
-                    <nav className="flex w-max gap-3 pb-2">
+                    <nav className="flex w-max gap-2 pb-2">
 
                         {menu.map((item) => {
                             const Icon = item.icon;
@@ -169,12 +235,11 @@ export default function DashboardSidebar({
                                     key={item.href}
                                     href={item.href}
                                     className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition ${active
-                                        ? "border-green-200 bg-green-100 text-white"
-                                        : "border-gray-300 bg-white text-gray-700"
+                                        ? "border-black bg-black text-white"
+                                        : "bg-white hover:bg-gray-100"
                                         }`}
                                 >
-                                    <Icon size={18} />
-
+                                    <Icon size={16} />
                                     {item.label}
                                 </Link>
                             );
