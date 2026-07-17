@@ -20,6 +20,7 @@ export default function Header({
 }: HeaderProps) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
 
     const desktopMenuRef = useRef<HTMLDivElement>(null);
 
@@ -37,17 +38,26 @@ export default function Header({
             if (event.key === "Escape") {
                 setDesktopMenuOpen(false);
                 setMobileOpen(false);
+                setUserMenuOpen(false);
             }
         }
 
-        document.addEventListener("mousedown", handleClickOutside);
-        document.addEventListener("keydown", handleEscape);
+        document.addEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+        document.addEventListener(
+            "keydown",
+            handleEscape
+        );
 
         return () => {
             document.removeEventListener(
                 "mousedown",
                 handleClickOutside
             );
+
             document.removeEventListener(
                 "keydown",
                 handleEscape
@@ -64,7 +74,10 @@ export default function Header({
                     <div className="flex items-center gap-3">
                         <MobileMenuButton
                             mobileOpen={mobileOpen}
-                            setMobileOpen={setMobileOpen}
+                            setMobileOpen={(open) => {
+                                setUserMenuOpen(false);
+                                setMobileOpen(open);
+                            }}
                         />
 
                         <HeaderLogo />
@@ -82,9 +95,16 @@ export default function Header({
                         desktopMenuRef={desktopMenuRef}
                     />
 
-                    {/* Push user menu to the far right */}
+                    {/* User Menu */}
                     <div className="ml-auto">
-                        <UserMenu user={user} />
+                        <UserMenu
+                            user={user}
+                            open={userMenuOpen}
+                            setOpen={(open) => {
+                                setMobileOpen(false);
+                                setUserMenuOpen(open);
+                            }}
+                        />
                     </div>
 
                 </div>

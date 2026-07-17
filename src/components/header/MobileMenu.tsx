@@ -46,9 +46,9 @@ export default function MobileMenu({
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`block rounded-lg px-3 py-3 transition ${isActive(item.href)
-                                ? "bg-green-50 font-semibold text-green-700"
-                                : "text-gray-700 hover:bg-gray-100"
+                        className={`block border border-black/10 rounded-lg px-3 py-2 transition ${isActive(item.href)
+                            ? "bg-black/3"
+                            : "hover:bg-black/3"
                             }`}
                     >
                         {item.label}

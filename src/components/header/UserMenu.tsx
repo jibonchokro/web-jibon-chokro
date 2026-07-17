@@ -21,15 +21,18 @@ import UserAvatar from "./UserAvatar";
 
 interface UserMenuProps {
     user: User | null;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UserMenu({
     user: initialUser,
+    open,
+    setOpen,
 }: UserMenuProps) {
     const pathname = usePathname();
 
     const [user, setUser] = useState<User | null>(initialUser);
-    const [open, setOpen] = useState(false);
 
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -61,18 +64,20 @@ export default function UserMenu({
             }
         }
 
-        document.addEventListener(
-            "mousedown",
-            handleClick
-        );
+        function handleEscape(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                setOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClick);
+        document.addEventListener("keydown", handleEscape);
 
         return () => {
-            document.removeEventListener(
-                "mousedown",
-                handleClick
-            );
+            document.removeEventListener("mousedown", handleClick);
+            document.removeEventListener("keydown", handleEscape);
         };
-    }, []);
+    }, [setOpen]);
 
     if (!user) {
         return <LoginButton />;
@@ -85,7 +90,6 @@ export default function UserMenu({
 
     const avatar =
         user.user_metadata.avatar_url ?? null;
-
 
     const menu = [
         {
@@ -120,67 +124,26 @@ export default function UserMenu({
         },
     ];
 
-
     return (
-        <div
-            ref={menuRef}
-            className="relative"
-        >
-
-            {/* Trigger */}
+        <div ref={menuRef} className="relative">
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className="
-                    flex items-center transition
-                    lg:gap-3
-                    lg:rounded-xl
-                    lg:border
-                    lg:border-black/10
-                    lg:bg-background
-                    lg:px-2
-                    lg:py-1
-                    lg:hover:bg-muted
-                "
+                className="flex items-center transition lg:gap-3 lg:rounded-xl lg:border lg:border-black/10 lg:bg-background lg:px-2 lg:py-1 lg:hover:bg-muted"
             >
-
                 <div className="relative">
-
                     <UserAvatar
                         name={fullName}
                         avatar={avatar}
                     />
 
-
-                    <div
-                        className="
-                            absolute
-                            -bottom-1
-                            -right-1
-                            flex
-                            h-5
-                            w-5
-                            items-center
-                            justify-center
-                            rounded-full
-                            border
-                            border-background
-                            bg-muted
-                            lg:hidden
-                        "
-                    >
+                    <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-gray-200 bg-gray-50 lg:hidden">
                         <ChevronDown
                             size={12}
-                            className={
-                                open
-                                    ? "rotate-180 transition"
-                                    : "transition"
-                            }
+                            className={open ? "rotate-180 transition" : "transition"}
                         />
                     </div>
-
                 </div>
-
 
                 <div className="hidden text-left lg:block">
                     <p className="text-sm font-medium">
@@ -195,46 +158,21 @@ export default function UserMenu({
                 <span className="hidden lg:flex">
                     <ChevronDown
                         size={16}
-                        className={`text-muted-foreground transition-transform ${open ? "rotate-180" : ""
-                            }`}
+                        className={`text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
                     />
                 </span>
-
             </button>
 
-
             {open && (
-                <div
-                    className="
-                        absolute
-                        right-0
-                        mt-[7px]
-                        flex
-                        max-h-[80vh]
-                        w-72
-                        flex-col
-                        overflow-hidden
-                        rounded-bl-xl
-                        rounded-br-xl
-                        border
-                        border-black/10
-                        bg-white/98
-                        shadow-md
-                    "
-                >
-
-                    {/* User Info */}
+                <div className="absolute right-0 mt-[12px] lg:mt-[7px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-black/10 bg-white shadow-lg">
                     <div className="border-b border-black/10 p-4">
-
                         <div className="flex items-center gap-3">
-
                             <UserAvatar
                                 name={fullName}
                                 avatar={avatar}
                             />
 
                             <div className="min-w-0">
-
                                 <p className="truncate text-sm font-medium">
                                     {fullName}
                                 </p>
@@ -242,25 +180,12 @@ export default function UserMenu({
                                 <p className="truncate text-xs text-muted-foreground">
                                     {user.email}
                                 </p>
-
                             </div>
-
                         </div>
-
                     </div>
 
-
-                    {/* Navigation */}
-                    <nav
-                        className="
-                            flex-1
-                            overflow-y-auto
-                            p-2
-                        "
-                    >
-
+                    <nav className="flex-1 overflow-y-auto p-2">
                         {menu.map((item) => {
-
                             const Icon = item.icon;
 
                             const active =
@@ -268,30 +193,12 @@ export default function UserMenu({
                                     ? pathname === "/dashboard"
                                     : pathname.startsWith(item.href);
 
-
                             return (
                                 <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className={`
-                                        mb-1
-                                        flex
-                                        items-center
-                                        gap-3
-                                        rounded-lg
-                                        px-3
-                                        py-2
-                                        text-sm
-                                        transition
-                                        border
-                                        border-black/10
-
-                                        ${active
-                                            ? "bg-gray-100 font-medium text-black"
-                                            : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
-                                        }
-                                    `}
+                                    className={`mb-1 flex items-center gap-3 rounded-lg border border-black/10 px-3 py-2 text-sm transition ${active ? "bg-gray-100 font-medium text-black" : "text-muted-foreground hover:bg-gray-100 hover:text-black"}`}
                                 >
                                     <Icon size={17} />
 
@@ -301,24 +208,12 @@ export default function UserMenu({
                                 </Link>
                             );
                         })}
-
                     </nav>
 
-
-                    {/* Logout */}
                     <div className="border-t border-black/10 p-2">
-
                         <LogoutButton
-                            className="
-                                w-full
-                                justify-start
-                                text-left
-                                px-3
-                                py-2
-                                text-sm
-                            "
+                            className="w-full justify-start px-3 py-2 text-left text-sm"
                         />
-
                     </div>
 
                 </div>

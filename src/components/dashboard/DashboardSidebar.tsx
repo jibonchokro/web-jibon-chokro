@@ -158,7 +158,7 @@ export default function DashboardSidebar({
 
                 {/* User */}
 
-                <div className="relative mb-5 rounded-xl border bg-white p-4">
+                <div className="relative mb-5 rounded-xl border border-black/10 bg-white p-4">
 
                     <div className="flex items-center justify-between">
 
@@ -234,8 +234,8 @@ export default function DashboardSidebar({
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition ${active
-                                        ? "border-black bg-black text-white"
+                                    className={`flex items-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm whitespace-nowrap transition ${active
+                                        ? "border-black/10 bg-gray-200 text-black"
                                         : "bg-white hover:bg-gray-100"
                                         }`}
                                 >
