@@ -53,7 +53,7 @@ export default async function Page() {
 
             {/* Profile Card */}
 
-            <div className="rounded-xl border bg-card p-8">
+            <div className="rounded-xl border border-black/10 bg-card p-8">
                 <div className="flex flex-col gap-6 md:flex-row md:items-center">
                     {avatar ? (
                         <Image
@@ -79,7 +79,7 @@ export default async function Page() {
                         </p>
 
                         <div className="mt-5 flex flex-wrap gap-3">
-                            <span className="inline-flex items-center gap-2 rounded-full border bg-muted px-3 py-1.5 text-sm">
+                            <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-sm">
                                 <ShieldCheck size={15} />
                                 Google Account
                             </span>
@@ -98,16 +98,16 @@ export default async function Page() {
             <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
                 {/* Account */}
 
-                <section className="rounded-xl border bg-card">
-                    <div className="border-b px-6 py-4">
+                <section className="rounded-xl border border-black/10 bg-card">
+                    <div className="border-b border-black/10 px-6 py-4">
                         <h3 className="font-semibold tracking-tight">
                             Account Information
                         </h3>
                     </div>
 
-                    <div className="divide-y">
+                    <div className="divide-y divide-black/10">
                         <div className="flex items-start gap-4 p-6">
-                            <div className="rounded-lg border bg-muted p-2.5">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2.5">
                                 <UserIcon size={18} />
                             </div>
 
@@ -123,7 +123,7 @@ export default async function Page() {
                         </div>
 
                         <div className="flex items-start gap-4 p-6">
-                            <div className="rounded-lg border bg-muted p-2.5">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2.5">
                                 <Mail size={18} />
                             </div>
 
@@ -139,7 +139,7 @@ export default async function Page() {
                         </div>
 
                         <div className="flex items-start gap-4 p-6">
-                            <div className="rounded-lg border bg-muted p-2.5">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2.5">
                                 <Calendar size={18} />
                             </div>
 
@@ -155,7 +155,7 @@ export default async function Page() {
                         </div>
 
                         <div className="flex items-start gap-4 p-6">
-                            <div className="rounded-lg border bg-muted p-2.5">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2.5">
                                 <ShieldCheck size={18} />
                             </div>
 
@@ -174,8 +174,8 @@ export default async function Page() {
 
                 {/* Statistics */}
 
-                <section className="rounded-xl border bg-card">
-                    <div className="border-b px-6 py-4">
+                <section className="rounded-xl border border-black/10 bg-card">
+                    <div className="border-b border-black/10 px-6 py-4">
                         <h3 className="font-semibold tracking-tight">
                             Statistics
                         </h3>
@@ -202,7 +202,7 @@ export default async function Page() {
                         ].map((item) => (
                             <div
                                 key={item.label}
-                                className="rounded-xl border bg-muted/40 p-5 text-center"
+                                className="rounded-xl border border-black/10 bg-muted/40 p-5 text-center"
                             >
                                 <p className="text-3xl font-bold tracking-tight">
                                     {item.value}

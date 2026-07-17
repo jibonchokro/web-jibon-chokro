@@ -41,10 +41,10 @@ export default function DesktopMoreMenu({
             </button>
 
             {desktopMenuOpen && (
-                <div className="absolute right-0 top-13 z-50">
+                <div className="absolute right-0 top-[52.5px] z-50">
 
                     {/* Menu */}
-                    <div className="relative w-[560px] rounded-xl border bg-white p-6 shadow-xl">
+                    <div className="relative w-[560px] rounded-b-xl border border-black/10 bg-white/98 p-6 shadow-xl">
 
                         <div className="grid grid-cols-2 gap-8">
 
@@ -68,8 +68,8 @@ export default function DesktopMoreMenu({
                                                         setDesktopMenuOpen(false)
                                                     }
                                                     className={`block rounded-lg px-3 py-2 text-sm transition-colors ${active
-                                                        ? "bg-gray-100 font-medium text-foreground"
-                                                        : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
+                                                        ? "border border-black/5 font-medium text-foreground"
+                                                        : "text-muted-foreground border border-white/95 hover:border-black/5 hover:text-foreground"
                                                         }`}
                                                 >
                                                     {item.label}

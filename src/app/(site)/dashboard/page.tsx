@@ -69,6 +69,7 @@ export default function DashboardPage() {
                                 group
                                 rounded-xl
                                 border
+                                border-black/10
                                 bg-card
                                 p-6
                                 transition-all
@@ -78,7 +79,7 @@ export default function DashboardPage() {
                             "
                         >
                             <div className="flex items-start justify-between">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-lg border bg-muted text-muted-foreground transition-colors group-hover:bg-gray-100 group-hover:text-gray-900">
+                                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-black/10 bg-muted text-muted-foreground transition-colors group-hover:bg-gray-100 group-hover:text-gray-900">
                                     <Icon size={20} />
                                 </div>
 

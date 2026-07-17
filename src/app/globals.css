@@ -35,13 +35,6 @@
   --destructive-foreground: #fafafa;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  border-color: var(--border);
-}
-
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -73,6 +66,18 @@ input,
 textarea,
 select {
   font: inherit;
+  outline: none;
+}
+
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
 }
 
 button {
@@ -110,10 +115,4 @@ textarea {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1aa;
-}
-
-/* Focus ring */
-:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
 }

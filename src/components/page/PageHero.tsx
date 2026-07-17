@@ -8,14 +8,14 @@ export default function PageHero({
     description,
 }: PageHeroProps) {
     return (
-        <header className="mb-12 rounded-3xl bg-white shadow-sm px-8 py-12">
+        <header className="mb-8 rounded-2xl border border-black/10 bg-zinc-50 p-5 shadow-sm sm:mb-10 sm:p-6 md:mb-12 md:rounded-3xl md:p-8 lg:p-10">
 
-            <h1 className="text-4xl font-bold tracking-tight text-black md:text-5xl">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 {title}
             </h1>
 
             {description && (
-                <p className="mt-5 max-w-5xl text-lg leading-8 text-black">
+                <p className="mt-4 max-w-5xl text-base leading-7 text-muted-foreground sm:mt-5 sm:text-lg sm:leading-8 lg:leading-9">
                     {description}
                 </p>
             )}

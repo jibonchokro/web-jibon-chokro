@@ -128,7 +128,7 @@ export default function SearchBox({
                     }}
                     placeholder="লেখা খুঁজুন..."
                     autoComplete="off"
-                    className="w-full rounded-xl border border-gray-300 bg-gray-50 py-2 pl-10 pr-4 outline-none transition focus:border-green-600 focus:bg-white"
+                    className="w-full rounded-xl border border-gray-300 bg-transparent py-2 pl-10 pr-4 outline-none transition focus:border-gray-400"
                 />
             </div>
 

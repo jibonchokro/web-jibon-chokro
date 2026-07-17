@@ -28,8 +28,8 @@ export default function SettingsPage() {
 
             {/* Account */}
 
-            <section className="rounded-xl border bg-card">
-                <div className="border-b px-6 py-4">
+            <section className="rounded-xl border border-black/10 bg-card">
+                <div className="border-b border-black/10 px-6 py-4">
                     <h2 className="font-semibold tracking-tight">
                         অ্যাকাউন্ট
                     </h2>
@@ -39,10 +39,10 @@ export default function SettingsPage() {
                     </p>
                 </div>
 
-                <div className="divide-y">
+                <div className="divide-y divide-black/10">
                     <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3">
-                            <div className="rounded-lg border bg-muted p-2">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2">
                                 <Mail size={18} />
                             </div>
 
@@ -59,7 +59,7 @@ export default function SettingsPage() {
 
                         <button
                             disabled
-                            className="rounded-lg border bg-muted px-4 py-2 text-sm text-muted-foreground"
+                            className="rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
                         >
                             পরিবর্তন করা যাবে না
                         </button>
@@ -67,7 +67,7 @@ export default function SettingsPage() {
 
                     <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3">
-                            <div className="rounded-lg border bg-muted p-2">
+                            <div className="rounded-lg border border-black/10 bg-muted p-2">
                                 <Shield size={18} />
                             </div>
 
@@ -91,8 +91,8 @@ export default function SettingsPage() {
 
             {/* Appearance */}
 
-            <section className="rounded-xl border bg-card">
-                <div className="border-b px-6 py-4">
+            <section className="rounded-xl border border-black/10 bg-card">
+                <div className="border-b border-black/10 px-6 py-4">
                     <h2 className="font-semibold tracking-tight">
                         Appearance
                     </h2>
@@ -103,14 +103,14 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-3 p-6">
-                    <button className="inline-flex items-center gap-2 rounded-lg border bg-black px-4 py-2 text-sm font-medium text-white">
+                    <button className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-black px-4 py-2 text-sm font-medium text-white">
                         <Laptop size={16} />
                         Light
                     </button>
 
                     <button
                         disabled
-                        className="inline-flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 text-sm text-muted-foreground"
+                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
                     >
                         <Moon size={16} />
                         Dark
@@ -118,7 +118,7 @@ export default function SettingsPage() {
 
                     <button
                         disabled
-                        className="inline-flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 text-sm text-muted-foreground"
+                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
                     >
                         <Monitor size={16} />
                         System
@@ -128,8 +128,8 @@ export default function SettingsPage() {
 
             {/* Notifications */}
 
-            <section className="rounded-xl border bg-card">
-                <div className="border-b px-6 py-4">
+            <section className="rounded-xl border border-black/10 bg-card">
+                <div className="border-b border-black/10 px-6 py-4">
                     <h2 className="font-semibold tracking-tight">
                         Notifications
                     </h2>
@@ -139,7 +139,7 @@ export default function SettingsPage() {
                     </p>
                 </div>
 
-                <div className="divide-y">
+                <div className="divide-y divide-black/10">
                     {[
                         "নতুন পোস্টের নোটিফিকেশন",
                         "মন্তব্যের রিপ্লাই",
@@ -150,7 +150,7 @@ export default function SettingsPage() {
                             className="flex items-center justify-between p-6"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="rounded-lg border bg-muted p-2">
+                                <div className="rounded-lg border border-black/10 bg-muted p-2">
                                     <Bell size={16} />
                                 </div>
 
@@ -168,8 +168,8 @@ export default function SettingsPage() {
 
             {/* Privacy */}
 
-            <section className="rounded-xl border bg-card">
-                <div className="border-b px-6 py-4">
+            <section className="rounded-xl border border-black/10 bg-card">
+                <div className="border-b border-black/10 px-6 py-4">
                     <h2 className="font-semibold tracking-tight">
                         Privacy
                     </h2>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
                     </p>
                 </div>
 
-                <div className="divide-y">
+                <div className="divide-y divide-black/10">
                     {[
                         "পাবলিক প্রোফাইল",
                         "আমার কার্যক্রম দেখানো হবে",
@@ -189,7 +189,7 @@ export default function SettingsPage() {
                             className="flex items-center justify-between p-6"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="rounded-lg border bg-muted p-2">
+                                <div className="rounded-lg border border-black/10 bg-muted p-2">
                                     <Eye size={16} />
                                 </div>
 
@@ -207,8 +207,8 @@ export default function SettingsPage() {
 
             {/* Connected Account */}
 
-            <section className="rounded-xl border bg-card">
-                <div className="border-b px-6 py-4">
+            <section className="rounded-xl border border-black/10 bg-card">
+                <div className="border-b border-black/10 px-6 py-4">
                     <h2 className="font-semibold tracking-tight">
                         Connected Account
                     </h2>

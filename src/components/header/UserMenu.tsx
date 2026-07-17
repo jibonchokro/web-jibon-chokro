@@ -133,11 +133,10 @@ export default function UserMenu({
                 onClick={() => setOpen((prev) => !prev)}
                 className="
                     flex items-center transition
-
                     lg:gap-3
                     lg:rounded-xl
                     lg:border
-                    lg:border-border
+                    lg:border-black/10
                     lg:bg-background
                     lg:px-2
                     lg:py-1
@@ -209,21 +208,23 @@ export default function UserMenu({
                     className="
                         absolute
                         right-0
-                        mt-3
+                        mt-[7px]
                         flex
                         max-h-[80vh]
                         w-72
                         flex-col
                         overflow-hidden
-                        rounded-xl
+                        rounded-bl-xl
+                        rounded-br-xl
                         border
-                        bg-white
+                        border-black/10
+                        bg-white/98
                         shadow-md
                     "
                 >
 
                     {/* User Info */}
-                    <div className="border-b p-4">
+                    <div className="border-b border-black/10 p-4">
 
                         <div className="flex items-center gap-3">
 
@@ -284,9 +285,10 @@ export default function UserMenu({
                                         text-sm
                                         transition
                                         border
+                                        border-black/10
 
                                         ${active
-                                            ? "bg-black font-medium border-black text-white"
+                                            ? "bg-gray-100 font-medium text-black"
                                             : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
                                         }
                                     `}
@@ -304,7 +306,7 @@ export default function UserMenu({
 
 
                     {/* Logout */}
-                    <div className="border-t p-2">
+                    <div className="border-t border-black/10 p-2">
 
                         <LogoutButton
                             className="

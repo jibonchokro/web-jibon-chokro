@@ -4,9 +4,8 @@ import SearchBox from "@/components/search/SearchBox";
 import { createClient } from "@/lib/supabase/server";
 
 import {
-    ArrowLeft,
     Compass,
-    Home,
+    Home
 } from "lucide-react";
 import Link from "next/link";
 
@@ -71,14 +70,6 @@ export default async function NotFound() {
                         >
                             <Compass size={18} />
                             সব লেখা
-                        </Link>
-
-                        <Link
-                            href="/"
-                            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
-                        >
-                            <ArrowLeft size={18} />
-                            হোমে ফিরে যান
                         </Link>
 
                     </div>
