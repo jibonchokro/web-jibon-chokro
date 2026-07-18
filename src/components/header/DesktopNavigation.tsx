@@ -39,14 +39,15 @@ export default function DesktopNavigation({
                 <Link
                     key={item.href}
                     href={item.href}
-                    className={`transition ${isActive(item.href)
-                            ? "font-semibold text-green-700"
-                            : "text-gray-700 hover:text-green-700"
+                    className={`rounded-lg px-2 py-1 text-sm font-medium transition-colors ${isActive(item.href)
+                            ? "bg-muted text-foreground"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
                         }`}
                 >
                     {item.label}
                 </Link>
             ))}
+
 
             <DesktopMoreMenu
                 desktopMenuOpen={desktopMenuOpen}
