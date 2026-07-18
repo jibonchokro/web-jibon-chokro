@@ -22,7 +22,9 @@ import UserAvatar from "./UserAvatar";
 interface UserMenuProps {
     user: User | null;
     open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpen: React.Dispatch<
+        React.SetStateAction<boolean>
+    >;
 }
 
 export default function UserMenu({
@@ -32,9 +34,12 @@ export default function UserMenu({
 }: UserMenuProps) {
     const pathname = usePathname();
 
-    const [user, setUser] = useState<User | null>(initialUser);
+    const [user, setUser] = useState<User | null>(
+        initialUser
+    );
 
-    const menuRef = useRef<HTMLDivElement>(null);
+    const menuRef =
+        useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setUser(initialUser);
@@ -45,9 +50,11 @@ export default function UserMenu({
 
         const {
             data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-        });
+        } = supabase.auth.onAuthStateChange(
+            (_event, session) => {
+                setUser(session?.user ?? null);
+            }
+        );
 
         return () => {
             subscription.unsubscribe();
@@ -55,27 +62,51 @@ export default function UserMenu({
     }, []);
 
     useEffect(() => {
-        function handleClick(event: MouseEvent) {
+        function handleClick(
+            event: MouseEvent
+        ) {
             if (
                 menuRef.current &&
-                !menuRef.current.contains(event.target as Node)
+                !menuRef.current.contains(
+                    event.target as Node
+                )
             ) {
                 setOpen(false);
             }
         }
 
-        function handleEscape(event: KeyboardEvent) {
+        function handleEscape(
+            event: KeyboardEvent
+        ) {
             if (event.key === "Escape") {
                 setOpen(false);
             }
         }
 
-        document.addEventListener("mousedown", handleClick);
-        document.addEventListener("keydown", handleEscape);
+        // IMPORTANT:
+        // Use click instead of mousedown so
+        // Next.js Links can navigate before
+        // the menu closes.
+        document.addEventListener(
+            "click",
+            handleClick
+        );
+
+        document.addEventListener(
+            "keydown",
+            handleEscape
+        );
 
         return () => {
-            document.removeEventListener("mousedown", handleClick);
-            document.removeEventListener("keydown", handleEscape);
+            document.removeEventListener(
+                "click",
+                handleClick
+            );
+
+            document.removeEventListener(
+                "keydown",
+                handleEscape
+            );
         };
     }, [setOpen]);
 
@@ -89,7 +120,8 @@ export default function UserMenu({
         "User";
 
     const avatar =
-        user.user_metadata.avatar_url ?? null;
+        user.user_metadata.avatar_url ??
+        null;
 
     const menu = [
         {
@@ -125,10 +157,15 @@ export default function UserMenu({
     ];
 
     return (
-        <div ref={menuRef} className="relative">
+        <div
+            ref={menuRef}
+            className="relative"
+        >
             <button
                 type="button"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={() =>
+                    setOpen((prev) => !prev)
+                }
                 className="flex items-center transition lg:gap-3 lg:rounded-xl lg:border lg:border-black/10 lg:bg-background lg:px-2 lg:py-1 lg:hover:bg-muted"
             >
                 <div className="relative">
@@ -140,7 +177,11 @@ export default function UserMenu({
                     <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-gray-200 bg-gray-50 lg:hidden">
                         <ChevronDown
                             size={12}
-                            className={open ? "rotate-180 transition" : "transition"}
+                            className={
+                                open
+                                    ? "rotate-180 transition"
+                                    : "transition"
+                            }
                         />
                     </div>
                 </div>
@@ -158,13 +199,18 @@ export default function UserMenu({
                 <span className="hidden lg:flex">
                     <ChevronDown
                         size={16}
-                        className={`text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+                        className={`text-muted-foreground transition-transform ${open
+                                ? "rotate-180"
+                                : ""
+                            }`}
                     />
                 </span>
             </button>
 
             {open && (
                 <div className="absolute right-0 mt-[12px] lg:mt-[7px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-black/10 bg-white shadow-lg">
+
+                    {/* User Info */}
                     <div className="border-b border-black/10 p-4">
                         <div className="flex items-center gap-3">
                             <UserAvatar
@@ -184,7 +230,9 @@ export default function UserMenu({
                         </div>
                     </div>
 
+                    {/* Navigation */}
                     <nav className="flex-1 overflow-y-auto p-2">
+
                         {menu.map((item) => {
                             const Icon = item.icon;
 
@@ -198,7 +246,10 @@ export default function UserMenu({
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className={`mb-1 flex items-center gap-3 rounded-lg border border-black/10 px-3 py-2 text-sm transition ${active ? "bg-gray-100 font-medium text-black" : "text-muted-foreground hover:bg-gray-100 hover:text-black"}`}
+                                    className={`mb-1 flex items-center gap-3 rounded-lg border border-black/10 px-3 py-2 text-sm transition ${active
+                                            ? "bg-gray-100 font-medium text-black"
+                                            : "text-muted-foreground hover:bg-gray-100 hover:text-black"
+                                        }`}
                                 >
                                     <Icon size={17} />
 
@@ -208,8 +259,10 @@ export default function UserMenu({
                                 </Link>
                             );
                         })}
+
                     </nav>
 
+                    {/* Logout */}
                     <div className="border-t border-black/10 p-2">
                         <LogoutButton
                             className="w-full justify-start px-3 py-2 text-left text-sm"

@@ -2,6 +2,7 @@
 
 import Container from "@/components/ui/Container";
 import type { User } from "@supabase/supabase-js";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import DesktopNavigation from "./DesktopNavigation";
@@ -18,6 +19,8 @@ interface HeaderProps {
 export default function Header({
     user,
 }: HeaderProps) {
+    const pathname = usePathname();
+
     const [mobileOpen, setMobileOpen] = useState(false);
     const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -43,7 +46,7 @@ export default function Header({
         }
 
         document.addEventListener(
-            "mousedown",
+            "click",
             handleClickOutside
         );
 
@@ -54,7 +57,7 @@ export default function Header({
 
         return () => {
             document.removeEventListener(
-                "mousedown",
+                "click",
                 handleClickOutside
             );
 
@@ -65,22 +68,61 @@ export default function Header({
         };
     }, []);
 
+    useEffect(() => {
+        setMobileOpen(false);
+        setUserMenuOpen(false);
+    }, [pathname]);
+
+    const handleMobileOpenChange: React.Dispatch<
+        React.SetStateAction<boolean>
+    > = (value) => {
+        setMobileOpen((prev) => {
+            const next =
+                typeof value === "function"
+                    ? value(prev)
+                    : value;
+
+            if (next) {
+                setUserMenuOpen(false);
+            }
+
+            return next;
+        });
+    };
+
+    const handleUserMenuOpenChange: React.Dispatch<
+        React.SetStateAction<boolean>
+    > = (value) => {
+        setUserMenuOpen((prev) => {
+            const next =
+                typeof value === "function"
+                    ? value(prev)
+                    : value;
+
+            if (next) {
+                setMobileOpen(false);
+            }
+
+            return next;
+        });
+    };
+
     return (
         <header className="sticky top-0 z-50 border-b border-black/10 bg-white/70 backdrop-blur-md">
             <Container>
+
                 <div className="flex h-16 items-center">
 
                     {/* Mobile: Menu + Logo */}
                     <div className="flex items-center gap-3">
+
                         <MobileMenuButton
                             mobileOpen={mobileOpen}
-                            setMobileOpen={(open) => {
-                                setUserMenuOpen(false);
-                                setMobileOpen(open);
-                            }}
+                            setMobileOpen={handleMobileOpenChange}
                         />
 
                         <HeaderLogo />
+
                     </div>
 
                     {/* Desktop Search */}
@@ -100,10 +142,7 @@ export default function Header({
                         <UserMenu
                             user={user}
                             open={userMenuOpen}
-                            setOpen={(open) => {
-                                setMobileOpen(false);
-                                setUserMenuOpen(open);
-                            }}
+                            setOpen={handleUserMenuOpenChange}
                         />
                     </div>
 
@@ -113,6 +152,7 @@ export default function Header({
                     mobileOpen={mobileOpen}
                     setMobileOpen={setMobileOpen}
                 />
+
             </Container>
         </header>
     );

@@ -197,7 +197,7 @@ export default function DashboardSidebar({
                             </button>
 
                             {menuOpen && (
-                                <div className="absolute right-0 top-11 z-20">
+                                <div className="absolute -right-[5px] top-[65px] z-20">
 
                                     {/* Arrow */}
                                     <div className="absolute -top-1.5 right-4 h-3 w-3 rotate-45 border-l border-t border-gray-50 bg-white" />
@@ -234,8 +234,8 @@ export default function DashboardSidebar({
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center gap-2 rounded-full border border-black/10 px-4 py-2 text-sm whitespace-nowrap transition ${active
-                                        ? "border-black/10 bg-gray-200 text-black"
+                                    className={`flex items-center gap-2 rounded-lg border border-black/10 px-4 py-2 text-sm whitespace-nowrap transition ${active
+                                        ? "border-black bg-black text-white"
                                         : "bg-white hover:bg-gray-100"
                                         }`}
                                 >

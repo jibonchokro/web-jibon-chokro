@@ -26,12 +26,12 @@ export default function Footer() {
                                 aria-label="জীবন চক্র"
                             >
                                 <Image
-                                    src="/JibonChokroLogo.png"
+                                    src="/logo.png"
                                     alt="জীবন চক্র"
                                     width={180}
                                     height={50}
                                     priority
-                                    className="h-15 w-auto"
+                                    className="h-12 lg:h-13 w-auto"
                                 />
                             </Link>
 

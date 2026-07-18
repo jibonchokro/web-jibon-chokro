@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
 interface Props {
     mobileOpen: boolean;
@@ -16,17 +16,18 @@ export default function MobileMenuButton({
     return (
         <button
             type="button"
-            aria-label="Open Menu"
-            className="rounded-lg p-2 transition hover:bg-gray-100 lg:hidden"
+            aria-label={
+                mobileOpen
+                    ? "Close menu"
+                    : "Open menu"
+            }
+            aria-expanded={mobileOpen}
             onClick={() =>
                 setMobileOpen((prev) => !prev)
             }
+            className="rounded-xl border border-black/10 bg-white p-2 transition hover:bg-gray-100 lg:hidden"
         >
-            {mobileOpen ? (
-                <X size={24} />
-            ) : (
-                <Menu size={24} />
-            )}
+            <Menu size={22} />
         </button>
     );
 }

@@ -68,11 +68,6 @@ export const navigationGroups: NavigationGroup[] = [
     },
 ];
 
-export const mobileNavigation: NavigationItem[] = [
-    ...mainNavigation,
-    ...navigationGroups.flatMap((group) => group.items),
-];
-
 export const footerNavigation: NavigationItem[] = [
     {
         label: "আমাদের সম্পর্কে",
@@ -90,4 +85,16 @@ export const footerNavigation: NavigationItem[] = [
         label: "ব্যবহারের শর্তাবলী",
         href: "/terms",
     },
+];
+
+export const mobileNavigation: NavigationItem[] = [
+    ...mainNavigation,
+    ...navigationGroups
+        .flatMap((group) => group.items)
+        .filter(
+            (item) =>
+                !footerNavigation.some(
+                    (footer) => footer.href === item.href
+                )
+        ),
 ];
