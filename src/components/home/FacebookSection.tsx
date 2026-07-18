@@ -28,7 +28,7 @@ export default function FacebookSection() {
 
                         <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
 
-                            আমাদের Facebook Page-এ যুক্ত থাকুন
+                            আমাদের সাথে যুক্ত থাকুন
 
                         </h2>
 
@@ -57,7 +57,7 @@ export default function FacebookSection() {
 
                                 <FaFacebookF className="h-4 w-4 sm:h-5 sm:w-5" />
 
-                                Facebook Page ভিজিট করুন
+                                Page ভিজিট করুন
 
                             </Link>
 
