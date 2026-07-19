@@ -1,5 +1,11 @@
 "use client";
 
+import SearchBox from "@/components/search/SearchBox";
+import {
+    Home,
+    RefreshCcw,
+} from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function Error({
@@ -14,23 +20,108 @@ export default function Error({
     }, [error]);
 
     return (
-        <main className="flex min-h-[70vh] items-center justify-center px-6">
-            <div className="max-w-lg text-center">
-                <h1 className="text-5xl font-bold text-red-600">
-                    কিছু একটা ভুল হয়েছে
+        <main className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl items-center px-6 py-16">
+
+            <div className="mx-auto w-full max-w-3xl text-center">
+
+                {/* Badge */}
+
+                <div className="inline-flex rounded-full border border-black/10 bg-muted px-4 py-1 text-sm font-medium text-muted-foreground">
+                    Error
+                </div>
+
+                {/* Title */}
+
+                <h1 className="mt-6 text-6xl font-black tracking-tight text-destructive sm:text-7xl">
+                    Oops!
                 </h1>
 
-                <p className="mt-5 text-gray-600">
-                    অনাকাঙ্ক্ষিত একটি সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।
+                <h2 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                    কিছু একটা ভুল হয়েছে
+                </h2>
+
+                {/* Description */}
+
+                <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+                    অনাকাঙ্ক্ষিত একটি সমস্যা হয়েছে। এটি সাময়িক হতে পারে।
+                    অনুগ্রহ করে আবার চেষ্টা করুন অথবা অন্য কোনো পৃষ্ঠায় যান।
                 </p>
 
-                <button
-                    onClick={reset}
-                    className="mt-8 rounded-lg bg-green-700 px-6 py-3 font-medium text-white transition hover:bg-green-800"
-                >
-                    আবার চেষ্টা করুন
-                </button>
+                {/* Search */}
+
+                <div className="mx-auto mt-10 w-full max-w-2xl">
+                    <SearchBox className="w-full" />
+                </div>
+
+                {/* Actions */}
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+
+                    <button
+                        type="button"
+                        onClick={reset}
+                        className="inline-flex items-center gap-2 rounded-lg bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+                    >
+                        <RefreshCcw size={18} />
+                        আবার চেষ্টা করুন
+                    </button>
+
+                    <Link
+                        href="/"
+                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-background px-5 py-3 text-sm font-medium text-foreground transition hover:bg-muted"
+                    >
+                        <Home size={18} />
+                        হোমপেজ
+                    </Link>
+
+                </div>
+
+                {/* Helpful Links */}
+
+                <div className="mt-14 border-t border-black/10 pt-8">
+
+                    <p className="mb-5 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                        আপনি হয়তো খুঁজছেন
+                    </p>
+
+                    <div className="flex flex-wrap justify-center gap-3">
+
+                        {[
+                            ["সকল লেখা", "/posts"],
+                            ["বিভাগসমূহ", "/categories"],
+                            ["আমাদের সম্পর্কে", "/about"],
+                            ["যোগাযোগ", "/contact"],
+                            ["গোপনীয়তা নীতি", "/privacy"],
+                            ["ব্যবহারের শর্তাবলী", "/terms"],
+                        ].map(([label, href]) => (
+                            <Link
+                                key={href}
+                                href={href}
+                                className="rounded-full border border-black/10 bg-background px-4 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                            >
+                                {label}
+                            </Link>
+                        ))}
+
+                    </div>
+
+                </div>
+
+                {/* Footer */}
+
+                <p className="mt-12 text-sm text-muted-foreground">
+                    সমস্যাটি বারবার হলে{" "}
+                    <Link
+                        href="/contact"
+                        className="font-medium text-foreground underline underline-offset-4"
+                    >
+                        আমাদের জানান
+                    </Link>
+                    ।
+                </p>
+
             </div>
+
         </main>
     );
 }
