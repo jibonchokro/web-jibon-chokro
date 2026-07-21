@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import PostCard from "@/components/post/PostCard";
@@ -12,54 +13,76 @@ interface PopularPostsProps {
 export default function PopularPosts({
     posts,
 }: PopularPostsProps) {
+    const popularPosts = posts.slice(0, 20);
+
     return (
-        <section className="bg-gray-50 py-20">
+        <section className="bg-muted/30 py-8 sm:py-10 lg:py-12">
+
             <Container>
-                <div className="mb-10 flex items-end justify-between">
+
+                {/* Header */}
+
+                <div className="mb-6 flex items-end justify-between gap-4">
+
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900">
+
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             জনপ্রিয় লেখা
                         </h2>
 
-                        <p className="mt-2 text-gray-600">
-                            পাঠকদের সবচেয়ে বেশি পড়া লেখাগুলো।
-                        </p>
                     </div>
 
                     <Link
                         href="/posts?sort=popular"
-                        className="hidden font-medium text-green-700 transition hover:text-green-800 sm:inline-block"
+                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
                     >
-                        সব জনপ্রিয় লেখা →
+                        সব লেখা
+
+                        <ArrowRight size={16} />
+
                     </Link>
+
                 </div>
 
-                {posts.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-gray-300 py-12 text-center text-gray-500">
+                {popularPosts.length === 0 ? (
+
+                    <div className="rounded-xl border border-dashed border-black/10 bg-background py-12 text-center text-muted-foreground">
                         এখনো কোনো জনপ্রিয় লেখা নেই।
                     </div>
+
                 ) : (
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {posts.map((post) => (
-                            <PostCard
-                                key={post._id}
-                                post={post}
-                            />
-                        ))}
+
+                    <div className="-mx-4 overflow-x-auto px-4 scrollbar-hide">
+
+                        <div className="flex snap-x snap-mandatory gap-4 pb-2">
+
+                            {popularPosts.map((post) => (
+
+                                <div
+                                    key={post._id}
+                                    className="
+                                        w-[250px]
+                                        shrink-0
+                                        snap-start
+                                        sm:w-[275px]
+                                        lg:w-[300px]
+                                    "
+                                >
+                                    <PostCard
+                                        post={post}
+                                    />
+                                </div>
+
+                            ))}
+
+                        </div>
+
                     </div>
+
                 )}
 
-                {posts.length > 0 && (
-                    <div className="mt-10 text-center sm:hidden">
-                        <Link
-                            href="/posts?sort=popular"
-                            className="inline-flex rounded-lg bg-green-700 px-5 py-3 font-medium text-white transition hover:bg-green-800"
-                        >
-                            সব জনপ্রিয় লেখা
-                        </Link>
-                    </div>
-                )}
             </Container>
+
         </section>
     );
 }

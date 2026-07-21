@@ -17,11 +17,11 @@ export default function Hero() {
             <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl" />
             <Container>
 
-                <div className="relative mx-auto flex max-w-5xl flex-col items-center py-12 text-center sm:py-16 lg:py-20">
+                <div className="relative mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
 
                     {/* Badge */}
 
-                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-100 px-4 py-2 text-sm font-medium text-muted-foreground">
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/25 bg-black/20 px-4 py-2 text-sm font-medium text-muted-foreground">
 
                         <Sparkles size={15} />
 
@@ -88,7 +88,7 @@ export default function Hero() {
                             <Link
                                 key={item}
                                 href={`/search?q=${encodeURIComponent(item)}`}
-                                className="rounded-full border border-black/10 bg-background px-3 py-1.5 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                                className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
                             >
                                 {item}
                             </Link>
@@ -100,7 +100,7 @@ export default function Hero() {
 
                     {/* CTA */}
 
-                    <div className="mt-10 flex w-full justify-center gap-3 sm:mt-12 flex-row">
+                    <div className="mt-6 flex w-full justify-center gap-3 sm:mt-8 flex-row">
 
                         <Link
                             href="/posts"
@@ -116,7 +116,7 @@ export default function Hero() {
 
                         <Link
                             href="/categories"
-                            className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-background px-7 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
+                            className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-7 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
                         >
 
                             বিভাগসমূহ
@@ -128,9 +128,9 @@ export default function Hero() {
 
                     {/* Stats */}
 
-                    <div className="mt-12 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-16 sm:gap-5">
+                    <div className="mt-8 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-10 sm:gap-5">
 
-                        <div className="rounded-2xl border border-black/7 bg-card px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
+                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
                             <BookOpen
                                 size={20}
@@ -148,7 +148,7 @@ export default function Hero() {
                         </div>
 
 
-                        <div className="rounded-2xl border border-black/7 bg-card px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
+                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
                             <Users
                                 size={20}
@@ -166,7 +166,7 @@ export default function Hero() {
                         </div>
 
 
-                        <div className="rounded-2xl border border-black/7 bg-card px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
+                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
                             <Sparkles
                                 size={20}

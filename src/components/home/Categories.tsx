@@ -12,46 +12,49 @@ export default function Categories({
     categories,
 }: CategoriesProps) {
     return (
-        <section className="border-t border-gray-100 py-20">
+        <section className="border-t border-black/10 py-12 sm:py-16">
             <Container>
-                <div className="mb-10 text-center">
-                    <h2 className="text-3xl font-bold text-gray-900">
+
+                {/* Header */}
+
+                <div className="mb-8 text-center">
+
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         বিভাগসমূহ
                     </h2>
 
-                    <p className="mt-3 text-gray-600">
-                        আপনার পছন্দের বিষয় নির্বাচন করে আরও লেখা পড়ুন।
+                    <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                        আপনার পছন্দের বিভাগ নির্বাচন করুন।
                     </p>
+
                 </div>
 
                 {categories.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-gray-300 py-12 text-center text-gray-500">
+
+                    <div className="rounded-xl border border-dashed border-black/10 bg-muted/30 py-10 text-center text-sm text-muted-foreground">
                         এখনো কোনো বিভাগ তৈরি করা হয়নি।
                     </div>
+
                 ) : (
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+
                         {categories.map((category) => (
+
                             <Link
                                 key={category._id}
                                 href={`/category/${category.slug.current}`}
-                                className="group rounded-2xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-green-600 hover:shadow-lg"
+                                className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:border-black/20"
                             >
-                                <h3 className="text-xl font-semibold transition-colors group-hover:text-green-700">
-                                    {category.title}
-                                </h3>
-
-                                <p className="mt-3 text-sm leading-7 text-gray-600">
-                                    {category.description ??
-                                        "এই বিভাগের সব লেখা পড়ুন।"}
-                                </p>
-
-                                <span className="mt-6 inline-flex font-medium text-green-700">
-                                    আরও দেখুন →
-                                </span>
+                                {category.title}
                             </Link>
+
                         ))}
+
                     </div>
+
                 )}
+
             </Container>
         </section>
     );
