@@ -68,11 +68,7 @@ export default function MobileMenu({
                         <div>
 
                             <p className="text-lg font-bold">
-                                মেনু
-                            </p>
-
-                            <p className="text-xs text-gray-500">
-                                Navigation
+                                Menu
                             </p>
 
                         </div>

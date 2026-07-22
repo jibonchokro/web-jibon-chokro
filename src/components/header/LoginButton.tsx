@@ -40,7 +40,7 @@ export default function LoginButton() {
                 border
                 border-black/10
                 bg-black
-                px-4
+                px-3
                 py-1
                 text-sm
                 font-semibold
@@ -52,8 +52,6 @@ export default function LoginButton() {
                 focus-visible:ring-black/30
                 disabled:pointer-events-none
                 disabled:opacity-50
-                sm:px-5
-                sm:py-2
             "
         >
             <LogIn
