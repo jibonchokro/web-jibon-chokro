@@ -15,11 +15,11 @@ export default async function LoginPage() {
         <>
             <Header user={user} />
 
-            <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-10 sm:px-6">
+            <main className="flex bg-[#f4f4f4]] min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-10 sm:px-6">
 
                 <div className="w-full max-w-[400px]">
 
-                    <div className="rounded-xl border border-black/10 bg-background p-6 shadow-sm sm:p-8">
+                    <div className="rounded-xl border border-black/10 bg-background p-6 shadow-xs sm:p-8">
 
                         {/* Header */}
 
@@ -137,14 +137,14 @@ export default async function LoginPage() {
                             href="/terms"
                             className="underline underline-offset-4"
                         >
-                            ব্যবহারের শর্তাবলী
+                            Terms
                         </Link>{" "}
                         এবং{" "}
                         <Link
                             href="/privacy"
                             className="underline underline-offset-4"
                         >
-                            গোপনীয়তা নীতি
+                            Privacy Policy
                         </Link>{" "}
                         মেনে নিচ্ছেন।
                     </p>
