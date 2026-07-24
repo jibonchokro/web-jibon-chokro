@@ -1,3 +1,4 @@
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { client } from "@/sanity/lib/client";
 
 import {
@@ -47,4 +48,23 @@ export async function getPostsByCategory(
     return client.fetch(postsByCategoryQuery, {
         slug,
     });
+}
+
+
+export async function getPostViews(
+    postId: string
+): Promise<number> {
+    const { data, error } = await supabaseAdmin.rpc(
+        "get_post_views",
+        {
+            post_id_input: postId,
+        }
+    );
+
+    if (error) {
+        console.error(error);
+        return 0;
+    }
+
+    return data ?? 0;
 }

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PostViews from "@/components/post/PostViews";
+import { getPostViews } from "@/services/post.service";
 
 import {
     getLatestPosts,
@@ -59,21 +60,23 @@ export default async function SinglePostPage({
 }: Props) {
     const { slug } = await params;
 
-    const [
-        post,
-        latestPosts,
-        popularPosts,
-        categories,
-    ] = await Promise.all([
-        getPostBySlug(slug),
-        getLatestPosts(),
-        getPopularPosts(),
-        getAllCategories(),
-    ]);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         notFound();
     }
+
+    const [
+        latestPosts,
+        popularPosts,
+        categories,
+        initialViews,
+    ] = await Promise.all([
+        getLatestPosts(),
+        getPopularPosts(),
+        getAllCategories(),
+        getPostViews(post._id),
+    ]);
 
     const imageUrl = post.coverImage
         ? urlFor(post.coverImage)
@@ -212,7 +215,10 @@ export default async function SinglePostPage({
 
                             </div>
 
-                            <PostViews postId={post._id} />
+                            <PostViews
+                                postId={post._id}
+                                initialViews={initialViews}
+                            />
 
                         </div>
 

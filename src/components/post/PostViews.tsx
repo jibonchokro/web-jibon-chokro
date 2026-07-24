@@ -1,20 +1,31 @@
 "use client";
 
 import { Eye } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
     postId: string;
+    initialViews: number;
 }
 
-export default function PostViews({ postId }: Props) {
-    const [views, setViews] = useState<number | null>(null);
+export default function PostViews({
+    postId,
+    initialViews,
+}: Props) {
+    const [views, setViews] = useState(initialViews);
+
+    const hasLoaded = useRef(false);
 
     useEffect(() => {
-        console.log("PostViews mounted:", postId);
+        if (hasLoaded.current) {
+            return;
+        }
+
+        hasLoaded.current = true;
+
         let cancelled = false;
 
-        async function loadViews() {
+        async function updateViews() {
             try {
                 const response = await fetch("/api/views", {
                     method: "POST",
@@ -27,24 +38,27 @@ export default function PostViews({ postId }: Props) {
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to load views");
+                    throw new Error("Failed to update views");
                 }
 
                 const data = await response.json();
 
-                if (!cancelled) {
-                    setViews(data.views ?? 0);
+                if (
+                    !cancelled &&
+                    typeof data.views === "number"
+                ) {
+                    setViews((current) =>
+                        current === data.views
+                            ? current
+                            : data.views
+                    );
                 }
             } catch (error) {
                 console.error("PostViews Error:", error);
-
-                if (!cancelled) {
-                    setViews(0);
-                }
             }
         }
 
-        loadViews();
+        updateViews();
 
         return () => {
             cancelled = true;
@@ -53,13 +67,12 @@ export default function PostViews({ postId }: Props) {
 
     return (
         <div className="flex items-center gap-2">
-            <Eye size={18} className="text-muted-foreground" />
+            <Eye
+                size={18}
+                className="text-muted-foreground"
+            />
 
-            <span>
-                {views === null
-                    ? "..."
-                    : views.toLocaleString("bn-BD")}
-            </span>
+            <span>{views.toLocaleString("bn-BD")}</span>
         </div>
     );
 }
