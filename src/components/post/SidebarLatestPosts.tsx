@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Clock } from "lucide-react";
+import {
+    Clock,
+    Eye,
+    List,
+} from "lucide-react";
 
 import { urlFor } from "@/sanity/lib/image";
 
@@ -19,73 +23,207 @@ export default function SidebarLatestPosts({
     }
 
     return (
-        <section className="rounded-md border border-[#e7e7e7] bg-white p-6">
+        <section className="rounded-xl border border-black/10 bg-white p-5">
 
-            <h2 className="mb-5 text-lg font-bold text-gray-900">
-                সর্বশেষ লেখা
-            </h2>
 
-            <div className="space-y-5">
+            {/* Header */}
+
+            <div className="mb-5 flex items-center gap-2">
+
+                <List
+                    size={18}
+                    className="text-foreground"
+                />
+
+                <h2 className="text-base font-semibold tracking-tight text-foreground">
+                    সর্বশেষ লেখা
+                </h2>
+
+            </div>
+
+
+
+            {/* Posts */}
+
+            <div className="space-y-3">
 
                 {posts.map((post) => {
 
-                    const image =
-                        post.coverImage
-                            ? urlFor(post.coverImage)
-                                .width(120)
-                                .height(80)
-                                .url()
-                            : null;
+                    const image = post.coverImage
+                        ? urlFor(post.coverImage)
+                            .width(120)
+                            .height(90)
+                            .url()
+                        : null;
+
 
                     return (
                         <Link
                             key={post._id}
                             href={`/posts/${post.slug.current}`}
-                            className="group flex gap-4"
+                            className="
+                                group
+                                flex
+                                gap-3
+                                rounded-lg
+                                border
+                                border-black/10
+                                bg-white
+                                p-3
+                                transition-colors
+                                hover:bg-muted/50
+                            "
                         >
 
-                            <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-gray-100">
 
-                                {image && (
+                            {/* Thumbnail */}
+
+                            <div
+                                className="
+                                    relative
+                                    h-16
+                                    w-20
+                                    shrink-0
+                                    overflow-hidden
+                                    rounded-lg
+                                    bg-muted
+                                "
+                            >
+
+                                {image ? (
                                     <Image
                                         src={image}
                                         alt={post.title}
                                         fill
-                                        className="object-cover transition duration-300 group-hover:scale-105"
+                                        sizes="80px"
+                                        className="
+                                            object-cover
+                                            transition-transform
+                                            duration-300
+                                            group-hover:scale-105
+                                        "
                                     />
+                                ) : (
+                                    <div
+                                        className="
+                                            flex
+                                            h-full
+                                            items-center
+                                            justify-center
+                                            text-[10px]
+                                            text-muted-foreground
+                                        "
+                                    >
+                                        No Image
+                                    </div>
                                 )}
 
                             </div>
 
+
+
+                            {/* Content */}
+
                             <div className="min-w-0 flex-1">
 
-                                {post.category && (
-                                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">
-                                        {post.category.title}
-                                    </p>
-                                )}
 
-                                <h3 className="line-clamp-2 text-sm font-semibold leading-6 text-gray-900 transition group-hover:text-green-700">
-                                    {post.title}
-                                </h3>
+                                <div
+                                    className="
+                                        mb-1
+                                        flex
+                                        items-center
+                                        gap-2
+                                        overflow-hidden
+                                        text-xs
+                                        text-muted-foreground
+                                    "
+                                >
 
-                                <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                                    {post.category && (
+                                        <span className="truncate font-medium text-foreground">
+                                            {post.category.title}
+                                        </span>
+                                    )}
 
-                                    <Clock size={14} />
 
                                     <span>
-                                        {post.readingTime} মিনিট
+                                        •
+                                    </span>
+
+
+                                    <span className="shrink-0">
+                                        {new Date(
+                                            post.publishedAt
+                                        ).toLocaleDateString(
+                                            "bn-BD",
+                                            {
+                                                day: "numeric",
+                                                month: "short",
+                                                year: "numeric",
+                                            }
+                                        )}
                                     </span>
 
                                 </div>
 
+
+
+                                <h3
+                                    className="
+                                    line-clamp-2
+                                    text-sm
+                                    font-semibold
+                                    leading-5
+                                    text-foreground
+                                    transition-colors
+                                    group-hover:text-black
+                                "
+                                >
+                                    {post.title}
+                                </h3>
+
+
+
+                                <div
+                                    className="
+                                        mt-2
+                                        flex
+                                        items-center
+                                        gap-3
+                                        text-xs
+                                        text-muted-foreground
+                                    "
+                                >
+
+                                    {post.readingTime && (
+                                        <span className="flex items-center gap-1">
+                                            <Clock size={13} />
+
+                                            {post.readingTime} মিনিট
+                                        </span>
+                                    )}
+
+
+                                    {typeof post.views === "number" && (
+                                        <span className="flex items-center gap-1">
+                                            <Eye size={13} />
+
+                                            {post.views.toLocaleString("bn-BD")}
+                                        </span>
+                                    )}
+
+                                </div>
+
+
                             </div>
+
 
                         </Link>
                     );
                 })}
 
             </div>
+
 
         </section>
     );

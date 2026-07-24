@@ -24,4 +24,6 @@ export interface Post {
     readingTime: number;
 
     publishedAt: string;
+
+    views?: number;
 }
