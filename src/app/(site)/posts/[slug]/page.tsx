@@ -9,6 +9,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import PostViews from "@/components/post/PostViews";
+
 import {
     getLatestPosts,
     getPopularPosts,
@@ -94,38 +96,40 @@ export default async function SinglePostPage({
     const postUrl = `${siteUrl}/posts/${post.slug.current}`;
 
     return (
-        <main className="mx-auto max-w-[1158px] px-4 py-10">
+        <main className="mx-auto max-w-[1158px] px-3 py-4 sm:px-4 sm:py-6 lg:px-4 lg:py-8">
 
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
 
-                <article className="h-fit min-w-0 rounded-md border border-[#e7e7e7] bg-white p-10">
+                {/* Article */}
+
+                <article className="min-w-0 rounded-xl border border-black/10 bg-white p-4 sm:p-6 lg:p-8">
 
                     {/* Breadcrumb */}
 
                     <nav
                         aria-label="Breadcrumb"
-                        className="mb-8 overflow-hidden"
+                        className="mb-5 overflow-hidden sm:mb-6"
                     >
-                        <ol className="flex items-center gap-2 overflow-hidden whitespace-nowrap text-sm text-gray-500">
+                        <ol className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-xs text-muted-foreground sm:gap-2 sm:text-sm">
 
                             <li className="shrink-0">
                                 <Link
                                     href="/"
-                                    className="transition hover:text-green-700"
+                                    className="transition-colors hover:text-foreground"
                                 >
                                     হোম
                                 </Link>
                             </li>
 
                             <ChevronRight
-                                size={16}
-                                className="shrink-0 text-gray-400"
+                                size={14}
+                                className="shrink-0"
                             />
 
                             <li className="shrink-0">
                                 <Link
                                     href="/posts"
-                                    className="transition hover:text-green-700"
+                                    className="transition-colors hover:text-foreground"
                                 >
                                     সকল লেখা
                                 </Link>
@@ -134,14 +138,14 @@ export default async function SinglePostPage({
                             {post.category && (
                                 <>
                                     <ChevronRight
-                                        size={16}
-                                        className="shrink-0 text-gray-400"
+                                        size={14}
+                                        className="shrink-0"
                                     />
 
                                     <li className="shrink-0">
                                         <Link
                                             href={`/category/${post.category.slug.current}`}
-                                            className="transition hover:text-green-700"
+                                            className="transition-colors hover:text-foreground"
                                         >
                                             {post.category.title}
                                         </Link>
@@ -150,132 +154,161 @@ export default async function SinglePostPage({
                             )}
 
                             <ChevronRight
-                                size={16}
-                                className="shrink-0 text-gray-400"
+                                size={14}
+                                className="shrink-0"
                             />
 
-                            <li className="min-w-0 flex-1 truncate font-medium text-gray-900">
+                            <li className="min-w-0 flex-1 truncate font-medium text-foreground">
                                 {post.title}
                             </li>
 
                         </ol>
                     </nav>
 
+                    {/* Header */}
+
                     <header>
 
                         {post.category && (
+
                             <Link
                                 href={`/category/${post.category.slug.current}`}
-                                className="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm font-semibold text-green-700 transition hover:bg-green-100"
+                                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium transition-colors hover:bg-accent sm:px-4 sm:py-2 sm:text-sm"
                             >
-                                <FolderOpen size={16} />
+                                <FolderOpen size={15} />
 
                                 {post.category.title}
                             </Link>
+
                         )}
 
-                        <h1 className="mt-6 text-[32px] font-bold leading-tight tracking-tight text-gray-900 md:text-[36px]">
+                        <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:text-4xl">
                             {post.title}
                         </h1>
 
-                        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 border-y border-gray-200 py-5 text-sm text-gray-600">
+                        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-black/10 py-3 text-xs text-muted-foreground sm:mt-6 sm:gap-x-6 sm:py-4 sm:text-sm">
 
                             <div className="flex items-center gap-2">
+
                                 <CalendarDays
-                                    size={18}
-                                    className="text-green-700"
+                                    size={16}
+                                    className="text-foreground"
                                 />
 
                                 <span>{publishedDate}</span>
+
                             </div>
 
                             <div className="flex items-center gap-2">
+
                                 <Clock
-                                    size={18}
-                                    className="text-green-700"
+                                    size={16}
+                                    className="text-foreground"
                                 />
 
                                 <span>
                                     {post.readingTime} মিনিট
                                 </span>
+
                             </div>
+
+                            <PostViews postId={post._id} />
 
                         </div>
 
                     </header>
 
+                    {/* Content */}
+
                     <div
                         className="
-                            prose
-                            prose-lg
-                            prose-gray
-                            max-w-none
+                    prose
+                    prose-neutral
+                    mt-6
+                    max-w-none
 
-                            prose-headings:mt-12
-                            prose-headings:mb-5
-                            prose-headings:font-bold
-                            prose-headings:text-gray-900
+                    prose-headings:mt-8
+                    prose-headings:mb-4
+                    prose-headings:font-bold
+                    prose-headings:text-foreground
 
-                            prose-p:my-7
-                            prose-p:leading-9
-                            prose-p:text-gray-700
+                    prose-p:my-5
+                    prose-p:text-foreground/90
+                    prose-p:leading-8
 
-                            prose-a:text-green-700
-                            hover:prose-a:text-green-800
+                    prose-a:text-foreground
+                    hover:prose-a:text-foreground
 
-                            prose-strong:text-gray-900
+                    prose-strong:text-foreground
 
-                            prose-ul:my-7
-                            prose-ol:my-7
+                    prose-ul:my-5
+                    prose-ol:my-5
+                    prose-li:my-1.5
 
-                            prose-li:my-2
+                    prose-img:rounded-xl
 
-                            prose-img:rounded-2xl
+                    prose-blockquote:border-l-4
+                    prose-blockquote:border-black/20
+                    prose-blockquote:bg-muted
+                    prose-blockquote:px-5
+                    prose-blockquote:py-3
+                    prose-blockquote:italic
 
-                            prose-blockquote:border-l-green-600
-                            prose-blockquote:bg-green-50
-                            prose-blockquote:px-6
-                            prose-blockquote:py-3
-                            prose-blockquote:italic
-                        "
+                    sm:prose-lg
+                    sm:mt-8
+                    sm:prose-headings:mt-10
+                    sm:prose-p:my-6
+                    sm:prose-p:leading-9
+                "
                     >
+
                         <PortableText
                             value={post.content}
                             components={portableTextComponents}
                         />
+
                         <ShareButtons
                             url={postUrl}
                             title={post.title}
                         />
+
                     </div>
 
-                    {post.tags?.length > 0 && (
-                        <footer className="mt-8 border-t border-gray-200 pt-8">
+                    {/* Tags */}
 
-                            <h2 className="mb-5 text-lg font-semibold text-gray-900">
+                    {post.tags?.length > 0 && (
+
+                        <footer className="mt-6 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
+
+                            <h2 className="mb-4 text-base font-semibold text-foreground sm:mb-5 sm:text-lg">
                                 ট্যাগ
                             </h2>
 
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap gap-2 sm:gap-3">
 
                                 {post.tags.map((tag: string) => (
+
                                     <Link
                                         key={tag}
                                         href={`/search?q=${encodeURIComponent(tag)}`}
-                                        className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm transition hover:border-green-700 hover:bg-green-50 hover:text-green-700"
+                                        className="rounded-full border border-black/10 bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted sm:px-4 sm:py-2 sm:text-sm"
                                     >
                                         #{tag}
                                     </Link>
+
                                 ))}
 
                             </div>
 
                         </footer>
+
                     )}
 
                 </article>
 
-                <aside>
+                {/* Sidebar */}
+
+                <aside className="min-w-0">
 
                     <SinglePostSidebar
                         latestPosts={latestPosts}
