@@ -147,7 +147,7 @@ export default function ShareButtons({
 
                         {/* Scrollable */}
 
-                        <div className="min-w-0 flex-1 overflow-x-auto scrollbar-hide">
+                        <div className="min-w-0 flex-1 overflow-x-auto overflow-y-none scrollbar-hide">
                             <div className="flex w-max gap-3 sm:gap-4 lg:gap-4 pb-1">
 
                                 <FacebookShareButton

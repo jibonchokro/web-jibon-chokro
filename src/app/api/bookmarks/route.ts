@@ -7,21 +7,23 @@ export async function GET(request: Request) {
 
         const {
             data: { user },
+            error: authError,
         } = await supabase.auth.getUser();
 
+        if (authError) {
+            throw authError;
+        }
+
         if (!user) {
-            return NextResponse.json(
-                {
-                    authenticated: false,
-                    bookmarks: [],
-                },
-                { status: 200 }
-            );
+            return NextResponse.json({
+                authenticated: false,
+                bookmarks: [],
+            });
         }
 
         const postId = new URL(request.url).searchParams.get("postId");
 
-        // Check bookmark status for a single post
+        // Check a single bookmark
         if (postId) {
             const { data, error } = await supabase
                 .from("bookmarks")
@@ -40,12 +42,14 @@ export async function GET(request: Request) {
             });
         }
 
-        // Get all bookmarked post ids
+        // Get all bookmarks
         const { data, error } = await supabase
             .from("bookmarks")
             .select("post_id")
             .eq("user_id", user.id)
-            .order("created_at", { ascending: false });
+            .order("created_at", {
+                ascending: false,
+            });
 
         if (error) {
             throw error;
@@ -53,17 +57,23 @@ export async function GET(request: Request) {
 
         return NextResponse.json({
             authenticated: true,
-            bookmarks: data.map((item) => item.post_id),
+            bookmarks: data?.map((item) => item.post_id) ?? [],
         });
     } catch (error) {
-        console.error("Bookmarks API Error:", error);
+        console.error("GET /api/bookmarks", error);
 
         return NextResponse.json(
             {
                 authenticated: false,
                 bookmarks: [],
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
             },
-            { status: 500 }
+            {
+                status: 500,
+            }
         );
     }
 }
@@ -74,7 +84,12 @@ export async function POST(request: Request) {
 
         const {
             data: { user },
+            error: authError,
         } = await supabase.auth.getUser();
+
+        if (authError) {
+            throw authError;
+        }
 
         if (!user) {
             return NextResponse.json(
@@ -82,7 +97,9 @@ export async function POST(request: Request) {
                     success: false,
                     error: "Unauthorized",
                 },
-                { status: 401 }
+                {
+                    status: 401,
+                }
             );
         }
 
@@ -94,7 +111,9 @@ export async function POST(request: Request) {
                     success: false,
                     error: "postId is required",
                 },
-                { status: 400 }
+                {
+                    status: 400,
+                }
             );
         }
 
@@ -122,14 +141,19 @@ export async function POST(request: Request) {
             bookmarked: true,
         });
     } catch (error) {
-        console.error("Bookmarks API Error:", error);
+        console.error("POST /api/bookmarks", error);
 
         return NextResponse.json(
             {
                 success: false,
-                error: "Internal Server Error",
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
             },
-            { status: 500 }
+            {
+                status: 500,
+            }
         );
     }
 }
@@ -140,7 +164,12 @@ export async function DELETE(request: Request) {
 
         const {
             data: { user },
+            error: authError,
         } = await supabase.auth.getUser();
+
+        if (authError) {
+            throw authError;
+        }
 
         if (!user) {
             return NextResponse.json(
@@ -148,7 +177,9 @@ export async function DELETE(request: Request) {
                     success: false,
                     error: "Unauthorized",
                 },
-                { status: 401 }
+                {
+                    status: 401,
+                }
             );
         }
 
@@ -160,7 +191,9 @@ export async function DELETE(request: Request) {
                     success: false,
                     error: "postId is required",
                 },
-                { status: 400 }
+                {
+                    status: 400,
+                }
             );
         }
 
@@ -179,14 +212,19 @@ export async function DELETE(request: Request) {
             bookmarked: false,
         });
     } catch (error) {
-        console.error("Bookmarks API Error:", error);
+        console.error("DELETE /api/bookmarks", error);
 
         return NextResponse.json(
             {
                 success: false,
-                error: "Internal Server Error",
+                error:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
             },
-            { status: 500 }
+            {
+                status: 500,
+            }
         );
     }
 }
