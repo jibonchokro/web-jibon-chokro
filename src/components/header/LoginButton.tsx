@@ -60,7 +60,7 @@ export default function LoginButton() {
             />
 
             <span>
-                {loading ? "অপেক্ষা করুন..." : "Login"}
+                {loading ? "Login..." : "Login"}
             </span>
         </button>
     );

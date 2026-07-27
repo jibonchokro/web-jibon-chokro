@@ -67,16 +67,14 @@ export default function PostViews({
 
     return (
         <div className="inline-flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
-
             <Eye
                 size={16}
                 className="shrink-0"
             />
 
             <span className="font-medium">
-                {views.toLocaleString("bn-BD")}
+                {views.toLocaleString("en-US")}
             </span>
-
         </div>
     );
 }

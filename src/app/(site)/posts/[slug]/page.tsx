@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import BookmarkButton from "@/components/post/BookmarkButton";
 import PostViews from "@/components/post/PostViews";
 import { getPostViews } from "@/services/post.service";
 
@@ -87,7 +88,7 @@ export default async function SinglePostPage({
 
     const publishedDate = new Date(
         post.publishedAt
-    ).toLocaleDateString("bn-BD", {
+    ).toLocaleDateString("en-GB", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -105,7 +106,7 @@ export default async function SinglePostPage({
 
                 {/* Article */}
 
-                <article className="min-w-0 rounded-xl border border-black/10 bg-white p-4 sm:p-6 lg:p-8">
+                <article className="min-w-0 rounded-xl border border-black/10 bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
 
                     {/* Breadcrumb */}
 
@@ -195,7 +196,7 @@ export default async function SinglePostPage({
 
                                 <CalendarDays
                                     size={16}
-                                    className="text-foreground"
+                                    className="text-muted-foreground"
                                 />
 
                                 <span>{publishedDate}</span>
@@ -206,11 +207,11 @@ export default async function SinglePostPage({
 
                                 <Clock
                                     size={16}
-                                    className="text-foreground"
+                                    className="text-muted-foreground"
                                 />
 
                                 <span>
-                                    {post.readingTime} মিনিট
+                                    {post.readingTime} min
                                 </span>
 
                             </div>
@@ -219,6 +220,8 @@ export default async function SinglePostPage({
                                 postId={post._id}
                                 initialViews={initialViews}
                             />
+
+                            <BookmarkButton postId={post._id} />
 
                         </div>
 

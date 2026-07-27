@@ -1,11 +1,28 @@
 import type { Metadata } from "next";
-import { Anek_Bangla } from "next/font/google";
+import { Anek_Bangla, Geist } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+
+import { Toaster } from "@/components/ui/sonner";
+
 import "./globals.css";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
 
 const anekBangla = Anek_Bangla({
   subsets: ["bengali"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+  ],
   display: "swap",
   variable: "--font-anek-bangla",
 });
@@ -28,17 +45,16 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
+      className={`${geist.variable} ${anekBangla.variable}`}
     >
-      <body
-        className={`${anekBangla.className} min-h-screen bg-white text-gray-900 antialiased`}
-      >
+      <body className="min-h-screen bg-white font-sans text-gray-900 antialiased">
 
         <NextTopLoader
           color="#333"
           initialPosition={0.08}
           crawlSpeed={200}
           height={2}
-          crawl={true}
+          crawl
           showSpinner={false}
           easing="ease"
           speed={200}
@@ -50,6 +66,14 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          duration={2500}
+        />
+
       </body>
     </html>
   );

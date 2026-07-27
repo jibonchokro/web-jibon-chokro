@@ -5,7 +5,7 @@ export default function HeaderLogo() {
     return (
         <Link
             href="/"
-            className="shrink-0"
+            className="shrink-0 -mt-1"
             aria-label="জীবন চক্র"
         >
             <Image

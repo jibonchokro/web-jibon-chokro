@@ -1,34 +1,57 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
-    FacebookIcon,
-    FacebookShareButton,
-    LinkedinIcon,
-    LinkedinShareButton,
-    TelegramIcon,
-    TelegramShareButton,
-    TwitterShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-    XIcon,
-} from "react-share";
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 import {
     Check,
     Copy,
+    Ellipsis,
     Share2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+
+import {
+    FaFacebookF,
+    FaLinkedinIn,
+    FaTelegram,
+    FaWhatsapp,
+    FaXTwitter,
+} from "react-icons/fa6";
+
+import {
+    FacebookShareButton,
+    LinkedinShareButton,
+    TelegramShareButton,
+    TwitterShareButton,
+    WhatsappShareButton,
+} from "react-share";
 
 interface ShareButtonsProps {
     url: string;
     title: string;
 }
 
+const iconClass =
+    "flex h-10 w-10 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-gray-100";
+
+const itemClass =
+    "flex min-w-auto shrink-0 flex-col items-center gap-1 text-center";
+
+const labelClass =
+    "text-[11px] leading-none text-muted-foreground";
+
 export default function ShareButtons({
     url,
     title,
 }: ShareButtonsProps) {
+    const [open, setOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [sharing, setSharing] = useState(false);
     const [canShare, setCanShare] = useState(false);
@@ -43,21 +66,15 @@ export default function ShareButtons({
     async function copyLink() {
         try {
             await navigator.clipboard.writeText(url);
-
             setCopied(true);
-
-            setTimeout(() => {
-                setCopied(false);
-            }, 2000);
+            setTimeout(() => setCopied(false), 2000);
         } catch (error) {
-            console.error("Failed to copy link:", error);
+            console.error(error);
         }
     }
 
     async function nativeShare() {
-        if (!navigator.share) {
-            return;
-        }
+        if (!navigator.share) return;
 
         try {
             setSharing(true);
@@ -67,110 +84,171 @@ export default function ShareButtons({
                 text: title,
                 url,
             });
-        } catch {
-            // User cancelled sharing
-        } finally {
-            setSharing(false);
-        }
+        } catch { }
+
+        setSharing(false);
     }
 
     return (
-        <section className="mt-8 border-t border-gray-200 pt-8">
+        <section className="mt-8 border-t border-black/10 pt-6">
+            <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setOpen(true)}
+                className="
+                    h-10
+                    w-10
+                    rounded-full
+                    border-gray-200
+                    bg-white
+                    shadow-none
+                    transition-colors
+                    hover:border-gray-300
+                    hover:bg-gray-50
+                "
+            >
+                <Share2 className="size-4" />
+            </Button>
 
-            <h2 className="mb-5 text-lg font-semibold">
-                শেয়ার করুন
-            </h2>
+            <Dialog
+                open={open}
+                onOpenChange={setOpen}
+            >
+                <DialogContent className="top-auto bottom-0 left-1/2 w-full max-w-md -translate-x-1/2 translate-y-0 rounded-t-3xl rounded-b-none p-5">
+                    <DialogHeader>
+                        <DialogTitle>শেয়ার করুন</DialogTitle>
+                    </DialogHeader>
 
-            <div className="flex flex-wrap items-center gap-3">
+                    {/* Link */}
 
-                <FacebookShareButton
-                    url={url}
-                    hashtag="#জীবনচক্র"
-                >
-                    <FacebookIcon
-                        size={42}
-                        round
-                    />
-                </FacebookShareButton>
-
-                <TwitterShareButton
-                    url={url}
-                    title={title}
-                >
-                    <XIcon
-                        size={42}
-                        round
-                    />
-                </TwitterShareButton>
-
-                <WhatsappShareButton
-                    url={url}
-                    title={title}
-                >
-                    <WhatsappIcon
-                        size={42}
-                        round
-                    />
-                </WhatsappShareButton>
-
-                <TelegramShareButton
-                    url={url}
-                    title={title}
-                >
-                    <TelegramIcon
-                        size={42}
-                        round
-                    />
-                </TelegramShareButton>
-
-                <LinkedinShareButton
-                    url={url}
-                    title={title}
-                >
-                    <LinkedinIcon
-                        size={42}
-                        round
-                    />
-                </LinkedinShareButton>
-
-                <button
-                    type="button"
-                    onClick={copyLink}
-                    title="Copy link"
-                    aria-label="Copy link"
-                    className="flex h-[42px] w-[42px] items-center justify-center rounded-full border border-gray-300 transition hover:border-green-700 hover:bg-green-50"
-                >
-                    {copied ? (
-                        <Check
-                            size={18}
-                            className="text-green-700"
+                    <div className="relative">
+                        <input
+                            readOnly
+                            value={url}
+                            className="w-full rounded-lg border border-black/10 bg-background py-2 pl-3 pr-10 text-sm outline-none"
                         />
-                    ) : (
-                        <Copy
-                            size={18}
-                            className="text-gray-700"
-                        />
-                    )}
-                </button>
 
-                {canShare && (
-                    <button
-                        type="button"
-                        onClick={nativeShare}
-                        disabled={sharing}
-                        title="Share using your device"
-                        aria-label="Share using your device"
-                        className="flex h-[42px] w-[42px] items-center justify-center rounded-full border border-gray-300 transition hover:border-green-700 hover:bg-green-50 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        <Share2
-                            size={18}
-                            className="text-gray-700"
-                        />
-                    </button>
-                )}
+                        <button
+                            type="button"
+                            onClick={copyLink}
+                            className="absolute right-1 top-[2.5px] flex h-8 w-8 items-center justify-center"
+                        >
+                            {copied ? (
+                                <Check className="size-4 text-green-600" />
+                            ) : (
+                                <Copy className="size-4" />
+                            )}
+                        </button>
+                    </div>
 
-            </div>
+                    {/* Share */}
 
+                    <div className="flex items-start gap-3 overflow-hidden">
+
+                        {/* Scrollable */}
+
+                        <div className="min-w-0 flex-1 overflow-x-auto scrollbar-hide">
+                            <div className="flex w-max gap-3 sm:gap-4 lg:gap-4 pb-1">
+
+                                <FacebookShareButton
+                                    url={url}
+                                    hashtag="#জীবনচক্র"
+                                >
+                                    <div className={itemClass}>
+                                        <div className={iconClass}>
+                                            <FaFacebookF size={18} />
+                                        </div>
+
+                                        <span className={labelClass}>
+                                            Facebook
+                                        </span>
+                                    </div>
+                                </FacebookShareButton>
+
+                                <TwitterShareButton
+                                    url={url}
+                                    title={title}
+                                >
+                                    <div className={itemClass}>
+                                        <div className={iconClass}>
+                                            <FaXTwitter size={18} />
+                                        </div>
+
+                                        <span className={labelClass}>
+                                            X
+                                        </span>
+                                    </div>
+                                </TwitterShareButton>
+
+                                <WhatsappShareButton
+                                    url={url}
+                                    title={title}
+                                >
+                                    <div className={itemClass}>
+                                        <div className={iconClass}>
+                                            <FaWhatsapp size={18} />
+                                        </div>
+
+                                        <span className={labelClass}>
+                                            WhatsApp
+                                        </span>
+                                    </div>
+                                </WhatsappShareButton>
+
+                                <TelegramShareButton
+                                    url={url}
+                                    title={title}
+                                >
+                                    <div className={itemClass}>
+                                        <div className={iconClass}>
+                                            <FaTelegram size={18} />
+                                        </div>
+
+                                        <span className={labelClass}>
+                                            Telegram
+                                        </span>
+                                    </div>
+                                </TelegramShareButton>
+
+                                <LinkedinShareButton
+                                    url={url}
+                                    title={title}
+                                >
+                                    <div className={itemClass}>
+                                        <div className={iconClass}>
+                                            <FaLinkedinIn size={18} />
+                                        </div>
+
+                                        <span className={labelClass}>
+                                            LinkedIn
+                                        </span>
+                                    </div>
+                                </LinkedinShareButton>
+
+                            </div>
+                        </div>
+
+                        {/* Fixed More */}
+
+                        {canShare && (
+                            <button
+                                type="button"
+                                onClick={nativeShare}
+                                disabled={sharing}
+                                className={`${itemClass} disabled:opacity-50`}
+                            >
+                                <div className={iconClass}>
+                                    <Ellipsis size={18} />
+                                </div>
+
+                                <span className={labelClass}>
+                                    More
+                                </span>
+                            </button>
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 }
