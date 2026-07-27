@@ -13,9 +13,21 @@ export async function createClient() {
                     return cookieStore.getAll();
                 },
 
-                // In Server Components we can only READ cookies.
-                // Cookie updates are handled by middleware.
-                setAll() { },
+                setAll(cookiesToSet) {
+                    try {
+                        cookiesToSet.forEach(
+                            ({ name, value, options }) => {
+                                cookieStore.set(
+                                    name,
+                                    value,
+                                    options
+                                );
+                            }
+                        );
+                    } catch {
+                        // Middleware handles cookie refresh
+                    }
+                },
             },
         }
     );

@@ -1,95 +1,126 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
+function errorResponse(error: unknown) {
+    console.error("Bookmarks API Error:", error);
+
+    return NextResponse.json(
+        {
+            success: false,
+            error:
+                error instanceof Error
+                    ? error.message
+                    : JSON.stringify(error),
+        },
+        {
+            status: 500,
+        }
+    );
+}
+
+
 export async function GET(request: Request) {
     try {
         const supabase = await createClient();
 
         const {
             data: { user },
-            error: authError,
+            error,
         } = await supabase.auth.getUser();
 
-        if (authError) {
-            throw authError;
+        console.log("Bookmark user:", user?.id);
+        console.log("Auth error:", error);
+
+        if (error) {
+            throw error;
         }
 
         if (!user) {
             return NextResponse.json({
                 authenticated: false,
-                bookmarks: [],
+                bookmarked: false,
             });
         }
 
-        const postId = new URL(request.url).searchParams.get("postId");
 
-        // Check a single bookmark
-        if (postId) {
+        const postId = new URL(request.url)
+            .searchParams
+            .get("postId");
+
+
+        if (!postId) {
             const { data, error } = await supabase
+                .from("bookmarks")
+                .select("post_id")
+                .eq("user_id", user.id)
+                .order("created_at", {
+                    ascending: false,
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            return NextResponse.json({
+                authenticated: true,
+                bookmarks:
+                    data?.map(
+                        (item) => item.post_id
+                    ) ?? [],
+            });
+        }
+
+
+        const { data, error: bookmarkError } =
+            await supabase
                 .from("bookmarks")
                 .select("id")
                 .eq("user_id", user.id)
                 .eq("post_id", postId)
                 .maybeSingle();
 
-            if (error) {
-                throw error;
-            }
 
-            return NextResponse.json({
-                authenticated: true,
-                bookmarked: !!data,
-            });
+        if (bookmarkError) {
+            throw bookmarkError;
         }
 
-        // Get all bookmarks
-        const { data, error } = await supabase
-            .from("bookmarks")
-            .select("post_id")
-            .eq("user_id", user.id)
-            .order("created_at", {
-                ascending: false,
-            });
+
+        return NextResponse.json({
+            authenticated: true,
+            bookmarked: Boolean(data),
+        });
+
+
+    } catch (error) {
+        return errorResponse(error);
+    }
+}
+
+
+
+export async function POST(request: Request) {
+
+    try {
+
+        const supabase = await createClient();
+
+
+        const {
+            data: { user },
+            error,
+        } = await supabase.auth.getUser();
+
+
+        console.log("POST user:", user?.id);
+        console.log("POST auth error:", error);
+
 
         if (error) {
             throw error;
         }
 
-        return NextResponse.json({
-            authenticated: true,
-            bookmarks: data?.map((item) => item.post_id) ?? [],
-        });
-    } catch (error) {
-        console.error("GET /api/bookmarks", error);
-
-        return NextResponse.json(
-            {
-                authenticated: false,
-                bookmarks: [],
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : String(error),
-            },
-            {
-                status: 500,
-            }
-        );
-    }
-}
-
-export async function POST(request: Request) {
-    try {
-        const supabase = await createClient();
-
-        const {
-            data: { user },
-            error: authError,
-        } = await supabase.auth.getUser();
-
-        if (authError) {
-            throw authError;
-        }
 
         if (!user) {
             return NextResponse.json(
@@ -103,13 +134,17 @@ export async function POST(request: Request) {
             );
         }
 
-        const { postId } = await request.json();
+
+        const body = await request.json();
+
+        const postId = body.postId;
+
 
         if (!postId) {
             return NextResponse.json(
                 {
                     success: false,
-                    error: "postId is required",
+                    error: "postId missing",
                 },
                 {
                     status: 400,
@@ -117,61 +152,74 @@ export async function POST(request: Request) {
             );
         }
 
-        const { error } = await supabase
-            .from("bookmarks")
-            .insert({
-                user_id: user.id,
-                post_id: postId,
-            });
 
-        if (error) {
-            // Already bookmarked
-            if (error.code === "23505") {
+
+        const { error: insertError } =
+            await supabase
+                .from("bookmarks")
+                .insert({
+                    user_id: user.id,
+                    post_id: postId,
+                });
+
+
+
+        if (insertError) {
+
+            if (
+                insertError.code === "23505"
+            ) {
                 return NextResponse.json({
                     success: true,
                     bookmarked: true,
                 });
             }
 
-            throw error;
+            throw insertError;
         }
+
+
 
         return NextResponse.json({
             success: true,
             bookmarked: true,
         });
-    } catch (error) {
-        console.error("POST /api/bookmarks", error);
 
-        return NextResponse.json(
-            {
-                success: false,
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : String(error),
-            },
-            {
-                status: 500,
-            }
-        );
+
+
+    } catch (error) {
+
+        return errorResponse(error);
+
     }
+
 }
 
+
+
+
+
 export async function DELETE(request: Request) {
+
     try {
+
         const supabase = await createClient();
+
 
         const {
             data: { user },
-            error: authError,
-        } = await supabase.auth.getUser();
+            error,
+        } =
+            await supabase.auth.getUser();
 
-        if (authError) {
-            throw authError;
+
+        if (error) {
+            throw error;
         }
 
+
         if (!user) {
+
             return NextResponse.json(
                 {
                     success: false,
@@ -181,50 +229,43 @@ export async function DELETE(request: Request) {
                     status: 401,
                 }
             );
+
         }
+
 
         const { postId } = await request.json();
 
-        if (!postId) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: "postId is required",
-                },
-                {
-                    status: 400,
-                }
-            );
-        }
 
-        const { error } = await supabase
+
+        const { error: deleteError } = await supabase
             .from("bookmarks")
             .delete()
-            .eq("user_id", user.id)
-            .eq("post_id", postId);
+            .eq(
+                "user_id",
+                user.id
+            )
+            .eq(
+                "post_id",
+                postId
+            );
 
-        if (error) {
-            throw error;
+
+        if (deleteError) {
+            throw deleteError;
         }
+
+
 
         return NextResponse.json({
             success: true,
             bookmarked: false,
         });
-    } catch (error) {
-        console.error("DELETE /api/bookmarks", error);
 
-        return NextResponse.json(
-            {
-                success: false,
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : String(error),
-            },
-            {
-                status: 500,
-            }
-        );
+
+    } catch (error) {
+
+        return errorResponse(error);
+
     }
+
 }
