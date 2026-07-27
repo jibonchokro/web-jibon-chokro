@@ -27,8 +27,7 @@ export default function BookmarkButton({ postId }: Props) {
     const [bookmarked, setBookmarked] = useState(false);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [loginDialogOpen, setLoginDialogOpen] =
-        useState(false);
+    const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
     useEffect(() => {
         let cancelled = false;
@@ -36,9 +35,7 @@ export default function BookmarkButton({ postId }: Props) {
         async function loadBookmarkStatus() {
             try {
                 const response = await fetch(
-                    `/api/bookmarks?postId=${encodeURIComponent(
-                        postId
-                    )}`,
+                    `/api/bookmarks?postId=${encodeURIComponent(postId)}`,
                     {
                         cache: "no-store",
                     }
@@ -93,9 +90,7 @@ export default function BookmarkButton({ postId }: Props) {
             }
 
             if (!data.success) {
-                throw new Error(
-                    data.error || "Bookmark failed"
-                );
+                throw new Error(data.error || "Bookmark failed");
             }
 
             setBookmarked(data.bookmarked);
@@ -104,19 +99,21 @@ export default function BookmarkButton({ postId }: Props) {
                 toast.success("Bookmark Added", {
                     description:
                         "This post has been saved to your bookmarks.",
+                    position: "bottom-center",
                 });
             } else {
                 toast.success("Bookmark Removed", {
                     description:
                         "This post has been removed from your bookmarks.",
+                    position: "bottom-center",
                 });
             }
         } catch (error) {
             console.error(error);
 
             toast.error("Something went wrong", {
-                description:
-                    "Please try again later.",
+                description: "Please try again later.",
+                position: "bottom-center",
             });
         } finally {
             setSaving(false);
@@ -134,20 +131,13 @@ export default function BookmarkButton({ postId }: Props) {
                         ? "Remove bookmark"
                         : "Add bookmark"
                 }
-                className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    transition
-                    disabled:cursor-not-allowed
-                    disabled:opacity-50
-                "
+                className="inline-flex items-center justify-center transition disabled:cursor-not-allowed disabled:opacity-50"
             >
                 <Bookmark
                     size={20}
                     className={`transition-colors ${bookmarked
-                            ? "fill-green-600 text-green-600"
-                            : "text-gray-600 hover:text-green-600"
+                        ? "fill-black text-black"
+                        : "text-muted-foreground hover:text-black"
                         }`}
                 />
             </button>
@@ -158,7 +148,6 @@ export default function BookmarkButton({ postId }: Props) {
             >
                 <AlertDialogContent size="default">
                     <AlertDialogHeader>
-
                         <AlertDialogMedia>
                             <Bookmark className="size-5 text-green-600" />
                         </AlertDialogMedia>
@@ -173,11 +162,9 @@ export default function BookmarkButton({ postId }: Props) {
                             available from your account
                             anytime.
                         </AlertDialogDescription>
-
                     </AlertDialogHeader>
 
                     <AlertDialogFooter>
-
                         <AlertDialogCancel>
                             Cancel
                         </AlertDialogCancel>
@@ -190,7 +177,6 @@ export default function BookmarkButton({ postId }: Props) {
                         >
                             Login
                         </AlertDialogAction>
-
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
