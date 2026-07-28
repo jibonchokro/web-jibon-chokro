@@ -2,7 +2,7 @@
 
 import { Bookmark } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -19,52 +19,22 @@ import {
 
 interface Props {
     postId: string;
+    initialBookmarked: boolean;
 }
 
-export default function BookmarkButton({ postId }: Props) {
+export default function BookmarkButton({
+    postId,
+    initialBookmarked,
+}: Props) {
     const router = useRouter();
 
-    const [bookmarked, setBookmarked] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [bookmarked, setBookmarked] =
+        useState(initialBookmarked);
+
     const [saving, setSaving] = useState(false);
-    const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
-    useEffect(() => {
-        let cancelled = false;
-
-        async function loadBookmarkStatus() {
-            try {
-                const response = await fetch(
-                    `/api/bookmarks?postId=${encodeURIComponent(postId)}`,
-                    {
-                        cache: "no-store",
-                    }
-                );
-
-                const data = await response.json();
-
-                if (cancelled) return;
-
-                if (!data.authenticated) {
-                    setBookmarked(false);
-                } else {
-                    setBookmarked(data.bookmarked);
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                if (!cancelled) {
-                    setLoading(false);
-                }
-            }
-        }
-
-        loadBookmarkStatus();
-
-        return () => {
-            cancelled = true;
-        };
-    }, [postId]);
+    const [loginDialogOpen, setLoginDialogOpen] =
+        useState(false);
 
     async function toggleBookmark() {
         if (saving) return;
@@ -89,30 +59,33 @@ export default function BookmarkButton({ postId }: Props) {
                 return;
             }
 
-            if (!data.success) {
-                throw new Error(data.error || "Bookmark failed");
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.error || "Bookmark failed"
+                );
             }
 
             setBookmarked(data.bookmarked);
 
-            if (data.bookmarked) {
-                toast.success("Bookmark Added", {
-                    description:
-                        "This post has been saved to your bookmarks.",
+            toast.success(
+                data.bookmarked
+                    ? "Bookmark Added"
+                    : "Bookmark Removed",
+                {
+                    description: data.bookmarked
+                        ? "This post has been saved to your bookmarks."
+                        : "This post has been removed from your bookmarks.",
                     position: "bottom-center",
-                });
-            } else {
-                toast.success("Bookmark Removed", {
-                    description:
-                        "This post has been removed from your bookmarks.",
-                    position: "bottom-center",
-                });
-            }
+                }
+            );
+
+            router.refresh();
         } catch (error) {
             console.error(error);
 
             toast.error("Something went wrong", {
-                description: "Please try again later.",
+                description:
+                    "Please try again later.",
                 position: "bottom-center",
             });
         } finally {
@@ -125,7 +98,7 @@ export default function BookmarkButton({ postId }: Props) {
             <button
                 type="button"
                 onClick={toggleBookmark}
-                disabled={loading || saving}
+                disabled={saving}
                 aria-label={
                     bookmarked
                         ? "Remove bookmark"
@@ -136,8 +109,8 @@ export default function BookmarkButton({ postId }: Props) {
                 <Bookmark
                     size={20}
                     className={`transition-colors ${bookmarked
-                        ? "fill-black text-black"
-                        : "text-muted-foreground hover:text-black"
+                            ? "fill-black text-black"
+                            : "text-muted-foreground hover:text-black"
                         }`}
                 />
             </button>

@@ -3,7 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { CalendarDays, Clock } from "lucide-react";
+import {
+    CalendarDays,
+    Clock,
+    Eye,
+} from "lucide-react";
 
 import RemoveBookmarkButton from "./RemoveBookmarkButton";
 
@@ -17,6 +21,7 @@ export interface BookmarkPost {
     imageUrl?: string | null;
     publishedAt: string;
     readingTime?: number;
+    views?: number;
     category?: {
         title: string;
         slug: {
@@ -44,97 +49,184 @@ export default function BookmarkCard({
         <article
             className="
                 group
+                flex
+                h-full
+                flex-col
                 overflow-hidden
-                rounded-xl
+                rounded-lg
                 border
-                border-black/10
+                border-border
                 bg-background
                 transition-all
                 duration-300
-                hover:-translate-y-1
-                hover:shadow-lg
+                hover:border-foreground/15
+                hover:shadow-sm
             "
         >
-            <Link href={`/posts/${post.slug.current}`}>
-                <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-                    {post.imageUrl ? (
-                        <Image
-                            src={post.imageUrl}
-                            alt={post.title}
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                    ) : (
-                        <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                            No Image
-                        </div>
-                    )}
-                </div>
-            </Link>
+            {/* Cover */}
 
-            <div className="space-y-4 p-5">
-                {post.category && (
-                    <Link
-                        href={`/category/${post.category.slug.current}`}
+            <div className="relative">
+
+                <Link
+                    href={`/posts/${post.slug.current}`}
+                    className="block"
+                >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+
+                        {post.imageUrl ? (
+                            <Image
+                                src={post.imageUrl}
+                                alt={post.title}
+                                fill
+                                priority={false}
+                                sizes="
+                                    (max-width:640px)100vw,
+                                    (max-width:1024px)50vw,
+                                    33vw
+                                "
+                                className="
+                                    object-cover
+                                    transition-transform
+                                    duration-500
+                                    group-hover:scale-105
+                                "
+                            />
+                        ) : (
+                            <div className="flex h-full items-center justify-center text-xs text-muted-foreground sm:text-sm">
+                                No image
+                            </div>
+                        )}
+
+                    </div>
+                </Link>
+
+                {/* Top overlay */}
+
+                <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2 sm:p-3">
+
+                    {post.category ? (
+                        <Link
+                            href={`/category/${post.category.slug.current}`}
+                            className="
+                                max-w-[70%]
+                                truncate
+                                rounded-full
+                                border
+                                border-white/20
+                                bg-black/60
+                                px-3
+                                py-1
+                                text-[10px]
+                                font-medium
+                                text-white
+                                shadow-sm
+                                backdrop-blur-md
+                                transition
+                                hover:bg-black/40
+                                sm:px-3.5
+                                sm:text-[11px]
+                            "
+                        >
+                            {post.category.title}
+                        </Link>
+                    ) : (
+                        <span />
+                    )}
+
+                    <RemoveBookmarkButton
+                        postId={post._id}
+                    />
+
+                </div>
+
+            </div>
+
+            {/* Body */}
+
+            <div className="flex flex-1 flex-col p-4">
+
+                <Link
+                    href={`/posts/${post.slug.current}`}
+                    className="block"
+                >
+                    <h2
                         className="
-                            inline-flex
-                            rounded-full
-                            bg-muted
-                            px-3
-                            py-1
-                            text-xs
-                            font-medium
+                            line-clamp-2
+                            text-base
+                            font-semibold
+                            leading-snug
+                            tracking-tight
                             transition-colors
-                            hover:bg-accent
+                            group-hover:text-primary
+                            sm:text-lg
+                            lg:text-xl
                         "
                     >
-                        {post.category.title}
-                    </Link>
-                )}
-
-                <Link href={`/posts/${post.slug.current}`}>
-                    <h2 className="line-clamp-2 text-lg font-semibold transition-colors group-hover:text-primary">
                         {post.title}
                     </h2>
                 </Link>
 
                 {post.excerpt && (
-                    <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
+                    <p
+                        className="
+                            mt-2
+                            line-clamp-2
+                            text-xs
+                            leading-6
+                            text-muted-foreground
+                            sm:text-sm
+                        "
+                    >
                         {post.excerpt}
                     </p>
                 )}
 
-                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                        <CalendarDays size={14} />
-                        <span>{publishedDate}</span>
-                    </div>
+                {/* Footer */}
 
-                    {post.readingTime && (
-                        <div className="flex items-center gap-1">
-                            <Clock size={14} />
-                            <span>{post.readingTime} min read</span>
-                        </div>
-                    )}
-                </div>
+                <div className="mt-auto pt-4">
 
-                <div className="flex items-center justify-between border-t border-black/10 pt-4">
-                    <Link
-                        href={`/posts/${post.slug.current}`}
+                    <div
                         className="
-                            text-sm
-                            font-medium
-                            text-primary
-                            hover:underline
+                            -mx-4
+                            flex
+                            flex-wrap
+                            items-center
+                            gap-x-4
+                            gap-y-2
+                            border-t
+                            border-border
+                            px-4
+                            pt-3
+                            text-[11px]
+                            text-muted-foreground
+                            sm:text-xs
                         "
                     >
-                        Read article
-                    </Link>
+                        <div className="flex items-center gap-1.5">
+                            <CalendarDays className="size-3.5" />
+                            <span>{publishedDate}</span>
+                        </div>
 
-                    <RemoveBookmarkButton
-                        postId={post._id}
-                    />
+                        {post.readingTime && (
+                            <div className="flex items-center gap-1.5">
+                                <Clock className="size-3.5" />
+                                <span>
+                                    {post.readingTime} min
+                                </span>
+                            </div>
+                        )}
+
+                        <div className="ml-auto flex items-center gap-1.5">
+                            <Eye className="size-3.5" />
+                            <span>
+                                {(post.views ?? 0).toLocaleString()}
+                            </span>
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
         </article>
     );

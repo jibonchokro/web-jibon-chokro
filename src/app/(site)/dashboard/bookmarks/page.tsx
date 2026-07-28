@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getBookmarkedPosts } from "@/services/bookmark.service";
 
-import BookmarkCard from "@/components/dashboard/BookmarkCard";
+import BookmarksClient from "@/components/dashboard/BookmarksClient";
 import EmptyBookmarks from "@/components/dashboard/EmptyBookmarks";
 
 export default async function BookmarksPage() {
@@ -21,28 +21,30 @@ export default async function BookmarksPage() {
 
     return (
         <section className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold">
+
+            {/* Header */}
+
+            <div className="flex flex-col gap-2">
+
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                     Bookmarks
                 </h1>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                    Your saved posts.
+                <p className="text-sm text-muted-foreground">
+                    View, search and manage all of your saved
+                    articles in one place.
                 </p>
+
             </div>
+
+            {/* Content */}
 
             {posts.length === 0 ? (
                 <EmptyBookmarks />
             ) : (
-                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                    {posts.map((post: any) => (
-                        <BookmarkCard
-                            key={post._id}
-                            post={post}
-                        />
-                    ))}
-                </div>
+                <BookmarksClient posts={posts} />
             )}
+
         </section>
     );
 }
