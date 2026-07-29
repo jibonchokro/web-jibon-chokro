@@ -2,14 +2,73 @@ import { NextResponse } from "next/server";
 
 import { searchPosts } from "@/services/search.service";
 
-export async function GET(req: Request) {
 
-    const { searchParams } = new URL(req.url);
+const POSTS_PER_LOAD = 16;
 
-    const q = searchParams.get("q") ?? "";
 
-    const posts = await searchPosts(q);
+export async function GET(
+    req: Request
+) {
 
-    return NextResponse.json(posts);
+    try {
+
+        const {
+            searchParams,
+        } = new URL(req.url);
+
+
+        const q =
+            searchParams.get("q")?.trim() ?? "";
+
+
+        const page =
+            Number(
+                searchParams.get("page") ?? "1"
+            );
+
+
+        if (!q) {
+
+            return NextResponse.json({
+                posts: [],
+            });
+
+        }
+
+
+        const posts =
+            await searchPosts(
+                q,
+                {
+                    page,
+                    limit: POSTS_PER_LOAD,
+                }
+            );
+
+
+        return NextResponse.json({
+            posts,
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Search API error:",
+            error
+        );
+
+
+        return NextResponse.json(
+            {
+                posts: [],
+                error: "Failed to search posts",
+            },
+            {
+                status: 500,
+            }
+        );
+
+    }
 
 }

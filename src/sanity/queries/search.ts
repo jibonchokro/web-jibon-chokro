@@ -9,7 +9,7 @@ export const searchPostsQuery = defineQuery(`
     tags[] match $search
   )
 ]
-| order(publishedAt desc)[0...8]{
+| order(publishedAt desc)[$start...$end]{
   _id,
   title,
   slug,

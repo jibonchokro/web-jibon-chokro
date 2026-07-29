@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+    CalendarDays,
+    Clock,
+    Eye,
+} from "lucide-react";
+
 import { urlFor } from "@/sanity/lib/image";
 import type { Post } from "@/types/post";
 
@@ -11,6 +17,7 @@ interface PostCardProps {
 export default function PostCard({
     post,
 }: PostCardProps) {
+
     const imageUrl = post.coverImage
         ? urlFor(post.coverImage)
             .width(800)
@@ -18,76 +25,231 @@ export default function PostCard({
             .url()
         : "/images/placeholder.jpg";
 
+
+    const publishedDate = new Date(
+        post.publishedAt
+    ).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    });
+
+
+    const views = Number(post.views ?? 0);
+
+
     return (
-        <article className="group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-sm">
+        <article
+            className="
+                group
+                flex
+                h-full
+                flex-col
+                overflow-hidden
+                rounded-xl
+                border
+                border-black/10
+                bg-white
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:shadow-sm
+            "
+        >
 
             {/* Cover */}
 
-            <Link href={`/posts/${post.slug.current}`}>
+            <div className="relative">
 
-                <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+                <Link
+                    href={`/posts/${post.slug.current}`}
+                    className="block"
+                >
+                    <div
+                        className="
+                            relative
+                            aspect-[16/10]
+                            overflow-hidden
+                            bg-muted
+                        "
+                    >
+                        <Image
+                            src={imageUrl}
+                            alt={post.title}
+                            fill
+                            sizes="
+                                (max-width:640px)100vw,
+                                (max-width:1024px)50vw,
+                                33vw
+                            "
+                            className="
+                                object-cover
+                                transition-transform
+                                duration-500
+                                group-hover:scale-105
+                            "
+                        />
+                    </div>
+                </Link>
 
-                    <Image
-                        src={imageUrl}
-                        alt={post.title}
-                        fill
-                        sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
 
-                </div>
+                {post.category && (
+                    <div
+                        className="
+                            absolute
+                            inset-x-0
+                            top-0
+                            p-2
+                            sm:p-3
+                        "
+                    >
 
-            </Link>
+                        <Link
+                            href={`/category/${post.category.slug.current}`}
+                            className="
+                                inline-flex
+                                max-w-[70%]
+                                truncate
+                                rounded-full
+                                border
+                                border-white/20
+                                bg-black/60
+                                px-3
+                                py-1
+                                text-[10px]
+                                font-medium
+                                text-white
+                                backdrop-blur-md
+                                transition
+                                hover:bg-black/40
+                                sm:text-xs
+                            "
+                        >
+                            {post.category.title}
+                        </Link>
+
+                    </div>
+                )}
+
+            </div>
+
+
 
             {/* Content */}
 
-            <div className="space-y-3 p-4">
-
-                {/* Category */}
+            <div
+                className="
+                    flex
+                    flex-1
+                    flex-col
+                    p-3
+                    sm:p-4
+                "
+            >
 
                 <Link
-                    href={`/category/${post.category.slug.current}`}
-                    className="inline-flex rounded-full border border-black/10 bg-muted/50 px-2.5 py-1 text-[11px] font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                    href={`/posts/${post.slug.current}`}
                 >
-                    {post.category.title}
-                </Link>
 
-                {/* Title */}
-
-                <Link href={`/posts/${post.slug.current}`}>
-
-                    <h3 className="truncate text-base font-semibold text-foreground transition-colors group-hover:text-primary">
+                    <h3
+                        className="
+                            line-clamp-2
+                            text-[15px]
+                            font-semibold
+                            leading-snug
+                            tracking-tight
+                            text-foreground
+                            transition-colors
+                            group-hover:text-primary
+                            sm:text-[17px]
+                        "
+                    >
                         {post.title}
                     </h3>
 
                 </Link>
 
-                {/* Excerpt */}
 
-                <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
-                    {post.excerpt}
-                </p>
+                {post.excerpt && (
+                    <p
+                        className="
+                            mt-2
+                            line-clamp-2
+                            text-xs
+                            leading-6
+                            text-muted-foreground
+                            sm:text-sm
+                        "
+                    >
+                        {post.excerpt}
+                    </p>
+                )}
+
+
 
                 {/* Footer */}
 
-                <div className="flex items-center justify-between border-t border-black/10 pt-3 text-xs text-muted-foreground">
+                <div className="mt-auto pt-3 -mx-3 sm:-mx-4">
 
-                    <span className="truncate">
-                        {post.readingTime
-                            ? `${post.readingTime} মিনিট`
-                            : "—"}
-                    </span>
+                    <div
+                        className="
+                            flex
+                            flex-wrap
+                            items-center
+                            gap-3
+                            border-t
+                            border-black/10
+                            pt-2
+                            text-[11px]
+                            text-muted-foreground
+                            sm:text-xs
+                        "
+                    >
 
-                    <span className="shrink-0">
-                        {new Date(post.publishedAt).toLocaleDateString(
-                            "bn-BD",
-                            {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                            }
+                        <div className="flex items-center gap-1.5 pl-3 sm:pl-4">
+                            <CalendarDays className="size-3.5" />
+
+                            <span>
+                                {publishedDate}
+                            </span>
+                        </div>
+
+
+                        {post.readingTime && (
+                            <div className="flex items-center gap-1.5">
+
+                                <Clock className="size-3.5" />
+
+                                <span>
+                                    {post.readingTime} min
+                                </span>
+
+                            </div>
                         )}
-                    </span>
+
+
+
+                        <div
+                            className="
+                                ml-auto
+                                flex
+                                items-center
+                                gap-1.5
+                                pr-3
+                                sm:pr-4
+                            "
+                        >
+
+                            <Eye className="size-3.5" />
+
+                            <span>
+                                {views.toLocaleString()}
+                            </span>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 

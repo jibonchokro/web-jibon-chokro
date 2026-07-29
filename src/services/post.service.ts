@@ -13,7 +13,7 @@ import {
 import type { Post } from "@/types/post";
 
 
-async function attachViews(
+export async function attachViews(
     posts: Post[]
 ): Promise<Post[]> {
 
@@ -121,7 +121,6 @@ export async function getLatestPosts(): Promise<Post[]> {
         latestPostsQuery
     );
 
-
     return attachViews(posts);
 }
 
@@ -132,7 +131,6 @@ export async function getPopularPosts(): Promise<Post[]> {
     const posts = await client.fetch(
         popularPostsQuery
     );
-
 
     return attachViews(posts);
 }
@@ -149,7 +147,6 @@ export async function getPostsByCategory(
             slug,
         }
     );
-
 
     return attachViews(posts);
 }
