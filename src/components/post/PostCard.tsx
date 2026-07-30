@@ -154,14 +154,13 @@ export default function PostCard({
                     <h3
                         className="
                             line-clamp-2
-                            text-[15px]
+                            text-lg
                             font-semibold
                             leading-snug
                             tracking-tight
                             text-foreground
                             transition-colors
                             group-hover:text-primary
-                            sm:text-[17px]
                         "
                     >
                         {post.title}
@@ -175,10 +174,9 @@ export default function PostCard({
                         className="
                             mt-2
                             line-clamp-2
-                            text-xs
+                            text-sm
                             leading-6
                             text-muted-foreground
-                            sm:text-sm
                         "
                     >
                         {post.excerpt}
@@ -199,10 +197,10 @@ export default function PostCard({
                             gap-3
                             border-t
                             border-black/10
-                            pt-2
-                            text-[11px]
+                            pt-3
+                            pb-1
+                            text-sm
                             text-muted-foreground
-                            sm:text-xs
                         "
                     >
 

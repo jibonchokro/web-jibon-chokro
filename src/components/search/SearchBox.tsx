@@ -7,22 +7,20 @@ import SearchResults from "./SearchResults";
 
 interface SearchPost {
     _id: string;
-
     title: string;
-
     slug: {
         current: string;
     };
-
     excerpt?: string;
-
     coverImage?: any;
-
     readingTime?: number;
-
     category?: {
         title: string;
     };
+}
+
+interface SearchResponse {
+    posts: SearchPost[];
 }
 
 interface SearchBoxProps {
@@ -43,23 +41,36 @@ export default function SearchBox({
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
+        const handleClickOutside = (
+            event: MouseEvent
+        ) => {
             if (
                 wrapperRef.current &&
-                !wrapperRef.current.contains(event.target as Node)
+                !wrapperRef.current.contains(
+                    event.target as Node
+                )
             ) {
                 setOpen(false);
             }
         };
 
-        const handleEscape = (event: KeyboardEvent) => {
+        const handleEscape = (
+            event: KeyboardEvent
+        ) => {
             if (event.key === "Escape") {
                 setOpen(false);
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
-        document.addEventListener("keydown", handleEscape);
+        document.addEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+        document.addEventListener(
+            "keydown",
+            handleEscape
+        );
 
         return () => {
             document.removeEventListener(
@@ -86,16 +97,31 @@ export default function SearchBox({
                 setLoading(true);
 
                 const response = await fetch(
-                    `/api/search?q=${encodeURIComponent(query)}`
+                    `/api/search?q=${encodeURIComponent(
+                        query
+                    )}`
                 );
 
-                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(
+                        "Search request failed"
+                    );
+                }
 
-                setResults(data);
-                setOpen(true);
+                const data: SearchResponse =
+                    await response.json();
+
+                const posts = data.posts ?? [];
+
+                setResults(posts);
+
+                setOpen(posts.length > 0);
             } catch (error) {
                 console.error(error);
+
                 setResults([]);
+
+                setOpen(true);
             } finally {
                 setLoading(false);
             }
@@ -122,7 +148,9 @@ export default function SearchBox({
                         setQuery(e.target.value)
                     }
                     onFocus={() => {
-                        if (results.length > 0) {
+                        if (
+                            query.trim().length >= 2
+                        ) {
                             setOpen(true);
                         }
                     }}
