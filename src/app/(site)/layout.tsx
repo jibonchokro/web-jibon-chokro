@@ -17,7 +17,14 @@ export default async function SiteLayout({
     <>
       <Header user={user} />
 
-      <main className="flex-1 bg-[#f4f4f4]">
+      <main
+        className="
+            flex-1
+            bg-[#ffffffa6]
+            bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)]
+            bg-[size:15px_15px]
+          "
+      >
         {children}
       </main>
 

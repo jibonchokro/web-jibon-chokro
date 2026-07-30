@@ -12,7 +12,7 @@ export default function Categories({
     categories,
 }: CategoriesProps) {
     return (
-        <section className="border-t border-black/10 py-12 sm:py-16">
+        <section className="py-2 sm:py-4">
             <Container>
 
                 {/* Header */}

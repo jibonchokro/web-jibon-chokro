@@ -1,5 +1,8 @@
-import { ArrowRight } from "lucide-react";
+"use client";
+
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
 
 import PostCard from "@/components/post/PostCard";
 import Container from "@/components/ui/Container";
@@ -15,9 +18,24 @@ export default function FeaturedPosts({
 }: FeaturedPostsProps) {
     const featuredPosts = posts.slice(0, 20);
 
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    function scroll(direction: "left" | "right") {
+        if (!scrollRef.current) {
+            return;
+        }
+
+        scrollRef.current.scrollBy({
+            left:
+                direction === "left"
+                    ? -340
+                    : 340,
+            behavior: "smooth",
+        });
+    }
+
     return (
         <section className="py-8 sm:py-10 lg:py-12">
-
             <Container>
 
                 {/* Header */}
@@ -32,14 +50,46 @@ export default function FeaturedPosts({
 
                     </div>
 
-                    <Link
-                        href="/posts"
-                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
-                    >
-                        সব লেখা
+                    <div className="flex items-center gap-2">
 
-                        <ArrowRight size={16} />
-                    </Link>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                scroll("left")
+                            }
+                            aria-label="Scroll left"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                        >
+                            <ChevronLeft
+                                size={18}
+                            />
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                scroll("right")
+                            }
+                            aria-label="Scroll right"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                        >
+                            <ChevronRight
+                                size={18}
+                            />
+                        </button>
+
+                        <Link
+                            href="/posts"
+                            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition hover:bg-muted"
+                        >
+                            সব লেখা
+
+                            <ArrowRight
+                                size={16}
+                            />
+                        </Link>
+
+                    </div>
 
                 </div>
 
@@ -51,14 +101,28 @@ export default function FeaturedPosts({
 
                 ) : (
 
-                    <div className="-mx-4 overflow-x-auto px-4 scrollbar-hide">
+                    <div
+                        ref={scrollRef}
+                        className="
+                            flex
+                            snap-x
+                            snap-mandatory
+                            gap-4
+                            overflow-x-auto
+                            pb-2
+                            [-ms-overflow-style:none]
+                            [scrollbar-width:none]
+                            [&::-webkit-scrollbar]:hidden
+                        "
+                    >
 
-                        <div className="flex snap-x snap-mandatory gap-4 pb-2">
-
-                            {featuredPosts.map((post) => (
+                        {featuredPosts.map(
+                            (post) => (
 
                                 <div
-                                    key={post._id}
+                                    key={
+                                        post._id
+                                    }
                                     className="
                                         w-[250px]
                                         shrink-0
@@ -67,19 +131,21 @@ export default function FeaturedPosts({
                                         lg:w-[300px]
                                     "
                                 >
-                                    <PostCard post={post} />
+                                    <PostCard
+                                        post={
+                                            post
+                                        }
+                                    />
                                 </div>
 
-                            ))}
-
-                        </div>
+                            )
+                        )}
 
                     </div>
 
                 )}
 
             </Container>
-
         </section>
     );
 }

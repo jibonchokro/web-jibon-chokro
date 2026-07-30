@@ -6,22 +6,40 @@ import {
     Sparkles,
     Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="relative overflow-hidden border-b border-black/10 bg-gradient-to-b from-red-50/50 via-background to-background">
+        <section className="relative overflow-hidden border-b border-black/10">
+
+            {/* Background Image */}
+
+            <div className="absolute inset-0">
+                <Image
+                    src="/HeroBackground.jpeg"
+                    alt=""
+                    fill
+                    priority
+                    className="object-cover opacity-5"
+                />
+            </div>
+
+            {/* White Overlay */}
+
+            <div className="absolute inset-0 bg-[#a8f8ff61]" />
 
             {/* Background Blur */}
 
             <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl" />
+
             <Container>
 
                 <div className="relative mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
 
                     {/* Badge */}
 
-                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/25 bg-black/20 px-4 py-2 text-sm font-medium text-muted-foreground">
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/20 bg-black/15 px-4 py-2 text-sm font-medium text-black">
 
                         <Sparkles size={15} />
 
@@ -47,7 +65,7 @@ export default function Hero() {
 
                     {/* Description */}
 
-                    <p className="mt-6 max-w-3xl text-base leading-8 text-muted-foreground sm:mt-8 sm:text-md lg:text-xl">
+                    <p className="mt-6 max-w-3xl text-base leading-8 text-black sm:mt-8 sm:text-md lg:text-xl">
 
                         জীবন চক্রে পাবেন অনুপ্রেরণামূলক লেখা,
                         বাস্তব জীবনের শিক্ষা, সফলতার গল্প,
@@ -62,7 +80,7 @@ export default function Hero() {
 
                     <div className="mt-8 flex w-full justify-center sm:mt-10">
 
-                        <SearchBox className="w-full max-w-[520px]" />
+                        <SearchBox className="w-full rounded-xl bg-white max-w-[520px]" />
 
                     </div>
 

@@ -5,7 +5,7 @@ import Container from "@/components/ui/Container";
 
 export default function FacebookSection() {
     return (
-        <section className="py-8 sm:py-10 lg:py-12">
+        <section className="pt-4 pb-8 sm:pb-10 lg:pb-12">
             <Container>
 
                 <div className="relative overflow-hidden rounded-3xl border border-black/50">
@@ -21,7 +21,7 @@ export default function FacebookSection() {
 
                     {/* Dark Overlay */}
 
-                    <div className="absolute inset-0 bg-black/65" />
+                    <div className="absolute inset-0 bg-[#009dff80]" />
 
                     {/* Blur Layer */}
 

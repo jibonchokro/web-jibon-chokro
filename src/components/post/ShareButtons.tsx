@@ -90,24 +90,14 @@ export default function ShareButtons({
     }
 
     return (
-        <section className="mt-8 border-t border-black/10 pt-6">
+        <section className="flex items-center">
             <Button
                 variant="outline"
                 size="icon"
                 onClick={() => setOpen(true)}
-                className="
-                    h-10
-                    w-10
-                    rounded-full
-                    border-gray-200
-                    bg-white
-                    shadow-none
-                    transition-colors
-                    hover:border-gray-300
-                    hover:bg-gray-50
-                "
+                className="text-muted-foreground border-none bg-muted h-[35px] w-[35px] p-0 hover:text-foreground"
             >
-                <Share2 className="size-4" />
+                <Share2 className="size-[18px]" />
             </Button>
 
             <Dialog
@@ -147,8 +137,8 @@ export default function ShareButtons({
 
                         {/* Scrollable */}
 
-                        <div className="min-w-0 flex-1 overflow-x-auto overflow-y-none scrollbar-hide">
-                            <div className="flex w-max gap-3 sm:gap-4 lg:gap-4 pb-1">
+                        <div className="min-w-0 flex-1 overflow-x-auto overflow-y-hidden scrollbar-hide">
+                            <div className="flex w-max gap-3 sm:gap-4 lg:gap-4">
 
                                 <FacebookShareButton
                                     url={url}

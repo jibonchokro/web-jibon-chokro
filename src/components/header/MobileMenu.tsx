@@ -1,10 +1,7 @@
 "use client";
 
-import SearchBox from "@/components/search/SearchBox";
 import { mobileNavigation } from "@/constants/navigation";
-import {
-    X
-} from "lucide-react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -42,22 +39,37 @@ export default function MobileMenu({
         return pathname.startsWith(href);
     };
 
-    if (!mobileOpen) {
-        return null;
-    }
-
     return (
         <>
             {/* Backdrop */}
 
             <div
-                className="fixed inset-0 z-[90] bg-black/45 backdrop-blur-sm lg:hidden"
                 onClick={() => setMobileOpen(false)}
+                className={`
+                    fixed inset-0 z-[90] lg:hidden
+                    bg-black/45 backdrop-blur-sm
+                    transition-opacity duration-300
+                    ${mobileOpen
+                        ? "opacity-100 pointer-events-auto"
+                        : "opacity-0 pointer-events-none"
+                    }
+                `}
             />
 
             {/* Full Screen Menu */}
 
-            <aside className="fixed inset-0 z-[100] flex h-dvh flex-col overflow-hidden bg-white lg:hidden">
+            <aside
+                className={`
+                    fixed inset-y-0 left-0 z-[100]
+                    flex h-dvh w-full flex-col overflow-hidden bg-white
+                    transition-transform duration-300 ease-out
+                    lg:hidden
+                    ${mobileOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full"
+                    }
+                `}
+            >
 
                 {/* Header */}
 
@@ -65,19 +77,15 @@ export default function MobileMenu({
 
                     <div className="flex h-16 items-center justify-between px-5">
 
-                        <div>
-
-                            <p className="text-lg font-bold">
-                                Menu
-                            </p>
-
-                        </div>
+                        <p className="text-lg font-bold">
+                            Menu
+                        </p>
 
                         <button
                             type="button"
                             aria-label="Close Menu"
                             onClick={() => setMobileOpen(false)}
-                            className="rounded-xl border border-black/10 p-2 transition hover:bg-gray-100"
+                            className="rounded-lg border border-black/10 p-1 transition hover:bg-gray-100"
                         >
                             <X size={22} />
                         </button>
@@ -86,21 +94,16 @@ export default function MobileMenu({
 
                 </div>
 
-                {/* Search */}
-
-                <div className="shrink-0 border-b border-black/10 bg-white p-3">
-
-                    <SearchBox className="w-full" />
-
-                </div>
-
                 {/* Scrollable Content */}
 
                 <div className="flex-1 overflow-y-auto">
+
                     <nav className="p-5">
 
                         <div className="space-y-2">
+
                             {mobileNavigation.map((item) => (
+
                                 <Link
                                     key={item.href}
                                     href={item.href}
@@ -112,11 +115,13 @@ export default function MobileMenu({
                                 >
                                     <span>{item.label}</span>
                                 </Link>
+
                             ))}
 
                         </div>
 
                     </nav>
+
                 </div>
 
                 {/* Footer */}
