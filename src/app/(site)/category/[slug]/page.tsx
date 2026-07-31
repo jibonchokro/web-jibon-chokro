@@ -1,7 +1,13 @@
+import {
+    ChevronRight,
+    FolderOpen,
+} from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import PostCard from "@/components/post/PostCard";
+import CategoryToolbar from "@/components/category/CategoryToolbar";
+import Container from "@/components/ui/Container";
 
 import {
     getCategoryBySlug,
@@ -11,24 +17,19 @@ import {
     getPostsByCategory,
 } from "@/services/post.service";
 
-
 interface Props {
     params: Promise<{
         slug: string;
     }>;
 }
 
-
-
 export async function generateMetadata({
     params,
 }: Props): Promise<Metadata> {
-
     const { slug } = await params;
 
-
-    const category = await getCategoryBySlug(slug);
-
+    const category =
+        await getCategoryBySlug(slug);
 
     if (!category) {
         return {
@@ -36,89 +37,106 @@ export async function generateMetadata({
         };
     }
 
-
     return {
         title: category.title,
-        description:
-            category.description ??
-            `${category.title} বিভাগের সকল লেখা`,
+        description: `${category.title} বিভাগের সকল লেখা`,
     };
 }
-
-
 
 export default async function CategoryPage({
     params,
 }: Props) {
-
     const { slug } = await params;
 
-
-    const category = await getCategoryBySlug(slug);
-
+    const category =
+        await getCategoryBySlug(slug);
 
     if (!category) {
         notFound();
     }
 
-
-    const posts = await getPostsByCategory(slug);
-
-
+    const posts =
+        await getPostsByCategory(slug);
 
     return (
+        <main className="py-8 sm:py-10 lg:py-12">
 
-        <main className="mx-auto max-w-7xl px-4 py-16">
+            <Container>
 
+                {/* Breadcrumb */}
 
-            <header className="mb-12">
+                <nav className="mb-5 flex items-center gap-2 text-sm text-muted-foreground">
 
-                <h1 className="text-4xl font-bold">
-                    {category.title}
-                </h1>
+                    <Link
+                        href="/"
+                        className="transition hover:text-foreground"
+                    >
+                        হোম
+                    </Link>
 
+                    <ChevronRight size={15} />
 
-                {category.description && (
-                    <p className="mt-4 max-w-3xl text-lg text-gray-600">
-                        {category.description}
-                    </p>
-                )}
+                    <Link
+                        href="/categories"
+                        className="transition hover:text-foreground"
+                    >
+                        বিভাগসমূহ
+                    </Link>
 
-            </header>
+                    <ChevronRight size={15} />
 
+                    <span className="font-medium text-foreground">
+                        {category.title}
+                    </span>
 
+                </nav>
 
-            {
-                posts.length > 0 ? (
+                {/* Header */}
 
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <section className="rounded-3xl border border-black/10 bg-white p-5 sm:p-6 lg:p-8">
 
-                        {
-                            posts.map((post) => (
+                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-4 py-2 text-sm font-medium">
 
-                                <PostCard
-                                    key={post._id}
-                                    post={post}
-                                />
+                        <FolderOpen size={16} />
 
-                            ))
-                        }
-
-                    </div>
-
-                ) : (
-
-                    <div className="rounded-xl border p-10 text-center text-gray-600">
-
-                        এই বিভাগে এখনো কোনো লেখা প্রকাশিত হয়নি।
+                        বিভাগ
 
                     </div>
 
-                )
-            }
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
+                        <h1 className="text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+
+                            {category.title}
+
+                        </h1>
+
+                        <div className="inline-flex items-center rounded-full border border-black/10 bg-background px-4 py-2 text-sm font-medium whitespace-nowrap">
+
+                            মোট&nbsp;
+                            <span className="font-bold">
+                                {posts.length}
+                            </span>
+                            &nbsp;টি লেখা
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                {/* Posts */}
+
+                <section className="mt-8">
+
+                    <CategoryToolbar
+                        posts={posts}
+                    />
+
+                </section>
+
+            </Container>
 
         </main>
-
     );
 }

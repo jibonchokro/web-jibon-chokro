@@ -44,6 +44,7 @@ export default function PostCard({
                 group
                 flex
                 h-full
+                min-w-0
                 flex-col
                 overflow-hidden
                 rounded-xl
