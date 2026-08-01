@@ -32,48 +32,49 @@ export default function SidebarFollowUs() {
     ];
 
     return (
-        <section className="rounded-xl border border-black/10 bg-white p-5">
+        <section className="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-custom">
 
-            <h2 className="mb-4 text-base font-semibold tracking-tight text-foreground">
-                আমাদের অনুসরণ করুন
-            </h2>
+            <div className="flex items-center justify-between">
 
-            <div className="grid grid-cols-4 gap-4">
+                <h2 className="text-sm font-semibold tracking-tight text-foreground">
+                    অনুসরণ করুন:
+                </h2>
 
-                {socialLinks.map((item) => {
-                    const Icon = item.icon;
+                <div className="flex items-center gap-2">
 
-                    return (
-                        <Link
-                            key={item.name}
-                            href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={item.name}
-                            className="
-                                group
-                                flex
-                                aspect-square
-                                items-center
-                                justify-center
-                                rounded-xl
-                                border
-                                border-black/10
-                                bg-white
-                                text-muted-foreground
-                                transition-all
-                                duration-200
-                                hover:bg-muted
-                                hover:text-foreground
-                            "
-                        >
-                            <Icon
-                                size={24}
-                                className="transition-transform duration-200 group-hover:scale-110"
-                            />
-                        </Link>
-                    );
-                })}
+                    {socialLinks.map((item) => {
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={item.name}
+                                className="
+                                    flex
+                                    h-9
+                                    w-9
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    border
+                                    border-black/10
+                                    bg-background
+                                    text-muted-foreground
+                                    transition-all
+                                    duration-200
+                                    hover:bg-muted
+                                    hover:text-foreground
+                                "
+                            >
+                                <Icon size={16} />
+                            </Link>
+                        );
+                    })}
+
+                </div>
 
             </div>
 

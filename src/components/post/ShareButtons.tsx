@@ -95,7 +95,7 @@ export default function ShareButtons({
                 variant="outline"
                 size="icon"
                 onClick={() => setOpen(true)}
-                className="text-muted-foreground border-none bg-muted h-[35px] w-[35px] p-0 hover:text-foreground"
+                className="text-[#555] border-none bg-muted h-[35px] w-[35px] p-0 hover:text-foreground"
             >
                 <Share2 className="size-[18px]" />
             </Button>

@@ -23,7 +23,7 @@ export default function SidebarLatestPosts({
     }
 
     return (
-        <section className="rounded-xl border border-black/10 bg-white p-5">
+        <section className="rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
 
 
             {/* Header */}

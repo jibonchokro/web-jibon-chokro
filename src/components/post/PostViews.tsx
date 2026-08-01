@@ -66,7 +66,7 @@ export default function PostViews({
     }, [postId]);
 
     return (
-        <div className="inline-flex items-center gap-2 text-[16px] sm:text-[18px] lg:text-[18px] text-muted-foreground">
+        <div className="inline-flex items-center gap-2 text-[16px] sm:text-[18px] lg:text-[18px] text-[#555]">
             <Eye
                 size={20}
                 className="shrink-0"

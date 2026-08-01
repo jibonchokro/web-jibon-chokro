@@ -100,55 +100,58 @@ export default async function SinglePostPage({
 
     return (
         <main className="mx-auto max-w-[1158px] px-3 py-4 sm:px-4 sm:py-6 lg:px-4 lg:py-8">
+
+            <nav
+                aria-label="Breadcrumb"
+                className="mb-5 overflow-hidden sm:mb-6"
+            >
+                <ol className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-xs text-muted-foreground sm:gap-2 sm:text-sm">
+                    <li className="shrink-0">
+                        <Link
+                            href="/"
+                            className="transition-colors hover:text-foreground"
+                        >
+                            হোম
+                        </Link>
+                    </li>
+
+                    <ChevronRight size={14} className="shrink-0" />
+
+                    <li className="shrink-0">
+                        <Link
+                            href="/posts"
+                            className="transition-colors hover:text-foreground"
+                        >
+                            সকল লেখা
+                        </Link>
+                    </li>
+
+                    {post.category && (
+                        <>
+                            <ChevronRight size={14} className="shrink-0" />
+
+                            <li className="shrink-0">
+                                <Link
+                                    href={`/category/${post.category.slug.current}`}
+                                    className="transition-colors hover:text-foreground"
+                                >
+                                    {post.category.title}
+                                </Link>
+                            </li>
+                        </>
+                    )}
+
+                    <ChevronRight size={14} className="shrink-0" />
+
+                    <li className="min-w-0 flex-1 truncate font-medium text-foreground">
+                        {post.title}
+                    </li>
+                </ol>
+            </nav>
+
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
-                <article className="min-w-0 h-fit rounded-xl border border-black/10 bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-                    <nav
-                        aria-label="Breadcrumb"
-                        className="mb-5 overflow-hidden sm:mb-6"
-                    >
-                        <ol className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-xs text-muted-foreground sm:gap-2 sm:text-sm">
-                            <li className="shrink-0">
-                                <Link
-                                    href="/"
-                                    className="transition-colors hover:text-foreground"
-                                >
-                                    হোম
-                                </Link>
-                            </li>
 
-                            <ChevronRight size={14} className="shrink-0" />
-
-                            <li className="shrink-0">
-                                <Link
-                                    href="/posts"
-                                    className="transition-colors hover:text-foreground"
-                                >
-                                    সকল লেখা
-                                </Link>
-                            </li>
-
-                            {post.category && (
-                                <>
-                                    <ChevronRight size={14} className="shrink-0" />
-
-                                    <li className="shrink-0">
-                                        <Link
-                                            href={`/category/${post.category.slug.current}`}
-                                            className="transition-colors hover:text-foreground"
-                                        >
-                                            {post.category.title}
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-
-                            <ChevronRight size={14} className="shrink-0" />
-
-                            <li className="min-w-0 flex-1 truncate font-medium text-foreground">
-                                {post.title}
-                            </li>
-                        </ol>
-                    </nav>
+                <article className="min-w-0 h-fit rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
                     <header>
                         {/* Category */}
@@ -197,7 +200,7 @@ export default async function SinglePostPage({
                                             text-[16px]
                                             sm:text-[18px]
                                             font-base
-                                            text-muted-foreground
+                                            text-[#555]
                                         "
                                     >
                                         <Clock

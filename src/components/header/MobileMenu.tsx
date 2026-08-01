@@ -47,7 +47,7 @@ export default function MobileMenu({
                 onClick={() => setMobileOpen(false)}
                 className={`
                     fixed inset-0 z-[90] lg:hidden
-                    bg-black/45 backdrop-blur-sm
+                    bg-black/45 h-dvh backdrop-blur-sm
                     transition-opacity duration-300
                     ${mobileOpen
                         ? "opacity-100 pointer-events-auto"
@@ -61,7 +61,7 @@ export default function MobileMenu({
             <aside
                 className={`
                     fixed inset-y-0 left-0 z-[100]
-                    flex h-dvh w-full flex-col overflow-hidden bg-white
+                    flex h-dvh w-[100%] max-w-[320px] flex-col overflow-hidden bg-white
                     transition-transform duration-300 ease-out
                     lg:hidden
                     ${mobileOpen
@@ -126,7 +126,7 @@ export default function MobileMenu({
 
                 {/* Footer */}
 
-                <div className="sticky bottom-0 z-20 shrink-0 border-t border-black/10 bg-white/95 backdrop-blur-md shadow-[0_0_10px_0_rgba(0,0,0,0.05)]">
+                <div className="sticky bottom-0 z-20 shrink-0 border-t border-black/10 bg-white/95 backdrop-blur-md">
 
                     <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-black/3 px-3 pt-3 pb-2 text-[12px] text-gray-500">
 
@@ -164,7 +164,7 @@ export default function MobileMenu({
 
                     </div>
 
-                    <p className="px-3 pb-3 pt-2 text-center text-xs text-gray-500">
+                    <p className="px-3 pb-3 pt-2 text-center text-[10px] text-gray-500">
                         © {new Date().getFullYear()} Jibonchokro. All rights reserved.
                     </p>
 

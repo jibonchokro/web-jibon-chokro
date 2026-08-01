@@ -109,8 +109,8 @@ export default function BookmarkButton({
                 <Bookmark
                     size={20}
                     className={`transition-colors ${bookmarked
-                        ? "fill-black text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "fill-[#555] text-[#555] hover:fill-foreground hover:text-foreground"
+                        : "text-[#555] hover:text-foreground"
                         }`}
                 />
             </button>
