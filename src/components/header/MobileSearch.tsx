@@ -115,7 +115,7 @@ export default function MobileSearch() {
                 `}
             >
                 <Container>
-                    <div className="flex h-16 items-center gap-2">
+                    <div className="flex h-16 items-center">
 
                         {/* Back Button */}
 
