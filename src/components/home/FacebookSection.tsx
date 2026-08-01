@@ -40,7 +40,7 @@ export default function FacebookSection() {
 
                     <div className="relative px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
 
-                        <div className="grid items-center gap-10 lg:grid-cols-[1fr_280px]">
+                        <div className="grid items-center gap-6 sm:gap-10 lg:grid-cols-[1fr_280px]">
 
                             {/* Left */}
 
@@ -61,7 +61,7 @@ export default function FacebookSection() {
 
                                 </h2>
 
-                                <p className="mt-4 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+                                <p className="mt-6 sm:mt-4 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
 
                                     জীবনচক্র Facebook Page-এ প্রতিদিন
                                     প্রকাশিত হয় অনুপ্রেরণামূলক লেখা,
@@ -74,7 +74,7 @@ export default function FacebookSection() {
 
                                 {/* Features */}
 
-                                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                                <div className="mt-4 hidden gap-4 sm:grid sm:grid-cols-2">
 
                                     <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur-md">
 
