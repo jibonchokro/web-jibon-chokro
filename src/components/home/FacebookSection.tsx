@@ -188,7 +188,7 @@ export default function FacebookSection() {
 
                                     <Users className="h-4 w-4" />
 
-                                    হাজারো পাঠকের সাথে যুক্ত হন
+                                    লাখো পাঠকের সাথে যুক্ত হন
 
                                 </div>
                             </div>
