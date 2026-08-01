@@ -170,9 +170,7 @@ export default function FacebookSection() {
                                 </h3>
 
                                 <p className="mt-2 text-sm leading-7 text-white/70">
-                                    প্রতিদিন নতুন জ্ঞান,
-                                    অনুপ্রেরণা ও ইতিবাচক
-                                    চিন্তার উৎস।
+                                    জীবনকে সমৃদ্ধ করার বাংলা জ্ঞানভান্ডার
                                 </p>
 
                                 <Link
