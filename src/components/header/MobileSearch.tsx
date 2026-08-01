@@ -3,10 +3,15 @@
 import SearchBox from "@/components/search/SearchBox";
 import Container from "@/components/ui/Container";
 import { ArrowLeft, Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
 export default function MobileSearch() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] =
+        useState(false);
 
     const wrapperRef =
         useRef<HTMLDivElement>(null);
@@ -64,12 +69,9 @@ export default function MobileSearch() {
             return;
         }
 
-        const timer = setTimeout(() => {
+        requestAnimationFrame(() => {
             inputRef.current?.focus();
-        }, 150);
-
-        return () =>
-            clearTimeout(timer);
+        });
     }, [open]);
 
     return (
@@ -98,11 +100,11 @@ export default function MobileSearch() {
                     inset-x-0
                     top-0
                     z-[200]
+                    origin-top
                     border-b
                     border-black/10
                     bg-white
                     shadow-sm
-                    origin-top
                     transition-all
                     duration-200
                     ease-out
@@ -113,8 +115,7 @@ export default function MobileSearch() {
                 `}
             >
                 <Container>
-
-                    <div className="flex h-16 items-center">
+                    <div className="flex h-16 items-center gap-2">
 
                         {/* Back Button */}
 
@@ -124,7 +125,7 @@ export default function MobileSearch() {
                             onClick={() =>
                                 setOpen(false)
                             }
-                            className="flex h-10 w-8 -ml-1 shrink-0 items-center justify-start rounded-full transition hover:bg-muted"
+                            className="flex h-10 w-8 shrink-0 items-center justify-start rounded-full transition hover:bg-muted"
                         >
                             <ArrowLeft className="size-6" />
                         </button>
@@ -132,19 +133,15 @@ export default function MobileSearch() {
                         {/* Search */}
 
                         <div className="min-w-0 flex-1">
-
                             <SearchBox
+                                ref={inputRef}
                                 className="w-full"
                             />
-
                         </div>
 
                     </div>
-
                 </Container>
-
             </div>
-
         </div>
     );
 }

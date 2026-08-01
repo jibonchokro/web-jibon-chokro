@@ -11,31 +11,37 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="relative overflow-hidden border-b border-black/10">
+        <section className="relative border-b border-black/10">
 
-            {/* Background Image */}
+            {/* Background (clipped only) */}
 
-            <div className="absolute inset-0">
-                <Image
-                    src="/HeroBackground.jpeg"
-                    alt=""
-                    fill
-                    priority
-                    className="object-cover opacity-5"
-                />
+            <div className="absolute inset-0 overflow-hidden">
+
+                {/* Background Image */}
+
+                <div className="absolute inset-0">
+                    <Image
+                        src="/HeroBackground.jpeg"
+                        alt=""
+                        fill
+                        priority
+                        className="object-cover opacity-5"
+                    />
+                </div>
+
+                {/* White Overlay */}
+
+                <div className="absolute inset-0 bg-[#a8f8ff61]" />
+
+                {/* Background Blur */}
+
+                <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl" />
+
             </div>
-
-            {/* White Overlay */}
-
-            <div className="absolute inset-0 bg-[#a8f8ff61]" />
-
-            {/* Background Blur */}
-
-            <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl" />
 
             <Container>
 
-                <div className="relative mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
+                <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
 
                     {/* Badge */}
 
@@ -47,7 +53,6 @@ export default function Hero() {
 
                     </div>
 
-
                     {/* Title */}
 
                     <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -56,12 +61,11 @@ export default function Hero() {
                             জীবনকে সমৃদ্ধ করার
                         </span>
 
-                        <span className="text-3xl sm:text-4xl lg:text-5xl block font-black">
+                        <span className="block text-3xl font-black sm:text-4xl lg:text-5xl">
                             বাংলা জ্ঞানভান্ডার
                         </span>
 
                     </h1>
-
 
                     {/* Description */}
 
@@ -75,15 +79,15 @@ export default function Hero() {
 
                     </p>
 
-
                     {/* Search */}
 
-                    <div className="mt-8 flex w-full justify-center sm:mt-10">
+                    <div className="relative z-50 mt-8 flex w-full justify-center sm:mt-10">
 
-                        <SearchBox className="w-full rounded-xl bg-white max-w-[520px]" />
+                        <SearchBox
+                            className="w-full max-w-[520px] rounded-xl bg-white"
+                        />
 
                     </div>
-
 
                     {/* Popular Search */}
 
@@ -92,7 +96,6 @@ export default function Hero() {
                         <span className="text-sm text-muted-foreground">
                             জনপ্রিয়:
                         </span>
-
 
                         {[
                             "উক্তি",
@@ -115,10 +118,9 @@ export default function Hero() {
 
                     </div>
 
-
                     {/* CTA */}
 
-                    <div className="mt-6 flex w-full justify-center gap-3 sm:mt-8 flex-row">
+                    <div className="mt-6 flex w-full flex-row justify-center gap-3 sm:mt-8">
 
                         <Link
                             href="/posts"
@@ -131,7 +133,6 @@ export default function Hero() {
 
                         </Link>
 
-
                         <Link
                             href="/categories"
                             className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-7 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
@@ -142,7 +143,6 @@ export default function Hero() {
                         </Link>
 
                     </div>
-
 
                     {/* Stats */}
 
@@ -165,7 +165,6 @@ export default function Hero() {
 
                         </div>
 
-
                         <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
                             <Users
@@ -182,7 +181,6 @@ export default function Hero() {
                             </p>
 
                         </div>
-
 
                         <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 

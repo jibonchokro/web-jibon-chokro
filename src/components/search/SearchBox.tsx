@@ -1,7 +1,12 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {
+    forwardRef,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
 import SearchResults from "./SearchResults";
 
@@ -27,18 +32,29 @@ interface SearchBoxProps {
     className?: string;
 }
 
-export default function SearchBox({
-    className = "",
-}: SearchBoxProps) {
+const SearchBox = forwardRef<
+    HTMLInputElement,
+    SearchBoxProps
+>(function SearchBox(
+    {
+        className = "",
+    }: SearchBoxProps,
+    ref
+) {
     const [query, setQuery] = useState("");
 
-    const [results, setResults] = useState<SearchPost[]>([]);
+    const [results, setResults] = useState<
+        SearchPost[]
+    >([]);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] =
+        useState(false);
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] =
+        useState(false);
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
+    const wrapperRef =
+        useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (
@@ -92,42 +108,50 @@ export default function SearchBox({
             return;
         }
 
-        const timeout = setTimeout(async () => {
-            try {
-                setLoading(true);
+        const timeout = setTimeout(
+            async () => {
+                try {
+                    setLoading(true);
 
-                const response = await fetch(
-                    `/api/search?q=${encodeURIComponent(
-                        query
-                    )}`
-                );
+                    const response =
+                        await fetch(
+                            `/api/search?q=${encodeURIComponent(
+                                query
+                            )}`
+                        );
 
-                if (!response.ok) {
-                    throw new Error(
-                        "Search request failed"
+                    if (!response.ok) {
+                        throw new Error(
+                            "Search request failed"
+                        );
+                    }
+
+                    const data: SearchResponse =
+                        await response.json();
+
+                    const posts =
+                        data.posts ?? [];
+
+                    setResults(posts);
+
+                    setOpen(
+                        posts.length > 0
                     );
+                } catch (error) {
+                    console.error(error);
+
+                    setResults([]);
+
+                    setOpen(true);
+                } finally {
+                    setLoading(false);
                 }
+            },
+            300
+        );
 
-                const data: SearchResponse =
-                    await response.json();
-
-                const posts = data.posts ?? [];
-
-                setResults(posts);
-
-                setOpen(posts.length > 0);
-            } catch (error) {
-                console.error(error);
-
-                setResults([]);
-
-                setOpen(true);
-            } finally {
-                setLoading(false);
-            }
-        }, 300);
-
-        return () => clearTimeout(timeout);
+        return () =>
+            clearTimeout(timeout);
     }, [query]);
 
     return (
@@ -136,20 +160,26 @@ export default function SearchBox({
             className={`relative ${className}`}
         >
             <div className="relative">
+
                 <Search
                     size={18}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 />
 
                 <input
+                    ref={ref}
                     type="search"
                     value={query}
                     onChange={(e) =>
-                        setQuery(e.target.value)
+                        setQuery(
+                            e.target.value
+                        )
                     }
                     onFocus={() => {
                         if (
-                            query.trim().length >= 2
+                            query
+                                .trim()
+                                .length >= 2
                         ) {
                             setOpen(true);
                         }
@@ -158,6 +188,7 @@ export default function SearchBox({
                     autoComplete="off"
                     className="w-full rounded-xl border border-gray-300 bg-transparent py-2 pl-10 pr-4 outline-none transition focus:border-gray-400"
                 />
+
             </div>
 
             <SearchResults
@@ -165,8 +196,14 @@ export default function SearchBox({
                 loading={loading}
                 query={query}
                 results={results}
-                onSelect={() => setOpen(false)}
+                onSelect={() =>
+                    setOpen(false)
+                }
             />
         </div>
     );
-}
+});
+
+SearchBox.displayName = "SearchBox";
+
+export default SearchBox;

@@ -36,8 +36,25 @@ export default function SearchResults({
     }
 
     return (
-        <div className="absolute left-0 right-0 top-full z-50 mt-[10.5px] flex max-h-[min(70vh,600px)] flex-col overflow-hidden rounded-lg border border-black/10 bg-white/98 shadow-xl">
-
+        <div
+            className="
+                absolute
+                left-0
+                right-0
+                top-full
+                z-[999]
+                mt-3
+                flex
+                max-h-[70vh]
+                flex-col
+                overflow-hidden
+                rounded-xl
+                border
+                border-black/10
+                bg-white
+                shadow-xl
+            "
+        >
             {loading && (
                 <div className="p-8 text-center text-sm text-muted-foreground">
                     খোঁজা হচ্ছে...
@@ -55,7 +72,14 @@ export default function SearchResults({
             {!loading && results.length > 0 && (
                 <>
                     {/* Results */}
-                    <div className="flex-1 overflow-y-auto">
+
+                    <div
+                        className="
+                            flex-1
+                            overflow-y-auto
+                            overscroll-contain
+                        "
+                    >
                         {results.map((post) => (
                             <SearchResultItem
                                 key={post._id}
@@ -66,11 +90,26 @@ export default function SearchResults({
                     </div>
 
                     {/* Footer */}
+
                     <div className="border-t border-black/10 bg-muted/40 p-2">
+
                         <Link
                             href={`/search?q=${encodeURIComponent(query)}`}
                             onClick={onSelect}
-                            className="flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                            className="
+                                flex
+                                items-center
+                                justify-center
+                                gap-1
+                                rounded-lg
+                                px-3
+                                py-2
+                                text-sm
+                                font-medium
+                                text-foreground
+                                transition-colors
+                                hover:bg-muted
+                            "
                         >
                             <span className="max-w-[40vw] truncate sm:max-w-xs">
                                 "{query}"
@@ -79,11 +118,12 @@ export default function SearchResults({
                             <span className="shrink-0">
                                 এর সকল ফলাফল দেখুন
                             </span>
+
                         </Link>
+
                     </div>
                 </>
             )}
-
         </div>
     );
 }

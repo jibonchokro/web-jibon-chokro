@@ -1,5 +1,3 @@
-import Footer from "@/components/footer/Footer";
-import Header from "@/components/header/Header";
 import SearchBox from "@/components/search/SearchBox";
 import { createClient } from "@/lib/supabase/server";
 
@@ -18,8 +16,6 @@ export default async function NotFound() {
 
     return (
         <>
-            <Header user={user} />
-
             <main className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-7xl items-center px-6 py-16">
 
                 <div className="mx-auto w-full max-w-3xl text-center">
@@ -120,8 +116,6 @@ export default async function NotFound() {
                 </div>
 
             </main>
-
-            <Footer />
         </>
     );
 }

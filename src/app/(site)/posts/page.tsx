@@ -44,8 +44,7 @@ export default async function PostsPage() {
             category,
             posts: allPosts.filter(
                 (post) =>
-                    post.category?._id ===
-                    category._id
+                    post.category?._id === category._id
             ),
         })
     );
@@ -55,24 +54,86 @@ export default async function PostsPage() {
 
             {/* Hero */}
 
-            <header className="mx-auto mb-10 max-w-3xl text-center">
+            <header className="mb-10 rounded-xl border border-[#f0f0f0] bg-white p-6 shadow-custom sm:p-8">
 
-                <h1 className="text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
-                    সব লেখা
-                </h1>
+                <div className="mx-auto max-w-3xl text-center">
 
-                <p className="mt-5 text-base leading-8 text-muted-foreground sm:text-lg">
-                    সকল বিভাগ, সর্বশেষ প্রকাশিত লেখা এবং
-                    জনপ্রিয় বিষয়গুলো এক জায়গায়।
-                </p>
+                    <span className="inline-flex rounded-full border border-black/10 bg-muted px-4 py-1.5 text-sm font-medium">
+                        জীবনচক্র আর্কাইভ
+                    </span>
+
+                    <h1 className="mt-5 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                        সব লেখা
+                    </h1>
+
+                    <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
+                        সকল বিভাগ, সর্বশেষ প্রকাশিত লেখা এবং জনপ্রিয় বিষয়গুলো
+                        এক জায়গায় সাজানো হয়েছে। আপনার পছন্দের বিভাগ নির্বাচন
+                        করে সহজেই পড়া শুরু করুন।
+                    </p>
+
+                </div>
+
+                {/* Stats */}
+
+                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+
+                    <div className="rounded-lg border border-black/10 bg-background p-4 text-center">
+
+                        <div className="text-2xl font-bold">
+                            {allPosts.length}
+                        </div>
+
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            মোট লেখা
+                        </p>
+
+                    </div>
+
+                    <div className="rounded-lg border border-black/10 bg-background p-4 text-center">
+
+                        <div className="text-2xl font-bold">
+                            {categories.length}
+                        </div>
+
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            বিভাগ
+                        </p>
+
+                    </div>
+
+                    <div className="rounded-lg border border-black/10 bg-background p-4 text-center">
+
+                        <div className="text-2xl font-bold">
+                            {featuredPosts.length}
+                        </div>
+
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            নির্বাচিত
+                        </p>
+
+                    </div>
+
+                    <div className="rounded-lg border border-black/10 bg-background p-4 text-center">
+
+                        <div className="text-2xl font-bold">
+                            {latestPosts.length}
+                        </div>
+
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            সর্বশেষ
+                        </p>
+
+                    </div>
+
+                </div>
 
             </header>
 
             <div className="grid min-w-0">
 
-                {/* Main */}
-
                 <section className="min-w-0 space-y-12 overflow-hidden">
+
                     {postsByCategory.map(
                         ({
                             category,
@@ -85,12 +146,8 @@ export default async function PostsPage() {
 
                             return (
                                 <CategoryPostsSection
-                                    key={
-                                        category._id
-                                    }
-                                    category={
-                                        category
-                                    }
+                                    key={category._id}
+                                    category={category}
                                     posts={posts}
                                 />
                             );
