@@ -12,6 +12,7 @@ import SinglePostSidebar from "@/components/post/SinglePostSidebar";
 
 import { urlFor } from "@/sanity/lib/image";
 
+import CommentSection from "@/components/comments/CommentSection";
 import { isBookmarked } from "@/services/bookmark.service";
 import { getAllCategories } from "@/services/category.service";
 import {
@@ -150,46 +151,75 @@ export default async function SinglePostPage({
             </nav>
 
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
+                <div className="min-w-0">
+                    <article className="rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
-                <article className="min-w-0 h-fit rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                        <header>
+                            {/* Category */}
 
-                    <header>
-                        {/* Category */}
+                            {post.category && (
+                                <Link
+                                    href={`/category/${post.category.slug.current}`}
+                                    className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm"
+                                >
+                                    <FolderOpen size={15} />
 
-                        {post.category && (
-                            <Link
-                                href={`/category/${post.category.slug.current}`}
-                                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm"
-                            >
-                                <FolderOpen size={15} />
+                                    {post.category.title}
+                                </Link>
+                            )}
 
-                                {post.category.title}
-                            </Link>
-                        )}
+                            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted ml-3 px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm">
+                                <CalendarDays size={16} />
+                                <span>{publishedDate}</span>
+                            </div>
 
-                        <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted ml-3 px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm">
-                            <CalendarDays size={16} />
-                            <span>{publishedDate}</span>
-                        </div>
+                            {/* Title */}
 
-                        {/* Title */}
+                            <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:text-4xl">
+                                {post.title}
+                            </h1>
 
-                        <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:text-4xl">
-                            {post.title}
-                        </h1>
+                            {/* Action Bar */}
 
-                        {/* Action Bar */}
+                            <div className="mt-6 border-y border-black/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
 
-                        <div className="mt-6 border-y border-black/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+                                <div className="flex items-center justify-between py-3">
 
-                            <div className="flex items-center justify-between py-3">
+                                    {/* Left */}
 
-                                {/* Left */}
+                                    <div className="flex items-center">
 
-                                <div className="flex items-center">
+                                        <div
+                                            className="
+                                                inline-flex
+                                                h-[35px]
+                                                items-center
+                                                gap-2
+                                                rounded-lg
+                                                bg-muted
+                                                px-2.5
+                                                text-[16px]
+                                                sm:text-[18px]
+                                                font-base
+                                                text-[#555]
+                                            "
+                                        >
+                                            <Clock
+                                                size={18}
+                                                className="shrink-0"
+                                            />
 
-                                    <div
-                                        className="
+                                            <span>{post.readingTime} min</span>
+                                        </div>
+
+                                    </div>
+
+                                    {/* Right */}
+
+                                    <div className="flex items-center justify-center gap-3">
+
+                                        <div
+                                            className="
                                             inline-flex
                                             h-[35px]
                                             items-center
@@ -197,102 +227,80 @@ export default async function SinglePostPage({
                                             rounded-lg
                                             bg-muted
                                             px-2.5
-                                            text-[16px]
-                                            sm:text-[18px]
-                                            font-base
-                                            text-[#555]
+                                            text-muted-foreground
                                         "
-                                    >
-                                        <Clock
-                                            size={18}
-                                            className="shrink-0"
+                                        >
+                                            <PostViews
+                                                postId={post._id}
+                                                initialViews={initialViews}
+                                            />
+                                        </div>
+
+                                        <div
+                                            className="
+                                                flex
+                                                h-[35px]
+                                                w-[35px]
+                                                items-center
+                                                justify-center
+                                                rounded-lg
+                                                bg-muted
+                                                px-1
+                                            "
+                                        >
+                                            <BookmarkButton
+                                                postId={post._id}
+                                                initialBookmarked={initialBookmarked}
+                                            />
+                                        </div>
+
+                                        <ShareButtons
+                                            url={postUrl}
+                                            title={post.title}
                                         />
 
-                                        <span>{post.readingTime} min</span>
                                     </div>
-
-                                </div>
-
-                                {/* Right */}
-
-                                <div className="flex items-center justify-center gap-3">
-
-                                    <div
-                                        className="
-                                        inline-flex
-                                        h-[35px]
-                                        items-center
-                                        gap-2
-                                        rounded-lg
-                                        bg-muted
-                                        px-2.5
-                                        text-muted-foreground
-                                    "
-                                    >
-                                        <PostViews
-                                            postId={post._id}
-                                            initialViews={initialViews}
-                                        />
-                                    </div>
-
-                                    <div
-                                        className="
-                                            flex
-                                            h-[35px]
-                                            w-[35px]
-                                            items-center
-                                            justify-center
-                                            rounded-lg
-                                            bg-muted
-                                            px-1
-                                        "
-                                    >
-                                        <BookmarkButton
-                                            postId={post._id}
-                                            initialBookmarked={initialBookmarked}
-                                        />
-                                    </div>
-
-                                    <ShareButtons
-                                        url={postUrl}
-                                        title={post.title}
-                                    />
 
                                 </div>
 
                             </div>
 
+                        </header>
+
+                        <div className="prose prose-neutral mt-6 max-w-none prose-headings:mt-8 prose-headings:mb-4 prose-headings:font-bold prose-headings:text-foreground prose-p:my-5 prose-p:leading-8 prose-p:text-foreground/90 prose-a:text-foreground hover:prose-a:text-foreground prose-strong:text-foreground prose-ul:my-5 prose-ol:my-5 prose-li:my-1.5 prose-img:rounded-xl prose-blockquote:border-l-4 prose-blockquote:border-black/20 prose-blockquote:bg-muted prose-blockquote:px-5 prose-blockquote:py-3 prose-blockquote:italic sm:prose-lg sm:mt-8 sm:prose-headings:mt-10 sm:prose-p:my-6 sm:prose-p:leading-9">
+                            <PortableText
+                                value={post.content}
+                                components={portableTextComponents}
+                            />
                         </div>
 
-                    </header>
+                        {post.tags?.length > 0 && (
+                            <footer className="flex justify-start items-center mt-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
+                                <h2 className="text-base font-semibold text-foreground sm:text-lg">
+                                    ট্যাগ:
+                                </h2>
 
-                    <div className="prose prose-neutral mt-6 max-w-none prose-headings:mt-8 prose-headings:mb-4 prose-headings:font-bold prose-headings:text-foreground prose-p:my-5 prose-p:leading-8 prose-p:text-foreground/90 prose-a:text-foreground hover:prose-a:text-foreground prose-strong:text-foreground prose-ul:my-5 prose-ol:my-5 prose-li:my-1.5 prose-img:rounded-xl prose-blockquote:border-l-4 prose-blockquote:border-black/20 prose-blockquote:bg-muted prose-blockquote:px-5 prose-blockquote:py-3 prose-blockquote:italic sm:prose-lg sm:mt-8 sm:prose-headings:mt-10 sm:prose-p:my-6 sm:prose-p:leading-9">
-                        <PortableText
-                            value={post.content}
-                            components={portableTextComponents}
-                        />
+                                <div className="flex ml-3 flex-wrap gap-2 sm:gap-3">
+                                    {post.tags.map((tag: string) => (
+                                        <Link
+                                            key={tag}
+                                            href={`/search?q=${encodeURIComponent(tag)}`}
+                                            className="rounded-full border border-black/10 bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted sm:px-4 sm:py-2 sm:text-sm"
+                                        >
+                                            #{tag}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </footer>
+                        )}
+
+                    </article>
+
+                    <div className="mt-5 sm:mt-8 rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                        <CommentSection postId={post._id} />
                     </div>
 
-                    {post.tags?.length > 0 && (
-                        <footer className="flex justify-start items-center mt-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
-                            <h2 className="text-base font-semibold text-foreground sm:text-lg">
-                                ট্যাগ:
-                            </h2>
-
-                            <div className="flex ml-3 flex-wrap gap-2 sm:gap-3">
-                                {post.tags.map((tag: string) => (
-                                    <Link
-                                        key={tag}
-                                        href={`/search?q=${encodeURIComponent(tag)}`}
-                                        className="rounded-full border border-black/10 bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted sm:px-4 sm:py-2 sm:text-sm"
-                                    >
-                                        #{tag}
-                                    </Link>
-                                ))}
-                            </div>
-                        </footer>
-                    )}
-                </article>
+                </div>
 
                 <aside className="min-w-0">
                     <SinglePostSidebar

@@ -1,0 +1,81 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+
+import type { Comment } from "@/types/comment";
+
+import CommentForm from "./CommentForm";
+import CommentList from "./CommentList";
+import CommentSkeleton from "./CommentSkeleton";
+
+interface CommentSectionProps {
+    postId: string;
+}
+
+export default function CommentSection({
+    postId,
+}: CommentSectionProps) {
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const loadComments = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await fetch(
+                `/api/comments?postId=${postId}`,
+                {
+                    cache: "no-store",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to load comments.");
+            }
+
+            const data: Comment[] = await response.json();
+
+            setComments(data);
+        } catch (err) {
+            console.error(err);
+            setError("Failed to load comments.");
+        } finally {
+            setLoading(false);
+        }
+    }, [postId]);
+
+    useEffect(() => {
+        loadComments();
+    }, [loadComments]);
+
+    return (
+        <section>
+            <div className="mb-8 flex items-center justify-between">
+                <h2 className="text-2xl font-bold">
+                    Comments ({comments.length})
+                </h2>
+            </div>
+
+            <CommentForm
+                postId={postId}
+                onSuccess={loadComments}
+            />
+
+            {loading ? (
+                <CommentSkeleton />
+            ) : error ? (
+                <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-600">
+                    {error}
+                </div>
+            ) : (
+                <CommentList
+                    comments={comments}
+                    loading={false}
+                    onRefresh={loadComments}
+                />
+            )}
+        </section>
+    );
+}

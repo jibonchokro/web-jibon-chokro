@@ -33,12 +33,11 @@ export default function Categories({
                     </div>
 
                     <h2 className="mt-5 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
-                        আপনার পছন্দের বিষয় খুঁজে নিন
+                        পছন্দের বিষয় খুঁজে নিন
                     </h2>
 
                     <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-muted-foreground">
-                        বিষয়ভিত্তিক বিভাগ থেকে আপনার আগ্রহের লেখা
-                        সহজেই খুঁজে পড়ুন।
+                        বিষয়ভিত্তিক বিভাগ থেকে পছন্দের লেখা সহজেই খুঁজে পড়ুন।
                     </p>
 
                     <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#f0f0f0] shadow-custom bg-[#fefefe] px-4 py-2 text-sm text-black">
