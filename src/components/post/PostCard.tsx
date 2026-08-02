@@ -49,10 +49,11 @@ export default function PostCard({
                 overflow-hidden
                 rounded-xl
                 border
-                border-black/10
+                border-[#f0f0f0]
                 bg-white
                 transition-all
                 duration-300
+                shadow-custom
                 hover:-translate-y-0.5
                 hover:shadow-sm
             "

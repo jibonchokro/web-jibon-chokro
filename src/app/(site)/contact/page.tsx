@@ -65,9 +65,9 @@ export default function ContactPage() {
 
                 {/* Hero */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
 
-                    <div className="inline-flex rounded-full border border-black/10 bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
                         আমরা আপনার কথা শুনতে আগ্রহী
                     </div>
 
@@ -100,12 +100,12 @@ export default function ContactPage() {
                             return (
                                 <div
                                     key={item.title}
-                                    className="rounded-xl border border-black/10 bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:rounded-2xl sm:p-6"
+                                    className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:rounded-2xl sm:p-6"
                                 >
 
                                     <div className="flex items-start gap-3 sm:gap-4">
 
-                                        <div className="rounded-lg border border-black/10 bg-muted p-2.5 sm:rounded-xl sm:p-3">
+                                        <div className="rounded-lg border border-[#f0f0f0] shadow-custom bg-muted p-2.5 sm:rounded-xl sm:p-3">
                                             <Icon
                                                 size={20}
                                                 className="text-foreground sm:h-[22px] sm:w-[22px]"
@@ -141,11 +141,11 @@ export default function ContactPage() {
 
                     {/* Form */}
 
-                    <div className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8">
+                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8">
 
                         <div className="flex items-center gap-3">
 
-                            <div className="rounded-lg border border-black/10 bg-muted p-2 sm:rounded-xl">
+                            <div className="rounded-lg border border-[#f0f0f0] shadow-custom bg-muted p-2 sm:rounded-xl">
                                 <MessageCircle
                                     size={20}
                                     className="text-foreground sm:h-[22px] sm:w-[22px]"
@@ -171,7 +171,7 @@ export default function ContactPage() {
                                     <input
                                         type="text"
                                         placeholder="আপনার নাম লিখুন"
-                                        className="w-full rounded-xl border border-black/10 bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                        className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
                                     />
 
                                 </div>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                                     <input
                                         type="email"
                                         placeholder="name@example.com"
-                                        className="w-full rounded-xl border border-black/10 bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                        className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
                                     />
 
                                 </div>
@@ -201,7 +201,7 @@ export default function ContactPage() {
                                 <input
                                     type="text"
                                     placeholder="বার্তার বিষয়"
-                                    className="w-full rounded-xl border border-black/10 bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                    className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
                                 />
 
                             </div>
@@ -215,7 +215,7 @@ export default function ContactPage() {
                                 <textarea
                                     rows={8}
                                     placeholder="আপনার বার্তা লিখুন..."
-                                    className="min-h-[180px] w-full rounded-xl border border-black/10 bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:min-h-[220px] sm:text-base"
+                                    className="min-h-[180px] w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:min-h-[220px] sm:text-base"
                                 />
 
                                 <button
@@ -255,7 +255,7 @@ export default function ContactPage() {
                         {contactReasons.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-black/10 bg-[#fcfcfc] px-5 py-4 text-sm font-medium leading-7 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:text-base"
+                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] px-5 py-4 text-sm font-medium leading-7 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:text-base"
                             >
                                 {item}
                             </div>
@@ -267,7 +267,7 @@ export default function ContactPage() {
 
                 {/* CTA */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
 
                     <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                         আপনার মতামত আমাদের জন্য মূল্যবান

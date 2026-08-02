@@ -57,9 +57,9 @@ export default function AboutPage() {
 
                 {/* Hero */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
 
-                    <div className="inline-flex rounded-full border border-black/10 bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
                         বাংলা জ্ঞানভিত্তিক প্ল্যাটফর্ম
                     </div>
 
@@ -92,7 +92,7 @@ export default function AboutPage() {
 
                 <section className="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6">
 
-                    <div className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                         <h3 className="text-xl font-semibold sm:text-2xl">
                             আমাদের লক্ষ্য
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
                     </div>
 
-                    <div className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                         <h3 className="text-xl font-semibold sm:text-2xl">
                             আমাদের উদ্দেশ্য
@@ -143,7 +143,7 @@ export default function AboutPage() {
                         {topics.map((topic) => (
                             <div
                                 key={topic}
-                                className="rounded-xl border border-black/10 bg-[#fcfcfc] px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-muted/30 sm:px-5 sm:py-4 sm:text-base"
+                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] px-4 py-3 text-sm font-medium sm:px-5 sm:py-4 sm:text-base"
                             >
                                 {topic}
                             </div>
@@ -175,7 +175,7 @@ export default function AboutPage() {
                         {values.map((value) => (
                             <div
                                 key={value.title}
-                                className="rounded-xl border border-black/10 bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:rounded-2xl sm:p-6 md:p-8"
                             >
                                 <h3 className="text-lg font-semibold sm:text-xl">
                                     {value.title}
@@ -194,7 +194,7 @@ export default function AboutPage() {
 
                 {/* Stats */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
 
                     <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                         কেন জীবন চক্র?
@@ -244,7 +244,7 @@ export default function AboutPage() {
 
                 {/* CTA */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
 
                     <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                         আপনার মতামত আমাদের কাছে গুরুত্বপূর্ণ

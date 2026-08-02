@@ -123,7 +123,7 @@ export default function Header({
     };
 
     return (
-        <header className="sticky top-0 z-50 border-b border-black/10 bg-white/70 backdrop-blur-md">
+        <header className="sticky top-0 z-50 border-b border-black/10 shadow-sm bg-white/70 backdrop-blur-md">
             <Container>
                 <div className="flex h-16 items-center">
 

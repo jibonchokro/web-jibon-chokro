@@ -8,7 +8,7 @@ export default function PageHero({
     description,
 }: PageHeroProps) {
     return (
-        <header className="mb-8 rounded-2xl border border-black/10 bg-zinc-50 p-5 shadow-sm sm:mb-10 sm:p-6 md:mb-12 md:rounded-3xl md:p-8 lg:p-10">
+        <header className="mb-8 rounded-2xl border border-[#f0f0f0] shadow-custom bg-zinc-50 p-5 sm:mb-10 sm:p-6 md:mb-12 md:rounded-3xl md:p-8 lg:p-10">
 
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 {title}

@@ -79,14 +79,12 @@ export default function FeaturedPosts({
                         </button>
 
                         <Link
-                            href="/posts"
+                            href="/featured"
                             className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition hover:bg-muted"
                         >
-                            সব লেখা
+                            সব দেখুন
 
-                            <ArrowRight
-                                size={16}
-                            />
+                            <ArrowRight size={16} />
                         </Link>
 
                     </div>

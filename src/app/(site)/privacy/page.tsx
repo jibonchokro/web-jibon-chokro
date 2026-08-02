@@ -43,9 +43,9 @@ export default function PrivacyPage() {
 
                 {/* Hero */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
 
-                    <div className="inline-flex rounded-full border border-black/10 bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
                         Privacy Policy
                     </div>
 
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
 
                 {/* Information Collection */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                     <h2 className="text-xl font-semibold sm:text-2xl">
                         আমরা কী ধরনের তথ্য সংগ্রহ করি?
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
                         {usageItems.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-black/10 bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
                             >
                                 <p className="text-base font-medium leading-7">
                                     {item}
@@ -129,7 +129,7 @@ export default function PrivacyPage() {
 
                 {/* Cookies */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                     <h2 className="text-xl font-semibold sm:text-2xl">
                         Cookies
@@ -156,7 +156,7 @@ export default function PrivacyPage() {
 
                 {/* Third Party */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                     <h2 className="text-xl font-semibold sm:text-2xl">
                         তৃতীয় পক্ষের সেবা
@@ -174,7 +174,7 @@ export default function PrivacyPage() {
 
                 {/* Security */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                     <h2 className="text-xl font-semibold sm:text-2xl">
                         তথ্যের নিরাপত্তা
@@ -191,7 +191,7 @@ export default function PrivacyPage() {
 
                 {/* Children's Privacy */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
 
                     <h2 className="text-xl font-semibold sm:text-2xl">
                         শিশুদের গোপনীয়তা
@@ -228,7 +228,7 @@ export default function PrivacyPage() {
                         {userRights.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-black/10 bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
                             >
                                 <p className="text-base font-medium leading-7">
                                     {item}
@@ -242,7 +242,7 @@ export default function PrivacyPage() {
 
                 {/* Policy Updates */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-5 sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
 
                     <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                         নীতিমালার পরিবর্তন
@@ -259,7 +259,7 @@ export default function PrivacyPage() {
 
                 {/* Contact CTA */}
 
-                <section className="rounded-2xl border border-black/10 bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
+                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
 
                     <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                         কোনো প্রশ্ন আছে?

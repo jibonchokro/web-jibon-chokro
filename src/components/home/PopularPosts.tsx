@@ -22,7 +22,8 @@ export default function PopularPosts({
 }: PopularPostsProps) {
     const popularPosts = posts.slice(0, 20);
 
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const scrollRef =
+        useRef<HTMLDivElement>(null);
 
     function scroll(
         direction: "left" | "right"
@@ -42,7 +43,6 @@ export default function PopularPosts({
 
     return (
         <section className="py-8 sm:py-10 lg:py-12">
-
             <Container>
 
                 {/* Header */}
@@ -51,7 +51,11 @@ export default function PopularPosts({
 
                     <div>
 
-                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                        <span className="text-sm font-medium text-muted-foreground">
+                            সবচেয়ে বেশি পঠিত
+                        </span>
+
+                        <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             জনপ্রিয় লেখা
                         </h2>
 
@@ -86,10 +90,10 @@ export default function PopularPosts({
                         </button>
 
                         <Link
-                            href="/posts?sort=popular"
-                            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition hover:bg-muted"
+                            href="/popular"
+                            className="inline-flex h-10 items-center gap-2 rounded-lg border border-black/10 bg-white px-4 text-sm font-medium transition hover:bg-muted"
                         >
-                            সব লেখা
+                            সব দেখুন
 
                             <ArrowRight
                                 size={16}
@@ -153,7 +157,6 @@ export default function PopularPosts({
                 )}
 
             </Container>
-
         </section>
     );
 }
