@@ -9,15 +9,21 @@ import { getAllCategories } from "@/services/category.service";
 import {
     getAllPosts,
     getFeaturedPosts,
+    getPopularPosts,
 } from "@/services/post.service";
 
 export default async function HomePage() {
-    const [featuredPosts, latestPosts, categories] =
-        await Promise.all([
-            getFeaturedPosts(),
-            getAllPosts(),
-            getAllCategories(),
-        ]);
+    const [
+        featuredPosts,
+        latestPosts,
+        popularPosts,
+        categories,
+    ] = await Promise.all([
+        getFeaturedPosts(),
+        getAllPosts(),
+        getPopularPosts(),
+        getAllCategories(),
+    ]);
 
     return (
         <>
@@ -29,7 +35,7 @@ export default async function HomePage() {
 
             <Categories categories={categories} />
 
-            <PopularPosts posts={latestPosts} />
+            <PopularPosts posts={popularPosts} />
 
             <FacebookSection />
         </>

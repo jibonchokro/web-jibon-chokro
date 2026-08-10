@@ -1,6 +1,12 @@
 import { PortableText } from "@portabletext/react";
-import { CalendarDays, ChevronRight, Clock, FolderOpen } from "lucide-react";
+import {
+    CalendarDays,
+    ChevronRight,
+    Clock,
+    FolderOpen,
+} from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -8,6 +14,8 @@ import BookmarkButton from "@/components/post/BookmarkButton";
 import CommentCountButton from "@/components/post/CommentCountButton";
 import { portableTextComponents } from "@/components/post/PortableTextComponents";
 import PostViews from "@/components/post/PostViews";
+import ReadingProgressBar from "@/components/post/ReadingProgressBar";
+import RelatedPostsSlider from "@/components/post/RelatedPostsSlider";
 import ShareButtons from "@/components/post/ShareButtons";
 import SinglePostSidebar from "@/components/post/SinglePostSidebar";
 
@@ -103,8 +111,45 @@ export default async function SinglePostPage({
 
     const postUrl = `${siteUrl}/posts/${post.slug.current}`;
 
+    // NOTE: `author` and `coverImage` are read defensively below in case
+    // your Sanity schema doesn't (yet) return these fields on `post`.
+    // If your `Post` type already types them, you can drop the
+    // `as any` casts and use `post.author` / `post.coverImage` directly.
+    const author = (post as any).author as
+        | { name?: string; image?: any; bio?: string; slug?: { current?: string } }
+        | undefined;
+    const coverImage = (post as any).coverImage;
+
+    const relatedPosts = (latestPosts ?? [])
+        .filter((p) => p.slug?.current !== post.slug.current)
+        .slice(0, 6);
+
+    // Basic Article structured data for SEO — safe to remove if you
+    // already inject this elsewhere.
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.publishedAt,
+        image: coverImage
+            ? [urlFor(coverImage).width(1200).height(630).url()]
+            : undefined,
+        author: author?.name
+            ? [{ "@type": "Person", name: author.name }]
+            : undefined,
+        mainEntityOfPage: postUrl,
+    };
+
     return (
         <main className="mx-auto max-w-[1158px] px-0 py-4 sm:px-4 sm:py-6 lg:px-4 lg:py-8">
+            <ReadingProgressBar />
+
+            <script
+                type="application/ld+json"
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
 
             <nav
                 aria-label="Breadcrumb"
@@ -159,40 +204,103 @@ export default async function SinglePostPage({
                     <article className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
                         <header>
-                            {/* Category */}
+                            {/* Category + date badges */}
+                            <div className="flex flex-wrap items-center gap-2">
+                                {post.category && (
+                                    <Link
+                                        href={`/category/${post.category.slug.current}`}
+                                        className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm"
+                                    >
+                                        <FolderOpen size={15} />
+                                        {post.category.title}
+                                    </Link>
+                                )}
 
-                            {post.category && (
-                                <Link
-                                    href={`/category/${post.category.slug.current}`}
-                                    className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm"
-                                >
-                                    <FolderOpen size={15} />
+                                <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium sm:px-4 sm:py-2 sm:text-sm">
+                                    <CalendarDays size={16} />
+                                    <span>{publishedDate}</span>
+                                </div>
 
-                                    {post.category.title}
-                                </Link>
-                            )}
-
-                            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted ml-3 px-3 py-1.5 text-xs font-medium transition hover:bg-accent sm:px-4 sm:py-2 sm:text-sm">
-                                <CalendarDays size={16} />
-                                <span>{publishedDate}</span>
+                                <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-xs font-medium sm:px-4 sm:py-2 sm:text-sm">
+                                    <Clock size={16} />
+                                    <span>{post.readingTime} মিনিট পড়া</span>
+                                </div>
                             </div>
 
                             {/* Title */}
-
-                            <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5">
+                            <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:text-4xl">
                                 {post.title}
                             </h1>
 
+                            {/* Excerpt / dek */}
+                            {post.excerpt && (
+                                <p className="mt-3 text-base leading-7 text-muted-foreground sm:text-lg">
+                                    {post.excerpt}
+                                </p>
+                            )}
+
+                            {/* Author byline */}
+                            {author?.name && (
+                                <div className="mt-5 flex items-center gap-3">
+                                    {author.image ? (
+                                        <Image
+                                            src={urlFor(author.image)
+                                                .width(72)
+                                                .height(72)
+                                                .url()}
+                                            alt={author.name}
+                                            width={40}
+                                            height={40}
+                                            className="h-10 w-10 shrink-0 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold text-muted-foreground">
+                                            {author.name.charAt(0)}
+                                        </div>
+                                    )}
+                                    <div className="min-w-0">
+                                        {author.slug?.current ? (
+                                            <Link
+                                                href={`/author/${author.slug.current}`}
+                                                className="block truncate text-sm font-semibold text-foreground hover:underline"
+                                            >
+                                                {author.name}
+                                            </Link>
+                                        ) : (
+                                            <span className="block truncate text-sm font-semibold text-foreground">
+                                                {author.name}
+                                            </span>
+                                        )}
+                                        {author.bio && (
+                                            <span className="block truncate text-xs text-muted-foreground">
+                                                {author.bio}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Cover image */}
+                            {coverImage && (
+                                <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl bg-muted sm:mt-8">
+                                    <Image
+                                        src={urlFor(coverImage)
+                                            .width(1600)
+                                            .height(900)
+                                            .url()}
+                                        alt={post.title}
+                                        fill
+                                        priority
+                                        sizes="(max-width: 1024px) 100vw, 800px"
+                                        className="object-cover"
+                                    />
+                                </div>
+                            )}
+
                             {/* Action Bar */}
-
                             <div className="mt-6 border-y border-black/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-
-                                <div className="flex items-center justify-between py-3">
-
-                                    {/* Left */}
-
-                                    <div className="flex items-center">
-
+                                <div className="flex flex-wrap items-center justify-between gap-3 py-3">
+                                    <div className="flex items-center gap-3">
                                         <div
                                             className="
                                                 inline-flex
@@ -202,37 +310,8 @@ export default async function SinglePostPage({
                                                 rounded-lg
                                                 bg-muted
                                                 px-2.5
-                                                text-[16px]
-                                                sm:text-[18px]
-                                                font-base
-                                                text-[#555]
+                                                text-muted-foreground
                                             "
-                                        >
-                                            <Clock
-                                                size={18}
-                                                className="shrink-0"
-                                            />
-
-                                            <span>{post.readingTime} min</span>
-                                        </div>
-
-                                    </div>
-
-                                    {/* Right */}
-
-                                    <div className="flex items-center justify-center gap-3">
-
-                                        <div
-                                            className="
-                                            inline-flex
-                                            h-[35px]
-                                            items-center
-                                            gap-2
-                                            rounded-lg
-                                            bg-muted
-                                            px-2.5
-                                            text-muted-foreground
-                                        "
                                         >
                                             <PostViews
                                                 postId={post._id}
@@ -243,7 +322,9 @@ export default async function SinglePostPage({
                                         <CommentCountButton
                                             initialCount={initialCommentCount}
                                         />
+                                    </div>
 
+                                    <div className="flex items-center gap-3">
                                         <div
                                             className="
                                                 flex
@@ -266,11 +347,8 @@ export default async function SinglePostPage({
                                             url={postUrl}
                                             title={post.title}
                                         />
-
                                     </div>
-
                                 </div>
-
                             </div>
 
                         </header>
@@ -283,12 +361,12 @@ export default async function SinglePostPage({
                         </div>
 
                         {post.tags?.length > 0 && (
-                            <footer className="flex justify-start items-center mt-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
+                            <footer className="flex flex-wrap items-center gap-3 mt-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
                                 <h2 className="text-base font-semibold text-foreground sm:text-lg">
                                     ট্যাগ:
                                 </h2>
 
-                                <div className="flex ml-3 flex-wrap gap-2 sm:gap-3">
+                                <div className="flex flex-wrap gap-2 sm:gap-3">
                                     {post.tags.map((tag: string) => (
                                         <Link
                                             key={tag}
@@ -303,6 +381,9 @@ export default async function SinglePostPage({
                         )}
 
                     </article>
+
+                    {/* Related posts — slider, card style matches SidebarPopularPosts */}
+                    <RelatedPostsSlider posts={relatedPosts} />
 
                     <div
                         id="comments"

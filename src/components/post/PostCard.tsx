@@ -5,6 +5,7 @@ import {
     CalendarDays,
     Clock,
     Eye,
+    MessageCircle,
 } from "lucide-react";
 
 import { urlFor } from "@/sanity/lib/image";
@@ -17,14 +18,12 @@ interface PostCardProps {
 export default function PostCard({
     post,
 }: PostCardProps) {
-
     const imageUrl = post.coverImage
         ? urlFor(post.coverImage)
             .width(800)
             .height(450)
             .url()
         : "/images/placeholder.jpg";
-
 
     const publishedDate = new Date(
         post.publishedAt
@@ -34,9 +33,13 @@ export default function PostCard({
         year: "numeric",
     });
 
+    const views = Number(
+        post.views ?? 0
+    );
 
-    const views = Number(post.views ?? 0);
-
+    const comments = Number(
+        post.comments ?? 0
+    );
 
     return (
         <article
@@ -51,18 +54,16 @@ export default function PostCard({
                 border
                 border-[#f0f0f0]
                 bg-white
+                shadow-custom
                 transition-all
                 duration-300
-                shadow-custom
                 hover:-translate-y-0.5
                 hover:shadow-sm
             "
         >
-
             {/* Cover */}
 
             <div className="relative">
-
                 <Link
                     href={`/posts/${post.slug.current}`}
                     className="block"
@@ -80,8 +81,8 @@ export default function PostCard({
                             alt={post.title}
                             fill
                             sizes="
-                                (max-width:640px)100vw,
-                                (max-width:1024px)50vw,
+                                (max-width:640px) 100vw,
+                                (max-width:1024px) 50vw,
                                 33vw
                             "
                             className="
@@ -94,7 +95,6 @@ export default function PostCard({
                     </div>
                 </Link>
 
-
                 {post.category && (
                     <div
                         className="
@@ -105,7 +105,6 @@ export default function PostCard({
                             sm:p-3
                         "
                     >
-
                         <Link
                             href={`/category/${post.category.slug.current}`}
                             className="
@@ -129,13 +128,9 @@ export default function PostCard({
                         >
                             {post.category.title}
                         </Link>
-
                     </div>
                 )}
-
             </div>
-
-
 
             {/* Content */}
 
@@ -148,11 +143,9 @@ export default function PostCard({
                     sm:p-4
                 "
             >
-
                 <Link
                     href={`/posts/${post.slug.current}`}
                 >
-
                     <h3
                         className="
                             line-clamp-2
@@ -167,9 +160,7 @@ export default function PostCard({
                     >
                         {post.title}
                     </h3>
-
                 </Link>
-
 
                 {post.excerpt && (
                     <p
@@ -185,76 +176,73 @@ export default function PostCard({
                     </p>
                 )}
 
-
-
                 {/* Footer */}
 
                 <div className="mt-auto pt-3 -mx-3 sm:-mx-4">
-
                     <div
                         className="
                             flex
-                            flex-wrap
                             items-center
+                            justify-between
                             gap-3
                             border-t
                             border-black/10
+                            px-3
                             pt-3
                             pb-1
                             text-sm
                             text-muted-foreground
+                            sm:px-4
                         "
                     >
+                        {/* Date — Left */}
 
-                        <div className="flex items-center gap-1.5 pl-3 sm:pl-4">
-                            <CalendarDays className="size-3.5" />
+                        <div className="flex min-w-0 items-center gap-1.5">
+                            <CalendarDays className="size-3.5 shrink-0" />
 
-                            <span>
+                            <span className="truncate">
                                 {publishedDate}
                             </span>
                         </div>
 
+                        {/* Meta — Right */}
 
-                        {post.readingTime && (
+                        <div className="flex shrink-0 items-center gap-3">
+                            {/* Reading time */}
+
+                            {post.readingTime && (
+                                <div className="flex items-center gap-1.5">
+                                    <Clock className="size-3.5" />
+
+                                    <span>
+                                        {post.readingTime} min
+                                    </span>
+                                </div>
+                            )}
+
+                            {/* Comments */}
+
                             <div className="flex items-center gap-1.5">
-
-                                <Clock className="size-3.5" />
+                                <MessageCircle className="size-3.5" />
 
                                 <span>
-                                    {post.readingTime} min
+                                    {comments.toLocaleString()}
                                 </span>
-
                             </div>
-                        )}
 
+                            {/* Views */}
 
+                            <div className="flex items-center gap-1.5">
+                                <Eye className="size-3.5" />
 
-                        <div
-                            className="
-                                ml-auto
-                                flex
-                                items-center
-                                gap-1.5
-                                pr-3
-                                sm:pr-4
-                            "
-                        >
-
-                            <Eye className="size-3.5" />
-
-                            <span>
-                                {views.toLocaleString()}
-                            </span>
-
+                                <span>
+                                    {views.toLocaleString()}
+                                </span>
+                            </div>
                         </div>
-
-
                     </div>
-
                 </div>
-
             </div>
-
         </article>
     );
 }

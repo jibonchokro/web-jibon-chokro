@@ -26,4 +26,6 @@ export interface Post {
     publishedAt: string;
 
     views?: number;
+
+    comments?: number;
 }

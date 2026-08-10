@@ -5,6 +5,7 @@ import {
     Clock,
     Eye,
     List,
+    MessageCircle,
 } from "lucide-react";
 
 import { urlFor } from "@/sanity/lib/image";
@@ -23,8 +24,7 @@ export default function SidebarLatestPosts({
     }
 
     return (
-        <section className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
-
+        <section className="rounded-none border border-[#f0f0f0] bg-white p-5 shadow-custom sm:rounded-xl lg:rounded-xl">
 
             {/* Header */}
 
@@ -42,7 +42,6 @@ export default function SidebarLatestPosts({
             </div>
 
 
-
             {/* Posts */}
 
             <div className="space-y-3">
@@ -55,6 +54,24 @@ export default function SidebarLatestPosts({
                             .height(90)
                             .url()
                         : null;
+
+                    const publishedDate =
+                        new Date(
+                            post.publishedAt
+                        ).toLocaleDateString(
+                            "en-GB",
+                            {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                            }
+                        );
+
+                    const views =
+                        Number(post.views ?? 0);
+
+                    const comments =
+                        Number(post.comments ?? 0);
 
 
                     return (
@@ -74,7 +91,6 @@ export default function SidebarLatestPosts({
                                 hover:bg-muted/50
                             "
                         >
-
 
                             {/* Thumbnail */}
 
@@ -121,11 +137,9 @@ export default function SidebarLatestPosts({
                             </div>
 
 
-
                             {/* Content */}
 
                             <div className="min-w-0 flex-1">
-
 
                                 <div
                                     className="
@@ -145,44 +159,35 @@ export default function SidebarLatestPosts({
                                         </span>
                                     )}
 
-
                                     <span>
                                         •
                                     </span>
 
+                                    {/* English date */}
 
                                     <span className="shrink-0">
-                                        {new Date(
-                                            post.publishedAt
-                                        ).toLocaleDateString(
-                                            "bn-BD",
-                                            {
-                                                day: "numeric",
-                                                month: "short",
-                                                year: "numeric",
-                                            }
-                                        )}
+                                        {publishedDate}
                                     </span>
 
                                 </div>
 
 
-
                                 <h3
                                     className="
-                                    line-clamp-2
-                                    text-sm
-                                    font-semibold
-                                    leading-5
-                                    text-foreground
-                                    transition-colors
-                                    group-hover:text-black
-                                "
+                                        line-clamp-2
+                                        text-sm
+                                        font-semibold
+                                        leading-5
+                                        text-foreground
+                                        transition-colors
+                                        group-hover:text-black
+                                    "
                                 >
                                     {post.title}
                                 </h3>
 
 
+                                {/* Meta */}
 
                                 <div
                                     className="
@@ -195,35 +200,47 @@ export default function SidebarLatestPosts({
                                     "
                                 >
 
+                                    {/* Reading time */}
+
                                     {post.readingTime && (
                                         <span className="flex items-center gap-1">
                                             <Clock size={13} />
 
-                                            {post.readingTime} মিনিট
+                                            {post.readingTime} min
                                         </span>
                                     )}
 
 
-                                    {typeof post.views === "number" && (
-                                        <span className="flex items-center gap-1">
-                                            <Eye size={13} />
+                                    {/* Comments */}
 
-                                            {post.views.toLocaleString("bn-BD")}
-                                        </span>
-                                    )}
+                                    <span className="flex items-center gap-1">
+                                        <MessageCircle size={13} />
+
+                                        {comments.toLocaleString(
+                                            "en-US"
+                                        )}
+                                    </span>
+
+
+                                    {/* Views */}
+
+                                    <span className="flex items-center gap-1">
+                                        <Eye size={13} />
+
+                                        {views.toLocaleString(
+                                            "en-US"
+                                        )}
+                                    </span>
 
                                 </div>
 
-
                             </div>
-
 
                         </Link>
                     );
                 })}
 
             </div>
-
 
         </section>
     );
