@@ -175,7 +175,7 @@ export default async function SinglePostPage({
 
                             {/* Title */}
 
-                            <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:text-4xl">
+                            <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-5">
                                 {post.title}
                             </h1>
 

@@ -1,9 +1,16 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import {
+    FormEvent,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+
+import { Check, X } from "lucide-react";
 
 import type { Comment } from "@/types/comment";
 
@@ -12,6 +19,12 @@ interface EditCommentFormProps {
     onCancel: () => void;
     onSuccess: () => void;
 }
+
+const MAX_LENGTH = 5000;
+const MAX_LINES = 7;
+const LINE_HEIGHT = 24;
+const INITIAL_HEIGHT = 40;
+const MAX_HEIGHT = MAX_LINES * LINE_HEIGHT;
 
 export default function EditCommentForm({
     comment,
@@ -23,9 +36,40 @@ export default function EditCommentForm({
     );
 
     const [loading, setLoading] = useState(false);
+
     const [error, setError] = useState<string | null>(
         null
     );
+
+    const textareaRef =
+        useRef<HTMLTextAreaElement>(null);
+
+    function resizeTextarea() {
+        const textarea = textareaRef.current;
+
+        if (!textarea) return;
+
+        textarea.style.height = `${INITIAL_HEIGHT}px`;
+
+        const height = Math.min(
+            Math.max(
+                textarea.scrollHeight,
+                INITIAL_HEIGHT
+            ),
+            MAX_HEIGHT
+        );
+
+        textarea.style.height = `${height}px`;
+
+        textarea.style.overflowY =
+            textarea.scrollHeight > MAX_HEIGHT
+                ? "auto"
+                : "hidden";
+    }
+
+    useEffect(() => {
+        resizeTextarea();
+    }, [content]);
 
     async function handleSubmit(
         event: FormEvent<HTMLFormElement>
@@ -39,7 +83,7 @@ export default function EditCommentForm({
             return;
         }
 
-        if (trimmedContent.length > 5000) {
+        if (trimmedContent.length > MAX_LENGTH) {
             setError(
                 "Comment cannot exceed 5000 characters."
             );
@@ -95,59 +139,102 @@ export default function EditCommentForm({
     return (
         <form
             onSubmit={handleSubmit}
-            className="space-y-2"
+            className="w-full"
         >
-            <Textarea
-                value={content}
-                onChange={(event) =>
-                    setContent(event.target.value)
-                }
-                rows={3}
-                maxLength={5000}
-                disabled={loading}
-                autoFocus
-                placeholder="Edit your comment..."
-                className="resize-none rounded-2xl border-none bg-muted focus-visible:ring-1 focus-visible:ring-ring"
-            />
+            <div className="flex w-full items-end gap-2">
+                <div className="min-w-0 flex-1">
+                    <Textarea
+                        ref={textareaRef}
+                        value={content}
+                        onChange={(event) => {
+                            if (
+                                event.target.value
+                                    .length <=
+                                MAX_LENGTH
+                            ) {
+                                setContent(
+                                    event.target.value
+                                );
+                            }
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground">
-                        {content.length}/5000
-                    </span>
-
-                    {error && (
-                        <span className="text-xs text-red-600">
-                            {error}
-                        </span>
-                    )}
-                </div>
-
-                <div className="flex items-center gap-3">
-                    <button
-                        type="button"
-                        onClick={onCancel}
+                            if (error) {
+                                setError(null);
+                            }
+                        }}
+                        rows={1}
+                        maxLength={MAX_LENGTH}
                         disabled={loading}
-                        className="text-xs font-semibold text-muted-foreground hover:text-foreground hover:underline disabled:opacity-50"
-                    >
-                        Cancel
-                    </button>
-
-                    <Button
-                        type="submit"
-                        size="sm"
-                        className="rounded-full px-4"
-                        disabled={
-                            loading ||
-                            !content.trim()
-                        }
-                    >
-                        {loading
-                            ? "Saving..."
-                            : "Save"}
-                    </Button>
+                        autoFocus
+                        placeholder="Edit your comment..."
+                        className="
+                            comment-textarea
+                            h-10
+                            min-h-10
+                            max-h-[168px]
+                            resize-none
+                            overflow-hidden
+                            rounded-[20px]
+                            border-none
+                            bg-muted
+                            px-4
+                            py-2
+                            leading-6
+                            shadow-none
+                            focus-visible:ring-1
+                            focus-visible:ring-ring
+                        "
+                    />
                 </div>
+
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={onCancel}
+                    disabled={loading}
+                    aria-label="Cancel editing"
+                    className="
+                        h-10
+                        w-10
+                        shrink-0
+                        rounded-full
+                        text-muted-foreground
+                        hover:text-foreground
+                    "
+                >
+                    <X
+                        className="h-4 w-4"
+                        strokeWidth={2}
+                    />
+                </Button>
+
+                <Button
+                    type="submit"
+                    size="icon"
+                    disabled={
+                        loading ||
+                        !content.trim()
+                    }
+                    aria-label="Save comment"
+                    className="
+                        h-10
+                        w-10
+                        shrink-0
+                        rounded-full
+                    "
+                >
+                    <Check
+                        className="h-4 w-4"
+                        strokeWidth={2}
+                    />
+                </Button>
             </div>
+
+            {error && (
+                <p className="mt-2 text-xs text-destructive">
+                    {error}
+                </p>
+            )}
         </form>
     );
 }

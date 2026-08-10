@@ -10,6 +10,8 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import CommentSkeleton from "./CommentSkeleton";
 
+import { MessageCircle } from "lucide-react";
+
 interface CommentSectionProps {
     postId: string;
 }
@@ -79,9 +81,15 @@ export default function CommentSection({
 
     return (
         <section>
-            <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-2xl font-bold">
-                    Comments ({comments.length})
+            <div className="mb-5 flex items-center gap-2">
+
+                <MessageCircle
+                    size={18}
+                    className="text-muted-foreground"
+                />
+
+                <h2 className="text-sm font-semibold tracking-tight text-foreground">
+                    কমেন্টস ({comments.length})
                 </h2>
             </div>
 

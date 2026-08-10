@@ -7,9 +7,9 @@ export async function getComments(
 ): Promise<Comment[]> {
     const supabase = await createClient();
 
-    // Soft-deleted comments are intentionally included — see the note
-    // in app/api/comments/route.ts. Excluding them here would orphan
-    // any live replies still attached to a deleted parent.
+    // Deletion cascades through a comment's whole reply subtree (see
+    // DELETE /api/comments/[id]), so nothing here needs an is_deleted
+    // filter — every row returned is live.
     const { data, error } = await supabase
         .from("comments")
         .select("*")

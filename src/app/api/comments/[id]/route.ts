@@ -84,14 +84,48 @@ export async function DELETE(
         );
     }
 
+    // Comments can be replied to at any depth, and replies can have
+    // their own replies. Deleting a comment needs to take its whole
+    // subtree with it — otherwise a grandchild reply's parent_id would
+    // point at a row that no longer exists. There's no DB-level cascade
+    // set up, so we walk the tree ourselves, level by level, collecting
+    // every descendant id, then delete the comment and all of them in
+    // one go.
+    const idsToDelete = [id];
+    let frontier = [id];
+
+    while (frontier.length > 0) {
+        const { data: children, error: childrenError } =
+            await supabase
+                .from("comments")
+                .select("id")
+                .in("parent_id", frontier);
+
+        if (childrenError) {
+            console.error(childrenError);
+
+            return NextResponse.json(
+                {
+                    error: "Failed to delete comment.",
+                },
+                {
+                    status: 500,
+                }
+            );
+        }
+
+        if (!children || children.length === 0) {
+            break;
+        }
+
+        frontier = children.map((child) => child.id);
+        idsToDelete.push(...frontier);
+    }
+
     const { error } = await supabase
         .from("comments")
-        .update({
-            is_deleted: true,
-            content: "[deleted]",
-            updated_at: new Date().toISOString(),
-        })
-        .eq("id", id);
+        .delete()
+        .in("id", idsToDelete);
 
     if (error) {
         console.error(error);

@@ -19,14 +19,10 @@ export async function GET(request: NextRequest) {
 
         const supabase = await createClient();
 
-        // NOTE: we intentionally do NOT filter out is_deleted comments
-        // here. Comments are soft-deleted, and a deleted comment can
-        // still be the parent of live replies — filtering it out would
-        // orphan those replies (they'd never match a top-level comment
-        // or a parent in the list, so the whole reply thread would
-        // silently vanish from the UI). The client renders soft-deleted
-        // comments as a "This comment has been deleted." placeholder
-        // instead, keeping the thread structure intact.
+        // NOTE: comments are deleted along with their whole reply
+        // subtree (see DELETE /api/comments/[id]), so there's no
+        // soft-deleted "[deleted]" placeholder to filter out here —
+        // any comment returned is a live one.
         const { data, error } = await supabase
             .from("comments")
             .select(`
