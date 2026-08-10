@@ -32,7 +32,7 @@ export default function SidebarFollowUs() {
     ];
 
     return (
-        <section className="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-custom">
+        <section className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-custom">
 
             <div className="flex items-center justify-between">
 

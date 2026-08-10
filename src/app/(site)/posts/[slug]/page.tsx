@@ -100,11 +100,11 @@ export default async function SinglePostPage({
     const postUrl = `${siteUrl}/posts/${post.slug.current}`;
 
     return (
-        <main className="mx-auto max-w-[1158px] px-3 py-4 sm:px-4 sm:py-6 lg:px-4 lg:py-8">
+        <main className="mx-auto max-w-[1158px] px-0 py-4 sm:px-4 sm:py-6 lg:px-4 lg:py-8">
 
             <nav
                 aria-label="Breadcrumb"
-                className="mb-5 overflow-hidden sm:mb-6"
+                className="overflow-hidden mb-4 sm:mb-6 lg:mb-6 px-3 sm:px-0 lg:px-0 py-1 sm:py-0 lg:py-0"
             >
                 <ol className="flex items-center gap-1.5 overflow-hidden whitespace-nowrap text-xs text-muted-foreground sm:gap-2 sm:text-sm">
                     <li className="shrink-0">
@@ -152,7 +152,7 @@ export default async function SinglePostPage({
 
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
                 <div className="min-w-0">
-                    <article className="rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                    <article className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
                         <header>
                             {/* Category */}
@@ -296,7 +296,7 @@ export default async function SinglePostPage({
 
                     </article>
 
-                    <div className="mt-5 sm:mt-8 rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                    <div className="mt-5 sm:mt-8 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
                         <CommentSection postId={post._id} />
                     </div>
 

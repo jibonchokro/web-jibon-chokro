@@ -23,7 +23,7 @@ export default function SidebarPopularPosts({
     }
 
     return (
-        <section className="rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
+        <section className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
 
             {/* Header */}
 
