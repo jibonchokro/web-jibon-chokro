@@ -3,18 +3,26 @@
 import { useMemo, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 
 import type { Comment } from "@/types/comment";
 
-import DeleteCommentDialog from "./DeleteCommentDialog";
+import CommentFooter from "./CommentFooter";
+import CommentHeader from "./CommentHeader";
+import EditCommentForm from "./EditCommentForm";
 import ReplyForm from "./ReplyForm";
 
-interface Props {
+interface CommentItemProps {
     comment: Comment;
     comments: Comment[];
     currentUserId?: string | null;
     onRefresh: () => void;
+    /**
+     * The user_id of the top-level comment this item belongs to, if
+     * it's a reply. Lets a parent-comment owner moderate replies left
+     * on their own comment, the same way a post owner can moderate
+     * comments on their post.
+     */
+    parentOwnerId?: string | null;
 }
 
 export default function CommentItem({
@@ -22,132 +30,115 @@ export default function CommentItem({
     comments,
     currentUserId,
     onRefresh,
-}: Props) {
+    parentOwnerId = null,
+}: CommentItemProps) {
     const [replying, setReplying] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const replies = useMemo(
         () =>
             comments.filter(
-                (item) => item.parent_id === comment.id
+                (item) =>
+                    item.parent_id === comment.id
             ),
         [comments, comment.id]
     );
 
+    const isOwner =
+        !!currentUserId &&
+        currentUserId === comment.user_id;
+
+    const isParentOwner =
+        !!currentUserId &&
+        !!parentOwnerId &&
+        currentUserId === parentOwnerId;
+
+    const canEdit = isOwner && !comment.is_deleted;
+    const canDelete =
+        (isOwner || isParentOwner) && !comment.is_deleted;
+
+    const name =
+        comment.profiles?.name?.trim() ||
+        "Anonymous";
+
     const initials =
-        comment.profiles?.name
-            ?.split(" ")
-            .map((part) => part[0])
+        name
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((part) => part.charAt(0))
             .join("")
             .slice(0, 2)
-            .toUpperCase() ?? "?";
+            .toUpperCase() || "?";
 
     return (
-        <div className="space-y-5">
-            <div className="flex gap-3">
-                <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarImage
-                        src={
-                            comment.profiles?.avatar ??
-                            undefined
+        <article className="space-y-1">
+            {editing ? (
+                <div className="flex items-start gap-2.5">
+                    <Avatar className="h-9 w-9 shrink-0">
+                        <AvatarImage
+                            src={
+                                comment.profiles
+                                    ?.avatar ??
+                                undefined
+                            }
+                            alt={name}
+                        />
+                        <AvatarFallback className="text-xs">
+                            {initials}
+                        </AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0 flex-1">
+                        <EditCommentForm
+                            comment={comment}
+                            onCancel={() =>
+                                setEditing(false)
+                            }
+                            onSuccess={() => {
+                                setEditing(false);
+                                onRefresh();
+                            }}
+                        />
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <CommentHeader comment={comment} />
+
+                    <CommentFooter
+                        comment={comment}
+                        canEdit={canEdit}
+                        canDelete={canDelete}
+                        onEdit={() => setEditing(true)}
+                        replying={replying}
+                        onReply={() =>
+                            setReplying(
+                                (previous) => !previous
+                            )
                         }
+                        onRefresh={onRefresh}
                     />
 
-                    <AvatarFallback>
-                        {initials}
-                    </AvatarFallback>
-                </Avatar>
-
-                <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-semibold">
-                            {comment.profiles?.name ??
-                                "Anonymous"}
-                        </span>
-
-                        <span className="text-xs text-muted-foreground">
-                            {new Date(
-                                comment.created_at
-                            ).toLocaleString()}
-                        </span>
-
-                        {comment.is_edited &&
-                            !comment.is_deleted && (
-                                <span className="text-xs text-muted-foreground">
-                                    (edited)
-                                </span>
-                            )}
-                    </div>
-
-                    {comment.is_deleted ? (
-                        <p className="mt-2 italic text-muted-foreground">
-                            This comment has been
-                            deleted.
-                        </p>
-                    ) : (
-                        <>
-                            <p className="mt-2 whitespace-pre-wrap break-words leading-7">
-                                {comment.content}
-                            </p>
-
-                            <div className="mt-3 flex flex-wrap items-center gap-2">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() =>
-                                        setReplying(
-                                            (
-                                                prev
-                                            ) =>
-                                                !prev
-                                        )
-                                    }
-                                >
-                                    {replying
-                                        ? "Cancel Reply"
-                                        : "Reply"}
-                                </Button>
-
-                                {currentUserId ===
-                                    comment.user_id && (
-                                        <DeleteCommentDialog
-                                            commentId={
-                                                comment.id
-                                            }
-                                            onSuccess={
-                                                onRefresh
-                                            }
-                                        />
-                                    )}
-                            </div>
-
-                            {replying && (
-                                <ReplyForm
-                                    postId={
-                                        comment.post_id
-                                    }
-                                    parentId={
-                                        comment.id
-                                    }
-                                    onCancel={() =>
-                                        setReplying(
-                                            false
-                                        )
-                                    }
-                                    onSuccess={() => {
-                                        setReplying(
-                                            false
-                                        );
-                                        onRefresh();
-                                    }}
-                                />
-                            )}
-                        </>
+                    {replying && !comment.is_deleted && (
+                        <div className="ml-11 mt-2">
+                            <ReplyForm
+                                postId={comment.post_id}
+                                parentId={comment.id}
+                                onCancel={() =>
+                                    setReplying(false)
+                                }
+                                onSuccess={() => {
+                                    setReplying(false);
+                                    onRefresh();
+                                }}
+                            />
+                        </div>
                     )}
-                </div>
-            </div>
+                </>
+            )}
 
             {replies.length > 0 && (
-                <div className="ml-6 space-y-6 border-l pl-6 md:ml-12">
+                <div className="ml-11 space-y-4 pt-1">
                     {replies.map((reply) => (
                         <CommentItem
                             key={reply.id}
@@ -156,13 +147,14 @@ export default function CommentItem({
                             currentUserId={
                                 currentUserId
                             }
-                            onRefresh={
-                                onRefresh
+                            onRefresh={onRefresh}
+                            parentOwnerId={
+                                comment.user_id
                             }
                         />
                     ))}
                 </div>
             )}
-        </div>
+        </article>
     );
 }

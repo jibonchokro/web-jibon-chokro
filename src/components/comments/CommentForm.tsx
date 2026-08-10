@@ -60,16 +60,21 @@ export default function CommentForm({
     return (
         <form
             onSubmit={handleSubmit}
-            className="space-y-4 mb-8"
+            className="space-y-2"
         >
             <Textarea
                 value={content}
                 onChange={(e) =>
                     setContent(e.target.value)
                 }
-                placeholder="Write your comment..."
-                rows={5}
+                placeholder={
+                    parentId
+                        ? "Write a reply..."
+                        : "Write a comment..."
+                }
+                rows={parentId ? 2 : 3}
                 maxLength={5000}
+                className="resize-none rounded-2xl border-none bg-muted focus-visible:ring-1 focus-visible:ring-ring"
             />
 
             <div className="flex items-center justify-between">
@@ -79,6 +84,8 @@ export default function CommentForm({
 
                 <Button
                     type="submit"
+                    size="sm"
+                    className="rounded-full px-4"
                     disabled={
                         loading ||
                         content.trim().length === 0
@@ -86,7 +93,7 @@ export default function CommentForm({
                 >
                     {loading
                         ? "Posting..."
-                        : "Post Comment"}
+                        : "Post"}
                 </Button>
             </div>
         </form>

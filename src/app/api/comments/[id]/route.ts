@@ -10,6 +10,12 @@ interface RouteContext {
 
 /**
  * DELETE /api/comments/:id
+ *
+ * Allowed for:
+ *  - the comment's own author, or
+ *  - the author of the parent comment, when deleting a reply — a
+ *    "parent owner" can moderate replies left on their own comment,
+ *    the same way a post owner can moderate comments on their post.
  */
 export async function DELETE(
     request: NextRequest,
@@ -38,7 +44,7 @@ export async function DELETE(
     const { data: comment, error: commentError } =
         await supabase
             .from("comments")
-            .select("id,user_id")
+            .select("id,user_id,parent_id")
             .eq("id", id)
             .single();
 
@@ -53,7 +59,21 @@ export async function DELETE(
         );
     }
 
-    if (comment.user_id !== user.id) {
+    const isAuthor = comment.user_id === user.id;
+
+    let isParentOwner = false;
+
+    if (!isAuthor && comment.parent_id) {
+        const { data: parentComment } = await supabase
+            .from("comments")
+            .select("user_id")
+            .eq("id", comment.parent_id)
+            .single();
+
+        isParentOwner = parentComment?.user_id === user.id;
+    }
+
+    if (!isAuthor && !isParentOwner) {
         return NextResponse.json(
             {
                 error: "Forbidden",
@@ -93,6 +113,9 @@ export async function DELETE(
 
 /**
  * PATCH /api/comments/:id
+ *
+ * Only the comment's own author may edit its content — unlike delete,
+ * this is never extended to a parent-comment owner.
  */
 export async function PATCH(
     request: NextRequest,
@@ -109,6 +132,17 @@ export async function PATCH(
         return NextResponse.json(
             {
                 error: "Content is required.",
+            },
+            {
+                status: 400,
+            }
+        );
+    }
+
+    if (content.length > 5000) {
+        return NextResponse.json(
+            {
+                error: "Comment is too long.",
             },
             {
                 status: 400,

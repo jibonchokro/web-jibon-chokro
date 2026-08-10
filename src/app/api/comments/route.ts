@@ -19,6 +19,14 @@ export async function GET(request: NextRequest) {
 
         const supabase = await createClient();
 
+        // NOTE: we intentionally do NOT filter out is_deleted comments
+        // here. Comments are soft-deleted, and a deleted comment can
+        // still be the parent of live replies — filtering it out would
+        // orphan those replies (they'd never match a top-level comment
+        // or a parent in the list, so the whole reply thread would
+        // silently vanish from the UI). The client renders soft-deleted
+        // comments as a "This comment has been deleted." placeholder
+        // instead, keeping the thread structure intact.
         const { data, error } = await supabase
             .from("comments")
             .select(`
@@ -31,7 +39,6 @@ export async function GET(request: NextRequest) {
                 )
             `)
             .eq("post_id", postId)
-            .eq("is_deleted", false)
             .order("created_at", {
                 ascending: true,
             });
@@ -126,6 +133,38 @@ export async function POST(request: NextRequest) {
                     status: 400,
                 }
             );
+        }
+
+        // A reply must point at a real comment on the same post.
+        if (parentId) {
+            const { data: parentComment, error: parentError } =
+                await supabase
+                    .from("comments")
+                    .select("id,post_id")
+                    .eq("id", parentId)
+                    .single();
+
+            if (parentError || !parentComment) {
+                return NextResponse.json(
+                    {
+                        error: "Parent comment not found",
+                    },
+                    {
+                        status: 404,
+                    }
+                );
+            }
+
+            if (parentComment.post_id !== postId) {
+                return NextResponse.json(
+                    {
+                        error: "Parent comment belongs to a different post",
+                    },
+                    {
+                        status: 400,
+                    }
+                );
+            }
         }
 
         const { data, error } = await supabase

@@ -14,8 +14,6 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { Button } from "@/components/ui/button";
-
 interface Props {
     commentId: string;
     onSuccess: () => void;
@@ -54,10 +52,9 @@ export default function DeleteCommentDialog({
         <AlertDialog>
             <AlertDialogTrigger
                 render={
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-600"
+                    <button
+                        type="button"
+                        className="text-xs font-semibold text-muted-foreground hover:text-red-600 hover:underline"
                     />
                 }
             >

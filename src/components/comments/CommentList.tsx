@@ -3,45 +3,41 @@
 import type { Comment } from "@/types/comment";
 
 import CommentItem from "./CommentItem";
+import EmptyComments from "./EmptyComments";
 
-interface Props {
+interface CommentListProps {
     comments: Comment[];
-    loading: boolean;
+    currentUserId?: string | null;
+    loading?: boolean;
     onRefresh: () => void;
 }
 
 export default function CommentList({
     comments,
-    loading,
+    currentUserId,
+    loading = false,
     onRefresh,
-}: Props) {
+}: CommentListProps) {
     if (loading) {
-        return (
-            <p className="text-sm text-muted-foreground">
-                Loading comments...
-            </p>
-        );
+        return null;
     }
 
-    if (comments.length === 0) {
-        return (
-            <div className="rounded-lg border p-6 text-center text-muted-foreground">
-                No comments yet.
-            </div>
-        );
-    }
-
-    const rootComments = comments.filter(
+    const topLevelComments = comments.filter(
         (comment) => comment.parent_id === null
     );
 
+    if (topLevelComments.length === 0) {
+        return <EmptyComments />;
+    }
+
     return (
         <div className="space-y-6">
-            {rootComments.map((comment) => (
+            {topLevelComments.map((comment) => (
                 <CommentItem
                     key={comment.id}
                     comment={comment}
                     comments={comments}
+                    currentUserId={currentUserId}
                     onRefresh={onRefresh}
                 />
             ))}

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { createClient } from "@/lib/supabase/client";
+
 import type { Comment } from "@/types/comment";
 
 import CommentForm from "./CommentForm";
@@ -18,6 +20,31 @@ export default function CommentSection({
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentUserId, setCurrentUserId] = useState<
+        string | null
+    >(null);
+
+    useEffect(() => {
+        const supabase = createClient();
+
+        supabase.auth
+            .getUser()
+            .then(({ data }) => {
+                setCurrentUserId(data.user?.id ?? null);
+            });
+
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange(
+            (_event, session) => {
+                setCurrentUserId(
+                    session?.user?.id ?? null
+                );
+            }
+        );
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     const loadComments = useCallback(async () => {
         try {
@@ -52,16 +79,18 @@ export default function CommentSection({
 
     return (
         <section>
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-2xl font-bold">
                     Comments ({comments.length})
                 </h2>
             </div>
 
-            <CommentForm
-                postId={postId}
-                onSuccess={loadComments}
-            />
+            <div className="mb-6">
+                <CommentForm
+                    postId={postId}
+                    onSuccess={loadComments}
+                />
+            </div>
 
             {loading ? (
                 <CommentSkeleton />
@@ -72,6 +101,7 @@ export default function CommentSection({
             ) : (
                 <CommentList
                     comments={comments}
+                    currentUserId={currentUserId}
                     loading={false}
                     onRefresh={loadComments}
                 />

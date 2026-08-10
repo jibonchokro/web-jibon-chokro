@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-
 import CommentForm from "./CommentForm";
 
 interface ReplyFormProps {
@@ -18,26 +16,22 @@ export default function ReplyForm({
     onSuccess,
 }: ReplyFormProps) {
     return (
-        <div className="mt-4 rounded-lg border bg-muted/30 p-4">
-
+        <div className="rounded-2xl bg-muted/30 p-3">
             <CommentForm
                 postId={postId}
                 parentId={parentId}
                 onSuccess={onSuccess}
             />
 
-            <div className="-mt-4 flex justify-end">
-
-                <Button
+            <div className="mt-1 flex justify-end">
+                <button
                     type="button"
-                    variant="ghost"
                     onClick={onCancel}
+                    className="text-xs font-semibold text-muted-foreground hover:text-foreground hover:underline"
                 >
                     Cancel
-                </Button>
-
+                </button>
             </div>
-
         </div>
     );
 }

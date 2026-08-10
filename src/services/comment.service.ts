@@ -7,11 +7,13 @@ export async function getComments(
 ): Promise<Comment[]> {
     const supabase = await createClient();
 
+    // Soft-deleted comments are intentionally included — see the note
+    // in app/api/comments/route.ts. Excluding them here would orphan
+    // any live replies still attached to a deleted parent.
     const { data, error } = await supabase
         .from("comments")
         .select("*")
         .eq("post_id", postId)
-        .eq("is_deleted", false)
         .order("created_at", {
             ascending: true,
         });
