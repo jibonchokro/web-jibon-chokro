@@ -7,7 +7,6 @@ import {
     Bookmark,
     ChevronRight,
     EllipsisVertical,
-    Heart,
     LayoutDashboard,
     MessageCircle,
     Settings,
@@ -72,11 +71,6 @@ export default function DashboardSidebar({
             label: "বুকমার্ক",
             href: "/dashboard/bookmarks",
             icon: Bookmark,
-        },
-        {
-            label: "লাইক",
-            href: "/dashboard/likes",
-            icon: Heart,
         },
         {
             label: "মন্তব্য",

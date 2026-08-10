@@ -6,11 +6,11 @@ import { createClient } from "@/lib/supabase/client";
 
 import type { Comment } from "@/types/comment";
 
+import { MessageCircle } from "lucide-react";
+
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import CommentSkeleton from "./CommentSkeleton";
-
-import { MessageCircle } from "lucide-react";
 
 interface CommentSectionProps {
     postId: string;
@@ -96,6 +96,7 @@ export default function CommentSection({
             <div className="mb-6">
                 <CommentForm
                     postId={postId}
+                    currentUserId={currentUserId}
                     onSuccess={loadComments}
                 />
             </div>

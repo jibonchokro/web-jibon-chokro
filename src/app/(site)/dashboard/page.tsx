@@ -1,7 +1,6 @@
 import {
     Bookmark,
     ChevronRight,
-    Heart,
     MessageCircle,
     Settings,
     User,
@@ -23,14 +22,8 @@ export default function DashboardPage() {
             icon: Bookmark,
         },
         {
-            title: "লাইক করা লেখা",
-            description: "আপনার পছন্দের লেখাগুলো এক জায়গায়।",
-            href: "/dashboard/likes",
-            icon: Heart,
-        },
-        {
-            title: "আমার মন্তব্য",
-            description: "আপনার করা সকল মন্তব্য দেখুন।",
+            title: "আমার কমেন্টস",
+            description: "আপনার করা সকল কমেন্টস দেখুন।",
             href: "/dashboard/comments",
             icon: MessageCircle,
         },

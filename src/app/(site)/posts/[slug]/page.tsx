@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import BookmarkButton from "@/components/post/BookmarkButton";
+import CommentCountButton from "@/components/post/CommentCountButton";
 import { portableTextComponents } from "@/components/post/PortableTextComponents";
 import PostViews from "@/components/post/PostViews";
 import ShareButtons from "@/components/post/ShareButtons";
@@ -15,6 +16,7 @@ import { urlFor } from "@/sanity/lib/image";
 import CommentSection from "@/components/comments/CommentSection";
 import { isBookmarked } from "@/services/bookmark.service";
 import { getAllCategories } from "@/services/category.service";
+import { getCommentCount } from "@/services/comment.service";
 import {
     getLatestPosts,
     getPopularPosts,
@@ -76,12 +78,14 @@ export default async function SinglePostPage({
         categories,
         initialViews,
         initialBookmarked,
+        initialCommentCount,
     ] = await Promise.all([
         getLatestPosts(),
         getPopularPosts(),
         getAllCategories(),
         getPostViews(post._id),
         isBookmarked(post._id),
+        getCommentCount(post._id),
     ]);
 
     const publishedDate = new Date(post.publishedAt).toLocaleDateString(
@@ -236,6 +240,10 @@ export default async function SinglePostPage({
                                             />
                                         </div>
 
+                                        <CommentCountButton
+                                            initialCount={initialCommentCount}
+                                        />
+
                                         <div
                                             className="
                                                 flex
@@ -296,7 +304,10 @@ export default async function SinglePostPage({
 
                     </article>
 
-                    <div className="mt-5 sm:mt-8 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                    <div
+                        id="comments"
+                        className="mt-5 sm:mt-8 scroll-mt-20 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8"
+                    >
                         <CommentSection postId={post._id} />
                     </div>
 

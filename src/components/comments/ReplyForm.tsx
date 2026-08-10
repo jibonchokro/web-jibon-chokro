@@ -5,12 +5,14 @@ import CommentForm from "./CommentForm";
 interface ReplyFormProps {
     postId: string;
     parentId: string;
+    currentUserId?: string | null;
     onSuccess: () => void;
 }
 
 export default function ReplyForm({
     postId,
     parentId,
+    currentUserId,
     onSuccess,
 }: ReplyFormProps) {
     return (
@@ -18,6 +20,7 @@ export default function ReplyForm({
             <CommentForm
                 postId={postId}
                 parentId={parentId}
+                currentUserId={currentUserId}
                 onSuccess={onSuccess}
             />
         </div>

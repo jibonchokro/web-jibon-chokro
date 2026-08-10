@@ -124,6 +124,7 @@ export default function CommentItem({
                             <ReplyForm
                                 postId={comment.post_id}
                                 parentId={comment.id}
+                                currentUserId={currentUserId}
                                 onSuccess={() => {
                                     setReplying(false);
                                     onRefresh();

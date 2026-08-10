@@ -5,7 +5,6 @@ import type { User } from "@supabase/supabase-js";
 import {
     Bookmark,
     ChevronDown,
-    Heart,
     LayoutDashboard,
     MessageCircle,
     Settings,
@@ -140,11 +139,6 @@ export default function UserMenu({
             icon: Bookmark,
         },
         {
-            href: "/dashboard/likes",
-            label: "লাইক",
-            icon: Heart,
-        },
-        {
             href: "/dashboard/comments",
             label: "মন্তব্য",
             icon: MessageCircle,
@@ -200,8 +194,8 @@ export default function UserMenu({
                     <ChevronDown
                         size={16}
                         className={`text-muted-foreground transition-transform ${open
-                                ? "rotate-180"
-                                : ""
+                            ? "rotate-180"
+                            : ""
                             }`}
                     />
                 </span>
@@ -247,8 +241,8 @@ export default function UserMenu({
                                     href={item.href}
                                     onClick={() => setOpen(false)}
                                     className={`mb-1 flex items-center gap-3 rounded-lg border border-black/10 px-3 py-2 text-sm transition ${active
-                                            ? "bg-gray-100 font-medium text-black"
-                                            : "text-muted-foreground hover:bg-gray-100 hover:text-black"
+                                        ? "bg-gray-100 font-medium text-black"
+                                        : "text-muted-foreground hover:bg-gray-100 hover:text-black"
                                         }`}
                                 >
                                     <Icon size={17} />
