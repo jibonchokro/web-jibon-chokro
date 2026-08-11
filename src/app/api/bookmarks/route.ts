@@ -18,6 +18,17 @@ function errorResponse(error: unknown) {
     );
 }
 
+function unauthorizedResponse() {
+    return NextResponse.json(
+        {
+            success: false,
+            error: "Unauthorized",
+        },
+        {
+            status: 401,
+        }
+    );
+}
 
 export async function GET(request: Request) {
     try {
@@ -28,28 +39,23 @@ export async function GET(request: Request) {
             error,
         } = await supabase.auth.getUser();
 
-        console.log("Bookmark user:", user?.id);
-        console.log("Auth error:", error);
-
-        if (error) {
-            throw error;
-        }
-
-        if (!user) {
+        // NOTE: supabase-js returns an "Auth session missing" error
+        // (not just a null user) when there is no session at all.
+        // That is an expected state for anonymous visitors, not a
+        // server failure, so we do NOT throw it here.
+        if (error || !user) {
             return NextResponse.json({
                 authenticated: false,
                 bookmarked: false,
             });
         }
 
-
         const postId = new URL(request.url)
             .searchParams
             .get("postId");
 
-
         if (!postId) {
-            const { data, error } = await supabase
+            const { data, error: listError } = await supabase
                 .from("bookmarks")
                 .select("post_id")
                 .eq("user_id", user.id)
@@ -57,11 +63,9 @@ export async function GET(request: Request) {
                     ascending: false,
                 });
 
-
-            if (error) {
-                throw error;
+            if (listError) {
+                throw listError;
             }
-
 
             return NextResponse.json({
                 authenticated: true,
@@ -72,7 +76,6 @@ export async function GET(request: Request) {
             });
         }
 
-
         const { data, error: bookmarkError } =
             await supabase
                 .from("bookmarks")
@@ -81,64 +84,36 @@ export async function GET(request: Request) {
                 .eq("post_id", postId)
                 .maybeSingle();
 
-
         if (bookmarkError) {
             throw bookmarkError;
         }
-
 
         return NextResponse.json({
             authenticated: true,
             bookmarked: Boolean(data),
         });
 
-
     } catch (error) {
         return errorResponse(error);
     }
 }
 
-
-
 export async function POST(request: Request) {
-
     try {
-
         const supabase = await createClient();
-
 
         const {
             data: { user },
             error,
         } = await supabase.auth.getUser();
 
-
-        console.log("POST user:", user?.id);
-        console.log("POST auth error:", error);
-
-
-        if (error) {
-            throw error;
+        // Same fix here: no session -> 401, not a thrown 500.
+        if (error || !user) {
+            return unauthorizedResponse();
         }
-
-
-        if (!user) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: "Unauthorized",
-                },
-                {
-                    status: 401,
-                }
-            );
-        }
-
 
         const body = await request.json();
-
         const postId = body.postId;
-
 
         if (!postId) {
             return NextResponse.json(
@@ -152,8 +127,6 @@ export async function POST(request: Request) {
             );
         }
 
-
-
         const { error: insertError } =
             await supabase
                 .from("bookmarks")
@@ -162,13 +135,8 @@ export async function POST(request: Request) {
                     post_id: postId,
                 });
 
-
-
         if (insertError) {
-
-            if (
-                insertError.code === "23505"
-            ) {
+            if (insertError.code === "23505") {
                 return NextResponse.json({
                     success: true,
                     bookmarked: true,
@@ -178,94 +146,48 @@ export async function POST(request: Request) {
             throw insertError;
         }
 
-
-
         return NextResponse.json({
             success: true,
             bookmarked: true,
         });
 
-
-
     } catch (error) {
-
         return errorResponse(error);
-
     }
-
 }
 
-
-
-
-
 export async function DELETE(request: Request) {
-
     try {
-
         const supabase = await createClient();
-
 
         const {
             data: { user },
             error,
-        } =
-            await supabase.auth.getUser();
+        } = await supabase.auth.getUser();
 
-
-        if (error) {
-            throw error;
+        // Same fix here: no session -> 401, not a thrown 500.
+        if (error || !user) {
+            return unauthorizedResponse();
         }
-
-
-        if (!user) {
-
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: "Unauthorized",
-                },
-                {
-                    status: 401,
-                }
-            );
-
-        }
-
 
         const { postId } = await request.json();
-
-
 
         const { error: deleteError } = await supabase
             .from("bookmarks")
             .delete()
-            .eq(
-                "user_id",
-                user.id
-            )
-            .eq(
-                "post_id",
-                postId
-            );
-
+            .eq("user_id", user.id)
+            .eq("post_id", postId);
 
         if (deleteError) {
             throw deleteError;
         }
-
-
 
         return NextResponse.json({
             success: true,
             bookmarked: false,
         });
 
-
     } catch (error) {
-
         return errorResponse(error);
-
     }
-
 }

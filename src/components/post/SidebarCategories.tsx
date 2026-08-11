@@ -18,7 +18,7 @@ export default function SidebarCategories({
     }
 
     return (
-        <section className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
+        <section className="rounded-none border border-[#f0f0f0] bg-white p-5 shadow-custom sm:rounded-xl lg:rounded-xl">
 
             {/* Header */}
 
@@ -26,7 +26,7 @@ export default function SidebarCategories({
 
                 <FolderOpen
                     size={18}
-                    className="text-muted-foreground"
+                    className="text-foreground"
                 />
 
                 <h2 className="text-base font-semibold tracking-tight text-foreground">
@@ -59,21 +59,57 @@ export default function SidebarCategories({
                         "
                     >
 
-                        <span
-                            className="
-                                font-medium
-                                text-muted-foreground
-                                transition-colors
-                                group-hover:text-foreground
-                            "
-                        >
-                            {category.title}
-                        </span>
+                        {/* Category + Count */}
 
+                        <div className="flex min-w-0 items-center gap-2">
+
+                            <span
+                                className="
+                                    truncate
+                                    font-medium
+                                    text-muted-foreground
+                                    transition-colors
+                                    group-hover:text-foreground
+                                "
+                            >
+                                {category.title}
+                            </span>
+
+                            <span
+                                className="
+                                    inline-flex
+                                    min-w-5
+                                    h-5
+                                    shrink-0
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    border
+                                    border-black/10
+                                    bg-muted
+                                    px-1.5
+                                    text-[10px]
+                                    font-medium
+                                    leading-none
+                                    text-muted-foreground
+                                    transition-colors
+                                    group-hover:bg-background
+                                    group-hover:text-foreground
+                                "
+                            >
+                                {category.postCount ?? 0}
+                            </span>
+
+                        </div>
+
+
+                        {/* Arrow */}
 
                         <ArrowRight
                             size={15}
                             className="
+                                ml-3
+                                shrink-0
                                 text-muted-foreground
                                 transition-transform
                                 duration-200
@@ -113,7 +149,6 @@ export default function SidebarCategories({
             >
                 সব বিভাগ দেখুন
             </Link>
-
 
         </section>
     );

@@ -52,12 +52,16 @@ export default function BookmarkButton({
                 }),
             });
 
-            const data = await response.json();
-
+            // Check auth status BEFORE parsing the body. This way,
+            // even if a 401 response ever came back without a JSON
+            // body, the login dialog still opens instead of falling
+            // through to the generic error toast.
             if (response.status === 401) {
                 setLoginDialogOpen(true);
                 return;
             }
+
+            const data = await response.json();
 
             if (!response.ok || !data.success) {
                 throw new Error(

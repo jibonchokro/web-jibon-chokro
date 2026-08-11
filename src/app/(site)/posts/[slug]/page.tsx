@@ -16,8 +16,11 @@ import { portableTextComponents } from "@/components/post/PortableTextComponents
 import PostViews from "@/components/post/PostViews";
 import ReadingProgressBar from "@/components/post/ReadingProgressBar";
 import RelatedPostsSlider from "@/components/post/RelatedPostsSlider";
+import ReportPostDialog from "@/components/post/ReportPostDialog";
 import ShareButtons from "@/components/post/ShareButtons";
 import SinglePostSidebar from "@/components/post/SinglePostSidebar";
+
+import type { Post } from "@/types/post";
 
 import { urlFor } from "@/sanity/lib/image";
 
@@ -30,6 +33,7 @@ import {
     getPopularPosts,
     getPostBySlug,
     getPostViews,
+    getRelatedPosts,
 } from "@/services/post.service";
 
 interface Props {
@@ -80,6 +84,17 @@ export default async function SinglePostPage({
         notFound();
     }
 
+    // Related posts come from the same category, ranked by the same
+    // popularity score as getPopularPosts (1 comment = 5 views).
+    // Posts with no category (or an otherwise-empty category) fall
+    // back to latest posts, so the slider is never empty.
+    const relatedPostsPromise = post.category
+        ? getRelatedPosts(
+            post.category.slug.current,
+            post._id
+        )
+        : Promise.resolve<Post[]>([]);
+
     const [
         latestPosts,
         popularPosts,
@@ -87,6 +102,7 @@ export default async function SinglePostPage({
         initialViews,
         initialBookmarked,
         initialCommentCount,
+        relatedPostsByCategory,
     ] = await Promise.all([
         getLatestPosts(),
         getPopularPosts(),
@@ -94,6 +110,7 @@ export default async function SinglePostPage({
         getPostViews(post._id),
         isBookmarked(post._id),
         getCommentCount(post._id),
+        relatedPostsPromise,
     ]);
 
     const publishedDate = new Date(post.publishedAt).toLocaleDateString(
@@ -111,18 +128,22 @@ export default async function SinglePostPage({
 
     const postUrl = `${siteUrl}/posts/${post.slug.current}`;
 
-    // NOTE: `author` and `coverImage` are read defensively below in case
-    // your Sanity schema doesn't (yet) return these fields on `post`.
-    // If your `Post` type already types them, you can drop the
-    // `as any` casts and use `post.author` / `post.coverImage` directly.
-    const author = (post as any).author as
-        | { name?: string; image?: any; bio?: string; slug?: { current?: string } }
-        | undefined;
+    // NOTE: `coverImage` is read defensively in case your Sanity schema
+    // doesn't (yet) type this field on `post`. If your `Post` type
+    // already includes it, you can drop the `as any` cast and use
+    // `post.coverImage` directly.
     const coverImage = (post as any).coverImage;
 
-    const relatedPosts = (latestPosts ?? [])
-        .filter((p) => p.slug?.current !== post.slug.current)
-        .slice(0, 6);
+    const relatedPosts =
+        relatedPostsByCategory.length > 0
+            ? relatedPostsByCategory
+            : (latestPosts ?? [])
+                .filter(
+                    (p) =>
+                        p.slug?.current !==
+                        post.slug.current
+                )
+                .slice(0, 6);
 
     // Basic Article structured data for SEO — safe to remove if you
     // already inject this elsewhere.
@@ -134,9 +155,6 @@ export default async function SinglePostPage({
         datePublished: post.publishedAt,
         image: coverImage
             ? [urlFor(coverImage).width(1200).height(630).url()]
-            : undefined,
-        author: author?.name
-            ? [{ "@type": "Person", name: author.name }]
             : undefined,
         mainEntityOfPage: postUrl,
     };
@@ -201,7 +219,7 @@ export default async function SinglePostPage({
 
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
                 <div className="min-w-0">
-                    <article className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+                    <article className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
 
                         <header>
                             {/* Category + date badges */}
@@ -239,47 +257,6 @@ export default async function SinglePostPage({
                                 </p>
                             )}
 
-                            {/* Author byline */}
-                            {author?.name && (
-                                <div className="mt-5 flex items-center gap-3">
-                                    {author.image ? (
-                                        <Image
-                                            src={urlFor(author.image)
-                                                .width(72)
-                                                .height(72)
-                                                .url()}
-                                            alt={author.name}
-                                            width={40}
-                                            height={40}
-                                            className="h-10 w-10 shrink-0 rounded-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold text-muted-foreground">
-                                            {author.name.charAt(0)}
-                                        </div>
-                                    )}
-                                    <div className="min-w-0">
-                                        {author.slug?.current ? (
-                                            <Link
-                                                href={`/author/${author.slug.current}`}
-                                                className="block truncate text-sm font-semibold text-foreground hover:underline"
-                                            >
-                                                {author.name}
-                                            </Link>
-                                        ) : (
-                                            <span className="block truncate text-sm font-semibold text-foreground">
-                                                {author.name}
-                                            </span>
-                                        )}
-                                        {author.bio && (
-                                            <span className="block truncate text-xs text-muted-foreground">
-                                                {author.bio}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
                             {/* Cover image */}
                             {coverImage && (
                                 <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl bg-muted sm:mt-8">
@@ -298,7 +275,7 @@ export default async function SinglePostPage({
                             )}
 
                             {/* Action Bar */}
-                            <div className="mt-6 border-y border-black/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+                            <div className="mt-4 border-b border-black/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
                                 <div className="flex flex-wrap items-center justify-between gap-3 py-3">
                                     <div className="flex items-center gap-3">
                                         <div
@@ -347,6 +324,12 @@ export default async function SinglePostPage({
                                             url={postUrl}
                                             title={post.title}
                                         />
+
+                                        <ReportPostDialog
+                                            postId={post._id}
+                                            postTitle={post.title}
+                                            postUrl={postUrl}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -361,8 +344,8 @@ export default async function SinglePostPage({
                         </div>
 
                         {post.tags?.length > 0 && (
-                            <footer className="flex flex-wrap items-center gap-3 mt-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 border-t border-black/10 pt-6 sm:mt-8 sm:pt-8">
-                                <h2 className="text-base font-semibold text-foreground sm:text-lg">
+                            <footer className="flex flex-wrap items-center gap-3 mt-4 -mx-5 px-5 pt-4 border-t border-black/10">
+                                <h2 className="text-base font-semibold tracking-tight text-foreground">
                                     ট্যাগ:
                                 </h2>
 
@@ -387,7 +370,7 @@ export default async function SinglePostPage({
 
                     <div
                         id="comments"
-                        className="mt-5 sm:mt-8 scroll-mt-20 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8"
+                        className="mt-5 sm:mt-8 scroll-mt-20 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5"
                     >
                         <CommentSection postId={post._id} />
                     </div>

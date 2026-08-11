@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import {
+    BookOpen,
     ChevronLeft,
     ChevronRight,
     Clock,
@@ -43,11 +44,19 @@ export default function RelatedPostsSlider({
     };
 
     return (
-        <section className="mt-5 sm:mt-8 scroll-mt-20 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <section className="mt-5 sm:mt-8 scroll-mt-20 rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] shadow-custom bg-white p-5">
             <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-foreground sm:text-xl">
-                    আরও পড়ুন
-                </h2>
+
+                <div className="flex items-center gap-2">
+                    <BookOpen
+                        size={18}
+                        className="text-foreground"
+                    />
+
+                    <h2 className="text-base font-semibold tracking-tight text-foreground">
+                        আরও পড়ুন
+                    </h2>
+                </div>
 
                 <div className="flex items-center gap-2">
                     <button

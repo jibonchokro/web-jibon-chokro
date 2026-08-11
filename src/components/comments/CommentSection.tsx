@@ -85,7 +85,7 @@ export default function CommentSection({
 
                 <MessageCircle
                     size={18}
-                    className="text-muted-foreground"
+                    className="text-foreground"
                 />
 
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">

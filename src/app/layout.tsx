@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anek_Bangla, Geist } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
+import ScrollToTop from "@/components/common/ScrollToTop";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -73,6 +74,8 @@ export default function RootLayout({
           closeButton
           duration={2500}
         />
+
+        <ScrollToTop />
 
       </body>
     </html>

@@ -147,6 +147,57 @@ export async function attachPostStats(
 }
 
 /**
+ * Popularity rules (shared by getPopularPosts and getRelatedPosts,
+ * so "popular" means the same thing everywhere it's used):
+ *
+ * 1 comment = 5 views
+ *
+ * popularity score = views + comments * 5
+ *
+ * Ties are broken by newest post first.
+ *
+ * Posts must already have `views`/`comments` attached (e.g. via
+ * attachPostStats) — this only scores and sorts, it doesn't fetch.
+ */
+function sortByPopularity(posts: Post[]): Post[] {
+    const scoredPosts = posts.map((post) => {
+        const views = Number(post.views ?? 0);
+        const comments = Number(post.comments ?? 0);
+
+        const popularityScore =
+            views + comments * 5;
+
+        return {
+            ...post,
+            popularityScore,
+        };
+    });
+
+    scoredPosts.sort((a, b) => {
+        const scoreDifference =
+            b.popularityScore -
+            a.popularityScore;
+
+        if (scoreDifference !== 0) {
+            return scoreDifference;
+        }
+
+        return (
+            new Date(
+                b.publishedAt
+            ).getTime() -
+            new Date(
+                a.publishedAt
+            ).getTime()
+        );
+    });
+
+    return scoredPosts.map(
+        ({ popularityScore, ...post }) => post
+    );
+}
+
+/**
  * Get all posts.
  */
 export async function getAllPosts(): Promise<
@@ -220,21 +271,8 @@ export async function getLatestPosts(): Promise<
 /**
  * Get the most popular posts.
  *
- * Popularity rules:
- *
- * 1 comment = 5 views
- *
- * Therefore:
- *
- * popularity score =
- * comments * 5 + views
- *
- * If two posts have the same score:
- * newer post comes first.
- *
- * Ranking is calculated across ALL posts.
- *
- * Only the top 20 are returned.
+ * Ranking is calculated across ALL posts. Only the top 20 are
+ * returned. See sortByPopularity for the scoring rules.
  */
 export async function getPopularPosts(): Promise<
     Post[]
@@ -262,76 +300,9 @@ export async function getPopularPosts(): Promise<
     const postsWithStats =
         await attachPostStats(posts);
 
-    /*
-     * Calculate popularity score.
-     *
-     * 1 comment = 5 views.
-     */
-    const scoredPosts =
-        postsWithStats.map((post) => {
-            const views =
-                Number(
-                    post.views ?? 0
-                );
-
-            const comments =
-                Number(
-                    post.comments ?? 0
-                );
-
-            const popularityScore =
-                views +
-                comments * 5;
-
-            return {
-                ...post,
-                popularityScore,
-            };
-        });
-
-    /*
-     * Sort by:
-     *
-     * 1. Highest popularity score
-     * 2. Newest post if scores are equal
-     */
-    scoredPosts.sort(
-        (a, b) => {
-            const scoreDifference =
-                b.popularityScore -
-                a.popularityScore;
-
-            if (
-                scoreDifference !== 0
-            ) {
-                return scoreDifference;
-            }
-
-            return (
-                new Date(
-                    b.publishedAt
-                ).getTime() -
-                new Date(
-                    a.publishedAt
-                ).getTime()
-            );
-        }
-    );
-
-    /*
-     * Return top 20.
-     *
-     * Keep comments and views because
-     * PostCard needs them.
-     */
-    return scoredPosts
-        .slice(0, 20)
-        .map(
-            ({
-                popularityScore,
-                ...post
-            }) => post
-        );
+    return sortByPopularity(
+        postsWithStats
+    ).slice(0, 20);
 }
 
 /**
@@ -348,6 +319,32 @@ export async function getPostsByCategory(
     );
 
     return attachPostStats(posts);
+}
+
+/**
+ * Get related posts: other posts in the same category as the given
+ * post, ranked by the same popularity score used by getPopularPosts
+ * (1 comment = 5 views), most popular first.
+ *
+ * The current post is excluded so it never recommends itself.
+ */
+export async function getRelatedPosts(
+    categorySlug: string,
+    excludePostId: string,
+    limit = 6
+): Promise<Post[]> {
+    const posts = await getPostsByCategory(
+        categorySlug
+    );
+
+    const otherPosts = posts.filter(
+        (post) => post._id !== excludePostId
+    );
+
+    return sortByPopularity(otherPosts).slice(
+        0,
+        limit
+    );
 }
 
 /**
