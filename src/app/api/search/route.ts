@@ -1,10 +1,29 @@
 import { NextResponse } from "next/server";
 
-import { searchPosts } from "@/services/search.service";
-
+import {
+    searchPosts,
+    type SearchSort,
+} from "@/services/search.service";
 
 const POSTS_PER_LOAD = 16;
 
+const VALID_SORTS: SearchSort[] = [
+    "latest",
+    "oldest",
+    "title",
+    "popular",
+];
+
+function parseSort(value: string | null): SearchSort {
+    if (
+        value &&
+        (VALID_SORTS as string[]).includes(value)
+    ) {
+        return value as SearchSort;
+    }
+
+    return "latest";
+}
 
 export async function GET(
     req: Request
@@ -27,6 +46,16 @@ export async function GET(
             );
 
 
+        const sort = parseSort(
+            searchParams.get("sort")
+        );
+
+
+        const categorySlug =
+            searchParams.get("category")?.trim() ||
+            undefined;
+
+
         if (!q) {
 
             return NextResponse.json({
@@ -42,6 +71,8 @@ export async function GET(
                 {
                     page,
                     limit: POSTS_PER_LOAD,
+                    sort,
+                    categorySlug,
                 }
             );
 
