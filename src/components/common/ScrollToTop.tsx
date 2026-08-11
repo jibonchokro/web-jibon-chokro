@@ -43,7 +43,7 @@ export default function ScrollToTop() {
             className={`
                 fixed
                 right-3
-                bottom-3
+                bottom-5
                 z-50
                 flex
                 size-8
