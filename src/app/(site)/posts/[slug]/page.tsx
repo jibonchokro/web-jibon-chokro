@@ -250,26 +250,18 @@ export default async function SinglePostPage({
                                 {post.title}
                             </h1>
 
-                            {/* Excerpt / dek */}
-                            {post.excerpt && (
-                                <p className="mt-3 text-base leading-7 text-muted-foreground sm:text-lg">
-                                    {post.excerpt}
-                                </p>
-                            )}
-
                             {/* Cover image */}
+
                             {coverImage && (
-                                <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl bg-muted sm:mt-8">
+                                <div className="mt-4 w-full overflow-hidden rounded-xl bg-muted sm:mt-6">
                                     <Image
-                                        src={urlFor(coverImage)
-                                            .width(1600)
-                                            .height(900)
-                                            .url()}
+                                        src={urlFor(coverImage).width(1600).url()}
                                         alt={post.title}
-                                        fill
+                                        width={1600}
+                                        height={900}
                                         priority
                                         sizes="(max-width: 1024px) 100vw, 800px"
-                                        className="object-cover"
+                                        className="h-auto w-full"
                                     />
                                 </div>
                             )}
@@ -336,7 +328,17 @@ export default async function SinglePostPage({
 
                         </header>
 
-                        <div className="prose prose-neutral mt-6 max-w-none prose-headings:mt-8 prose-headings:mb-4 prose-headings:font-bold prose-headings:text-foreground prose-p:my-5 prose-p:leading-8 prose-p:text-foreground/90 prose-a:text-foreground hover:prose-a:text-foreground prose-strong:text-foreground prose-ul:my-5 prose-ol:my-5 prose-li:my-1.5 prose-img:rounded-xl prose-blockquote:border-l-4 prose-blockquote:border-black/20 prose-blockquote:bg-muted prose-blockquote:px-5 prose-blockquote:py-3 prose-blockquote:italic sm:prose-lg sm:mt-8 sm:prose-headings:mt-10 sm:prose-p:my-6 sm:prose-p:leading-9">
+                        <div
+                            className="
+                                prose
+                                prose-neutral
+                                max-w-none
+                                prose-p:my-5
+                                prose-p:leading-8
+                                prose-p:text-foreground/90
+                                prose-p:text-base
+                            "
+                        >
                             <PortableText
                                 value={post.content}
                                 components={portableTextComponents}

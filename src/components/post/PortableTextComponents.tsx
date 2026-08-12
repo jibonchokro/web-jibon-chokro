@@ -7,19 +7,19 @@ import { urlFor } from "@/sanity/lib/image";
 export const portableTextComponents: PortableTextComponents = {
     types: {
         image: ({ value }) => (
-            <figure className="my-10">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+            <figure className="my-8 sm:my-10">
+                <div className="overflow-hidden rounded-xl">
                     <Image
                         src={urlFor(value).width(1200).url()}
                         alt={value.alt || ""}
                         width={1200}
-                        height={675}
-                        className="h-auto w-full object-cover"
+                        height={800}
+                        className="h-auto w-full object-contain"
                     />
                 </div>
 
                 {value.caption && (
-                    <figcaption className="mt-3 text-center text-sm text-gray-500">
+                    <figcaption className="mt-3 text-center text-sm leading-6 text-muted-foreground">
                         {value.caption}
                     </figcaption>
                 )}
@@ -29,37 +29,37 @@ export const portableTextComponents: PortableTextComponents = {
 
     block: {
         h1: ({ children }) => (
-            <h1 className="mt-12 mb-6 text-4xl font-bold leading-tight text-gray-900">
+            <h1 className="mt-10 mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:mt-12 sm:mb-6 sm:text-4xl">
                 {children}
             </h1>
         ),
 
         h2: ({ children }) => (
-            <h2 className="mt-12 mb-5 text-3xl font-bold text-gray-900">
+            <h2 className="mt-10 mb-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:mt-12 sm:mb-5 sm:text-3xl">
                 {children}
             </h2>
         ),
 
         h3: ({ children }) => (
-            <h3 className="mt-10 mb-4 text-2xl font-semibold text-gray-900">
+            <h3 className="mt-8 mb-4 text-xl font-bold leading-tight text-foreground sm:mt-10 sm:text-2xl">
                 {children}
             </h3>
         ),
 
         h4: ({ children }) => (
-            <h4 className="mt-8 mb-3 text-xl font-semibold text-gray-900">
+            <h4 className="mt-7 mb-3 text-lg font-semibold leading-tight text-foreground sm:mt-8 sm:text-xl">
                 {children}
             </h4>
         ),
 
         normal: ({ children }) => (
-            <p className="my-7 text-[18px] leading-9 text-gray-700">
+            <p className="my-3 text-[16px] leading-8 text-foreground/85 sm:my-4 sm:text-[18px] sm:leading-9">
                 {children}
             </p>
         ),
 
         blockquote: ({ children }) => (
-            <blockquote className="my-8 rounded-xl border-l-4 border-green-600 bg-green-50 px-6 py-4 italic">
+            <blockquote className="my-6 rounded-xl border-l-4 border-green-600 bg-green-50 px-5 py-4 text-[17px] leading-8 text-gray-700 sm:px-6 sm:py-5 sm:text-[18px] sm:leading-9">
                 {children}
             </blockquote>
         ),
@@ -67,7 +67,7 @@ export const portableTextComponents: PortableTextComponents = {
 
     marks: {
         strong: ({ children }) => (
-            <strong className="font-bold text-gray-900">
+            <strong className="font-bold text-foreground">
                 {children}
             </strong>
         ),
@@ -79,7 +79,7 @@ export const portableTextComponents: PortableTextComponents = {
         ),
 
         underline: ({ children }) => (
-            <span className="underline">
+            <span className="underline underline-offset-2">
                 {children}
             </span>
         ),
@@ -93,14 +93,16 @@ export const portableTextComponents: PortableTextComponents = {
         link: ({ children, value }) => {
             const href = value?.href ?? "";
 
-            const external = href.startsWith("http");
+            const external =
+                href.startsWith("http://") ||
+                href.startsWith("https://");
 
             return (
                 <Link
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="font-medium text-green-700 underline underline-offset-4 transition hover:text-green-800"
+                    className="font-medium text-green-700 underline decoration-green-700/40 underline-offset-4 transition-colors hover:text-green-800 hover:decoration-green-800"
                 >
                     {children}
                 </Link>
@@ -110,13 +112,13 @@ export const portableTextComponents: PortableTextComponents = {
 
     list: {
         bullet: ({ children }) => (
-            <ul className="my-7 list-disc space-y-3 pl-6">
+            <ul className="my-6 list-disc space-y-2.5 pl-6 text-[17px] leading-8 text-foreground/85 sm:my-7 sm:text-[18px] sm:leading-9">
                 {children}
             </ul>
         ),
 
         number: ({ children }) => (
-            <ol className="my-7 list-decimal space-y-3 pl-6">
+            <ol className="my-6 list-decimal space-y-2.5 pl-6 text-[17px] leading-8 text-foreground/85 sm:my-7 sm:text-[18px] sm:leading-9">
                 {children}
             </ol>
         ),
@@ -124,13 +126,13 @@ export const portableTextComponents: PortableTextComponents = {
 
     listItem: {
         bullet: ({ children }) => (
-            <li className="leading-8 text-gray-700">
+            <li className="pl-1">
                 {children}
             </li>
         ),
 
         number: ({ children }) => (
-            <li className="leading-8 text-gray-700">
+            <li className="pl-1">
                 {children}
             </li>
         ),
