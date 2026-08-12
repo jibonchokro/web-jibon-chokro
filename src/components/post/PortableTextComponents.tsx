@@ -53,7 +53,7 @@ export const portableTextComponents: PortableTextComponents = {
         ),
 
         normal: ({ children }) => (
-            <p className="my-3 text-[16px] leading-8 text-foreground/85 sm:my-4 sm:text-[18px] sm:leading-9">
+            <p className="my-3 text-[17px] leading-8 tracking-normal [word-spacing:0.1em] text-foreground/85 sm:my-4 sm:text-[18px] sm:leading-9">
                 {children}
             </p>
         ),
