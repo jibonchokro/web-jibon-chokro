@@ -62,22 +62,22 @@ export default async function SearchPage({
 
                         {/* Heading */}
 
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-center gap-3">
 
                             <div
                                 className="
                                     flex
-                                    size-10
+                                    size-12
                                     shrink-0
                                     items-center
                                     justify-center
                                     rounded-lg
                                     bg-muted
                                     text-foreground
-                                    sm:size-11
+                                    sm:size-13
                                 "
                             >
-                                <Search className="size-5" />
+                                <Search className="size-7" />
                             </div>
 
 
@@ -97,7 +97,6 @@ export default async function SearchPage({
 
                                 <p
                                     className="
-                                        mt-1
                                         text-sm
                                         leading-6
                                         text-muted-foreground

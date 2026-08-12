@@ -215,24 +215,19 @@ export default function SearchResults({
 
     return (
         <section>
-            <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-5 flex items-center justify-between gap-3">
+                {/* Title */}
                 <h2 className="text-lg font-semibold">
                     পাওয়া লেখা
                 </h2>
 
-                <div className="flex items-center gap-3">
-
-                    <span className="text-sm text-muted-foreground">
-                        {posts.length} ফলাফল
-                    </span>
-
+                {/* Sorting */}
+                <div className="flex items-center gap-2">
                     {categories.length > 1 && (
                         <select
                             value={categorySlug}
                             onChange={(e) =>
-                                setCategorySlug(
-                                    e.target.value
-                                )
+                                setCategorySlug(e.target.value)
                             }
                             className="h-10 rounded-xl border border-border bg-white px-3 text-sm outline-none"
                         >
@@ -240,46 +235,29 @@ export default function SearchResults({
                                 সব বিভাগ
                             </option>
 
-                            {categories.map(
-                                (category) => (
-                                    <option
-                                        key={category.slug}
-                                        value={category.slug}
-                                    >
-                                        {category.title}
-                                    </option>
-                                )
-                            )}
+                            {categories.map((category) => (
+                                <option
+                                    key={category.slug}
+                                    value={category.slug}
+                                >
+                                    {category.title}
+                                </option>
+                            ))}
                         </select>
                     )}
 
                     <select
                         value={sort}
                         onChange={(e) =>
-                            setSort(
-                                e.target
-                                    .value as SortOption
-                            )
+                            setSort(e.target.value as SortOption)
                         }
                         className="h-10 rounded-xl border border-border bg-white px-3 text-sm outline-none"
                     >
-                        <option value="latest">
-                            সর্বশেষ
-                        </option>
-
-                        <option value="popular">
-                            জনপ্রিয়
-                        </option>
-
-                        <option value="oldest">
-                            পুরোনো
-                        </option>
-
-                        <option value="title">
-                            A-Z
-                        </option>
+                        <option value="latest">সর্বশেষ</option>
+                        <option value="popular">জনপ্রিয়</option>
+                        <option value="oldest">পুরোনো</option>
+                        <option value="title">A-Z</option>
                     </select>
-
                 </div>
             </div>
 
