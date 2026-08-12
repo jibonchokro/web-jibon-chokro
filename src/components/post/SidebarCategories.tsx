@@ -1,8 +1,13 @@
+"use client";
+
 import {
     ArrowRight,
+    ChevronDown,
+    ChevronUp,
     FolderOpen,
 } from "lucide-react";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import type { Category } from "@/types/category";
 
@@ -10,12 +15,34 @@ interface SidebarCategoriesProps {
     categories: Category[];
 }
 
+const VISIBLE_COUNT = 5;
+
 export default function SidebarCategories({
     categories,
 }: SidebarCategoriesProps) {
-    if (!categories.length) {
+    const [expanded, setExpanded] = useState(false);
+
+    // Most popular first — highest post count wins.
+    const sortedCategories = useMemo(
+        () =>
+            [...categories].sort(
+                (a, b) =>
+                    (b.postCount ?? 0) -
+                    (a.postCount ?? 0)
+            ),
+        [categories]
+    );
+
+    if (!sortedCategories.length) {
         return null;
     }
+
+    const hasMore =
+        sortedCategories.length > VISIBLE_COUNT;
+
+    const visibleCategories = expanded
+        ? sortedCategories
+        : sortedCategories.slice(0, VISIBLE_COUNT);
 
     return (
         <section className="rounded-none border border-[#f0f0f0] bg-white p-5 shadow-custom sm:rounded-xl lg:rounded-xl">
@@ -40,7 +67,7 @@ export default function SidebarCategories({
 
             <div className="space-y-1.5">
 
-                {categories.map((category) => (
+                {visibleCategories.map((category) => (
 
                     <Link
                         key={category._id}
@@ -125,30 +152,48 @@ export default function SidebarCategories({
             </div>
 
 
-            {/* View All */}
+            {/* Show more / show less */}
 
-            <Link
-                href="/categories"
-                className="
-                    mt-4
-                    flex
-                    items-center
-                    justify-center
-                    rounded-lg
-                    border
-                    border-black/10
-                    bg-background
-                    px-4
-                    py-2.5
-                    text-sm
-                    font-medium
-                    text-foreground
-                    transition-colors
-                    hover:bg-muted
-                "
-            >
-                সব বিভাগ দেখুন
-            </Link>
+            {hasMore && (
+                <button
+                    type="button"
+                    onClick={() =>
+                        setExpanded((previous) => !previous)
+                    }
+                    aria-expanded={expanded}
+                    className="
+                        mt-4
+                        flex
+                        w-full
+                        items-center
+                        justify-center
+                        gap-1.5
+                        rounded-lg
+                        border
+                        border-black/10
+                        bg-background
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-medium
+                        text-foreground
+                        transition-colors
+                        hover:bg-muted
+                    "
+                >
+                    {expanded ? (
+                        <>
+                            কম দেখুন
+                            <ChevronUp size={15} />
+                        </>
+                    ) : (
+                        <>
+                            সব বিভাগ দেখুন
+                            <ChevronDown size={15} />
+                        </>
+                    )}
+                </button>
+            )}
 
         </section>
     );

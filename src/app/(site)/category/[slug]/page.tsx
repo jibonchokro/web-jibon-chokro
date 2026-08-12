@@ -103,7 +103,7 @@ export default async function CategoryPage({
 
                     </div>
 
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex gap-4 flex-row sm:items-center justify-between">
 
                         <h1 className="text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
 

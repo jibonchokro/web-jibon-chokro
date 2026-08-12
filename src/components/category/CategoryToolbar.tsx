@@ -263,7 +263,7 @@ export default function CategoryToolbar({
 
             {/* Result Count */}
 
-            <p className="mb-6 text-sm text-muted-foreground">
+            <p className="mb-6 inline-flex gap-1 items-center rounded-full border border-black/10 bg-background px-4 py-2 text-sm font-medium whitespace-nowrap">
                 মোট{" "}
                 <span className="font-semibold text-foreground">
                     {filteredPosts.length}
