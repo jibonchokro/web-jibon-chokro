@@ -7,6 +7,14 @@ export async function GET(request: Request) {
 
     const code = searchParams.get("code");
 
+    // Only allow relative paths here — never redirect off-site
+    // based on a value that came from the URL.
+    const next = searchParams.get("next");
+    const redirectTarget =
+        next && next.startsWith("/")
+            ? `${origin}${next}`
+            : origin;
+
     if (!code) {
         return NextResponse.redirect(origin);
     }
@@ -59,5 +67,5 @@ export async function GET(request: Request) {
         );
     }
 
-    return NextResponse.redirect(origin);
+    return NextResponse.redirect(redirectTarget);
 }

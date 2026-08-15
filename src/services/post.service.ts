@@ -159,10 +159,17 @@ export async function attachPostStats(
  * Posts must already have `views`/`comments` attached (e.g. via
  * attachPostStats) — this only scores and sorts, it doesn't fetch.
  */
-function sortByPopularity(posts: Post[]): Post[] {
+function sortByPopularity(
+    posts: Post[]
+): Post[] {
     const scoredPosts = posts.map((post) => {
-        const views = Number(post.views ?? 0);
-        const comments = Number(post.comments ?? 0);
+        const views = Number(
+            post.views ?? 0
+        );
+
+        const comments = Number(
+            post.comments ?? 0
+        );
 
         const popularityScore =
             views + comments * 5;
@@ -193,7 +200,10 @@ function sortByPopularity(posts: Post[]): Post[] {
     });
 
     return scoredPosts.map(
-        ({ popularityScore, ...post }) => post
+        ({
+            popularityScore,
+            ...post
+        }) => post
     );
 }
 
@@ -208,6 +218,23 @@ export async function getAllPosts(): Promise<
     );
 
     return attachPostStats(posts);
+}
+
+/**
+ * Get total number of published posts.
+ *
+ * Only posts with a `publishedAt` value are counted.
+ * This returns the actual total count and does not depend
+ * on the number of posts returned by a limited query such
+ * as latestPostsQuery.
+ */
+export async function getPostCount(): Promise<number> {
+    return client.fetch(
+        `count(*[
+            _type == "post" &&
+            defined(publishedAt)
+        ])`
+    );
 }
 
 /**
@@ -338,13 +365,13 @@ export async function getRelatedPosts(
     );
 
     const otherPosts = posts.filter(
-        (post) => post._id !== excludePostId
+        (post) =>
+            post._id !== excludePostId
     );
 
-    return sortByPopularity(otherPosts).slice(
-        0,
-        limit
-    );
+    return sortByPopularity(
+        otherPosts
+    ).slice(0, limit);
 }
 
 /**

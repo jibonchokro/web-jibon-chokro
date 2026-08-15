@@ -9,11 +9,21 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Hero() {
+import { getAllCategories } from "@/services/category.service";
+import { getPostCount } from "@/services/post.service";
+
+export default async function Hero() {
+    const [postsCount, categories] = await Promise.all([
+        getPostCount(),
+        getAllCategories(),
+    ]);
+
+    const categoriesCount = categories.length;
+
     return (
         <section className="relative border-b border-black/10">
 
-            {/* Background (clipped only) */}
+            {/* Background */}
 
             <div className="absolute inset-0 overflow-hidden">
 
@@ -39,6 +49,7 @@ export default function Hero() {
 
             </div>
 
+
             <Container>
 
                 <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
@@ -52,6 +63,7 @@ export default function Hero() {
                         প্রতিদিন নতুন কিছু শিখুন
 
                     </div>
+
 
                     {/* Title */}
 
@@ -67,6 +79,7 @@ export default function Hero() {
 
                     </h1>
 
+
                     {/* Description */}
 
                     <p className="mt-6 max-w-3xl text-base leading-8 text-black sm:mt-8 sm:text-md lg:text-xl">
@@ -79,6 +92,7 @@ export default function Hero() {
 
                     </p>
 
+
                     {/* Search */}
 
                     <div className="relative z-50 mt-8 flex w-full justify-center sm:mt-10">
@@ -88,6 +102,7 @@ export default function Hero() {
                         />
 
                     </div>
+
 
                     {/* Popular Search */}
 
@@ -118,6 +133,7 @@ export default function Hero() {
 
                     </div>
 
+
                     {/* CTA */}
 
                     <div className="mt-6 flex w-full flex-row justify-center gap-3 sm:mt-8">
@@ -133,6 +149,7 @@ export default function Hero() {
 
                         </Link>
 
+
                         <Link
                             href="/categories"
                             className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-7 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
@@ -144,9 +161,12 @@ export default function Hero() {
 
                     </div>
 
+
                     {/* Stats */}
 
                     <div className="mt-8 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-10 sm:gap-5">
+
+                        {/* Published Posts */}
 
                         <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
@@ -156,7 +176,7 @@ export default function Hero() {
                             />
 
                             <h3 className="mt-2 text-xl font-bold text-foreground sm:mt-3 sm:text-3xl">
-                                ৫০০+
+                                {postsCount.toLocaleString("bn-BD")}+
                             </h3>
 
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
@@ -164,6 +184,9 @@ export default function Hero() {
                             </p>
 
                         </div>
+
+
+                        {/* Monthly Readers */}
 
                         <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
@@ -182,6 +205,9 @@ export default function Hero() {
 
                         </div>
 
+
+                        {/* Categories */}
+
                         <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
 
                             <Sparkles
@@ -190,7 +216,7 @@ export default function Hero() {
                             />
 
                             <h3 className="mt-2 text-xl font-bold text-foreground sm:mt-3 sm:text-3xl">
-                                ২৫+
+                                {categoriesCount.toLocaleString("bn-BD")}+
                             </h3>
 
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">

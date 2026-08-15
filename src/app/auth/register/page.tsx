@@ -1,12 +1,12 @@
 import LoginButton from "@/components/auth/LoginButton";
-import LoginForm from "@/components/auth/LoginForm";
+import RegisterForm from "@/components/auth/RegisterForm";
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function LoginPage() {
+export default async function RegisterPage() {
     const supabase = await createClient();
 
     const {
@@ -32,11 +32,11 @@ export default async function LoginPage() {
                         <div className="text-center">
 
                             <h1 className="text-3xl font-bold tracking-tight">
-                                স্বাগতম
+                                নতুন অ্যাকাউন্ট
                             </h1>
 
                             <p className="mt-2 text-sm text-muted-foreground">
-                                আপনার অ্যাকাউন্টে লগইন করুন।
+                                একটি অ্যাকাউন্ট তৈরি করে শুরু করুন।
                             </p>
 
                         </div>
@@ -63,26 +63,23 @@ export default async function LoginPage() {
 
                         </div>
 
-                        {/* Manual Login */}
+                        {/* Manual Register */}
 
-                        <LoginForm />
+                        <RegisterForm />
 
                         {/* Links */}
 
-                        <div className="mt-6 flex items-center justify-between text-sm">
+                        <div className="mt-6 text-center text-sm">
+
+                            <span className="text-muted-foreground">
+                                ইতিমধ্যে অ্যাকাউন্ট আছে?{" "}
+                            </span>
 
                             <Link
-                                href="/auth/forgot-password"
-                                className="text-muted-foreground transition hover:text-foreground"
-                            >
-                                পাসওয়ার্ড ভুলে গেছেন?
-                            </Link>
-
-                            <Link
-                                href="/auth/register"
+                                href="/auth/login"
                                 className="font-medium transition hover:underline"
                             >
-                                নতুন অ্যাকাউন্ট
+                                লগইন করুন
                             </Link>
 
                         </div>
@@ -90,7 +87,7 @@ export default async function LoginPage() {
                     </div>
 
                     <p className="mt-6 text-center text-xs leading-6 text-muted-foreground">
-                        লগইন করার মাধ্যমে আপনি আমাদের{" "}
+                        অ্যাকাউন্ট তৈরি করার মাধ্যমে আপনি আমাদের{" "}
                         <Link
                             href="/terms"
                             className="underline underline-offset-4"
