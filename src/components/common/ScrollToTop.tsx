@@ -58,11 +58,6 @@ export default function ScrollToTop() {
                 backdrop-blur-md
                 transition-all
                 duration-300
-                hover:bg-background/90
-                hover:shadow-md
-                focus:outline-none
-                focus:ring-2
-                focus:ring-ring
                 sm:right-6
                 sm:bottom-6
                 sm:size-10

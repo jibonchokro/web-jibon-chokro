@@ -36,10 +36,11 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-8">
             {/* Header */}
+
             <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                     ড্যাশবোর্ড
                 </h1>
 
@@ -50,7 +51,8 @@ export default function DashboardPage() {
             </div>
 
             {/* Cards */}
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {cards.map((card) => {
                     const Icon = card.icon;
 
@@ -58,32 +60,21 @@ export default function DashboardPage() {
                         <Link
                             key={card.href}
                             href={card.href}
-                            className="
-                                group
-                                rounded-xl
-                                border
-                                border-black/10
-                                bg-card
-                                p-6
-                                transition-all
-                                hover:-translate-y-0.5
-                                hover:border-gray-300
-                                hover:shadow-sm
-                            "
+                            className="group rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-xs"
                         >
                             <div className="flex items-start justify-between">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-black/10 bg-muted text-muted-foreground transition-colors group-hover:bg-gray-100 group-hover:text-gray-900">
+                                <div className="flex size-11 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors duration-200 group-hover:bg-accent group-hover:text-accent-foreground">
                                     <Icon size={20} />
                                 </div>
 
                                 <ChevronRight
                                     size={18}
-                                    className="text-gray-400 transition-transform group-hover:translate-x-1"
+                                    className="text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-foreground"
                                 />
                             </div>
 
                             <div className="mt-5">
-                                <h2 className="text-lg font-semibold tracking-tight">
+                                <h2 className="text-lg font-semibold tracking-tight text-foreground">
                                     {card.title}
                                 </h2>
 

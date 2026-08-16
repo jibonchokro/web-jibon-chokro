@@ -186,7 +186,7 @@ const SearchBox = forwardRef<
                     }}
                     placeholder="লেখা খুঁজুন..."
                     autoComplete="off"
-                    className="w-full rounded-xl border border-border bg-transparent py-2 pl-10 pr-4 text-foreground outline-none transition focus:border-foreground"
+                    className="w-full rounded-xl border-[1.5px] border-border bg-transparent py-2 pl-10 pr-4 text-foreground outline-none transition focus:border-foreground"
                 />
 
             </div>

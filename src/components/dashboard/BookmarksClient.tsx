@@ -87,19 +87,7 @@ export default function BookmarksClient({
 
             <div className="relative">
 
-                <Search
-                    className="
-                        pointer-events-none
-                        absolute
-                        left-3
-                        top-1/2
-                        size-4
-                        -translate-y-1/2
-                        text-muted-foreground
-                        sm:left-4
-                        sm:size-5
-                    "
-                />
+                <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground sm:left-4 sm:size-5" />
 
                 <input
                     type="text"
@@ -108,48 +96,17 @@ export default function BookmarksClient({
                     onChange={(e) =>
                         setSearch(e.target.value)
                     }
-                    className="
-                        h-10
-                        w-full
-                        rounded-xl
-                        border
-                        border-border
-                        bg-background
-                        pl-10
-                        pr-10
-                        text-sm
-                        outline-none
-                        transition
-                        placeholder:text-muted-foreground
-                        focus:border-primary
-                        sm:h-11
-                        sm:pl-11
-                        sm:pr-11
-                        md:h-12
-                        md:text-[15px]
-                        lg:pl-12
-                        lg:pr-12
-                    "
+                    className="h-10 w-full rounded-xl border border-border bg-background pl-10 pr-10 text-sm text-foreground outline-none transition placeholder:text-muted-foreground hover:border-foreground/20 focus:border-muted-foreground focus:ring-1 focus:ring-foreground sm:h-11 sm:pl-11 sm:pr-11 md:h-12 md:text-[15px] lg:pl-12 lg:pr-12"
                 />
 
                 {search && (
                     <button
+                        type="button"
                         onClick={() =>
                             setSearch("")
                         }
-                        className="
-                            absolute
-                            right-3
-                            top-1/2
-                            -translate-y-1/2
-                            rounded-full
-                            p-1
-                            text-muted-foreground
-                            transition
-                            hover:bg-muted
-                            hover:text-foreground
-                            sm:right-4
-                        "
+                        aria-label="Clear search"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring sm:right-4"
                     >
                         <X className="size-4" />
                     </button>
@@ -159,50 +116,39 @@ export default function BookmarksClient({
 
             {/* Categories */}
 
-            <div
-                className="
-                    -mx-4
-                    overflow-x-auto
-                    px-4
-                    [scrollbar-width:none]
-                    [-ms-overflow-style:none]
-                    [&::-webkit-scrollbar]:hidden
-                "
-            >
+            <div className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+
                 <div className="flex w-max gap-2 pb-1">
 
                     {categories.map(
-                        (category) => (
-                            <button
-                                key={category}
-                                onClick={() =>
-                                    setSelectedCategory(
-                                        category
-                                    )
-                                }
-                                className={`
-                                    whitespace-nowrap
-                                    rounded-full
-                                    border
-                                    transition-all
-                                    duration-200
-                                    px-3
-                                    py-1
-                                    text-xs
+                        (category) => {
+                            const active =
+                                selectedCategory ===
+                                category;
 
-                                    ${selectedCategory ===
-                                        category
-                                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                                        : "border-border bg-background hover:bg-muted"
+                            return (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() =>
+                                        setSelectedCategory(
+                                            category
+                                        )
                                     }
-                                `}
-                            >
-                                {category}
-                            </button>
-                        )
+                                    aria-pressed={active}
+                                    className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring ${active
+                                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                        : "border-border bg-background text-muted-foreground hover:border-foreground/20 hover:bg-muted hover:text-foreground"
+                                        }`}
+                                >
+                                    {category}
+                                </button>
+                            );
+                        }
                     )}
 
                 </div>
+
             </div>
 
             {/* Results */}
@@ -232,47 +178,48 @@ export default function BookmarksClient({
             {/* Grid */}
 
             {filteredPosts.length === 0 ? (
-                <div
-                    className="
-                        flex
-                        min-h-[260px]
-                        flex-col
-                        items-center
-                        justify-center
-                        rounded-2xl
-                        border
-                        border-dashed
-                        border-border
-                        bg-background
-                        px-6
-                        py-10
-                        text-center
-                        sm:min-h-[320px]
-                        sm:px-8
-                    "
-                >
 
-                    <Bookmark className="size-10 text-muted-foreground sm:size-12" />
+                <div className="flex min-h-[260px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card px-6 py-10 text-center shadow-sm sm:min-h-[320px] sm:px-8">
 
-                    <h3 className="mt-4 text-lg font-semibold sm:mt-5 sm:text-xl">
+                    <div className="flex size-12 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground sm:size-14">
+
+                        <Bookmark className="size-5 sm:size-6" />
+
+                    </div>
+
+                    <h3 className="mt-4 text-lg font-semibold text-foreground sm:mt-5 sm:text-xl">
                         No matching bookmarks
                     </h3>
 
                     <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-                        Try searching with another keyword or choose a different category.
+                        Try searching with another
+                        keyword or choose a different
+                        category.
                     </p>
 
+                    {(search ||
+                        selectedCategory !==
+                        "All") && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearch("");
+                                    setSelectedCategory(
+                                        "All"
+                                    );
+                                }}
+                                className="mt-4 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
+                            >
+                                Clear filters
+                            </button>
+                        )}
+
                 </div>
+
             ) : (
-                <div
-                    className="
-                        grid
-                        gap-4
-                        sm:grid-cols-2
-                        sm:gap-5
-                        xl:grid-cols-3
-                    "
-                >
+
+                <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
+
                     {filteredPosts.map(
                         (post) => (
                             <BookmarkCard
@@ -281,7 +228,9 @@ export default function BookmarksClient({
                             />
                         )
                     )}
+
                 </div>
+
             )}
 
         </div>

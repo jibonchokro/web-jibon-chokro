@@ -46,7 +46,7 @@ export default async function SettingsPage() {
 
             {/* Account */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="border-b border-border bg-muted/30 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         অ্যাকাউন্ট
@@ -124,7 +124,7 @@ export default async function SettingsPage() {
 
             {/* Appearance */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="border-b border-border bg-muted/30 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         Appearance
@@ -142,7 +142,7 @@ export default async function SettingsPage() {
 
             {/* Notifications */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="border-b border-border bg-muted/30 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         Notifications
@@ -185,7 +185,7 @@ export default async function SettingsPage() {
 
             {/* Privacy */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="border-b border-border bg-muted/30 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         Privacy
@@ -228,7 +228,7 @@ export default async function SettingsPage() {
 
             {/* Connected Account */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-border bg-card">
                 <div className="border-b border-border bg-muted/30 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         Connected Account
@@ -267,7 +267,7 @@ export default async function SettingsPage() {
 
             {/* Danger Zone */}
 
-            <section className="overflow-hidden rounded-xl border border-destructive/20 bg-destructive/5 shadow-sm">
+            <section className="overflow-hidden rounded-xl border border-destructive/20 bg-destructive/5">
                 <div className="border-b border-destructive/20 bg-destructive/5 px-6 py-4">
                     <h2 className="font-semibold tracking-tight text-destructive">
                         Danger Zone
