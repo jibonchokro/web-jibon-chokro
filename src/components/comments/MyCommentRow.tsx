@@ -64,14 +64,9 @@ export default function MyCommentRow({
         : null;
 
     return (
-        <div className="rounded-xl border border-black/10 bg-white p-4 shadow-custom sm:p-5">
-
-            {/* Header */}
-
+        <div className="rounded-xl border border-border bg-card p-4 shadow-custom sm:p-5">
             <div className="flex flex-wrap items-start justify-between gap-2">
-
                 <div className="flex min-w-0 flex-wrap items-center gap-2">
-
                     {postHref ? (
                         <Link
                             href={postHref}
@@ -87,21 +82,13 @@ export default function MyCommentRow({
 
                     {comment.parent_id && (
                         <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-
                             <CornerDownRight size={12} />
-
                             Reply
-
                         </span>
                     )}
-
                 </div>
 
-
-                {/* Time + Edited */}
-
                 <div className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-
                     <span>
                         {formatRelativeTime(
                             new Date(comment.created_at)
@@ -111,24 +98,14 @@ export default function MyCommentRow({
                     {comment.is_edited && (
                         <>
                             <span>·</span>
-
-                            <span>
-                                Edited
-                            </span>
+                            <span>Edited</span>
                         </>
                     )}
-
                 </div>
-
             </div>
 
-
-            {/* Edit Form / Comment */}
-
             {editing ? (
-
                 <div className="mt-3">
-
                     <EditCommentForm
                         comment={comment}
                         onCancel={() =>
@@ -139,30 +116,20 @@ export default function MyCommentRow({
                             router.refresh();
                         }}
                     />
-
                 </div>
-
             ) : (
-
                 <>
-
-                    {/* Comment Content */}
-
                     <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-foreground">
                         {comment.content}
                     </p>
 
-
-                    {/* Actions */}
-
                     <div className="mt-3 flex items-center gap-4 text-xs">
-
                         <button
                             type="button"
                             onClick={() =>
                                 setEditing(true)
                             }
-                            className="font-semibold text-muted-foreground hover:text-foreground hover:underline"
+                            className="font-semibold text-muted-foreground transition-colors hover:text-foreground hover:underline"
                         >
                             Edit
                         </button>
@@ -173,13 +140,9 @@ export default function MyCommentRow({
                                 router.refresh()
                             }
                         />
-
                     </div>
-
                 </>
-
             )}
-
         </div>
     );
 }

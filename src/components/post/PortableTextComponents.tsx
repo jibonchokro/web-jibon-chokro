@@ -59,7 +59,7 @@ export const portableTextComponents: PortableTextComponents = {
         ),
 
         blockquote: ({ children }) => (
-            <blockquote className="my-6 rounded-xl border-l-4 border-green-600 bg-green-50 px-5 py-4 text-[17px] leading-8 text-gray-700 sm:px-6 sm:py-5 sm:text-[18px] sm:leading-9">
+            <blockquote className="my-6 rounded-xl border-l-4 border-green-600 bg-green-50 px-5 py-4 text-[17px] leading-8 text-green-950 sm:px-6 sm:py-5 sm:text-[18px] sm:leading-9 dark:border-green-400 dark:bg-green-950/30 dark:text-green-100">
                 {children}
             </blockquote>
         ),
@@ -100,9 +100,17 @@ export const portableTextComponents: PortableTextComponents = {
             return (
                 <Link
                     href={href}
-                    target={external ? "_blank" : undefined}
-                    rel={external ? "noopener noreferrer" : undefined}
-                    className="font-medium text-green-700 underline decoration-green-700/40 underline-offset-4 transition-colors hover:text-green-800 hover:decoration-green-800"
+                    target={
+                        external
+                            ? "_blank"
+                            : undefined
+                    }
+                    rel={
+                        external
+                            ? "noopener noreferrer"
+                            : undefined
+                    }
+                    className="font-medium text-green-700 underline decoration-green-700/40 underline-offset-4 transition-colors hover:text-green-800 hover:decoration-green-800 dark:text-green-400 dark:decoration-green-400/40 dark:hover:text-green-300 dark:hover:decoration-green-300"
                 >
                     {children}
                 </Link>

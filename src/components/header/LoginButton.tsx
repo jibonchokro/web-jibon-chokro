@@ -38,18 +38,18 @@ export default function LoginButton() {
                 gap-2
                 rounded-lg
                 border
-                border-black/10
-                bg-black
+                border-border
+                bg-foreground
                 px-3
                 py-1
                 text-sm
                 font-semibold
-                text-white
+                text-background
                 transition
-                hover:bg-gray-800
+                hover:opacity-90
                 focus-visible:outline-none
                 focus-visible:ring-2
-                focus-visible:ring-black/30
+                focus-visible:ring-ring
                 disabled:pointer-events-none
                 disabled:opacity-50
             "

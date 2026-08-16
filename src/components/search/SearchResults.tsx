@@ -50,8 +50,9 @@ export default function SearchResults({
                 overflow-hidden
                 rounded-xl
                 border
-                border-black/10
-                bg-white
+                border-border
+                bg-popover
+                text-popover-foreground
                 shadow-xl
             "
         >
@@ -65,7 +66,7 @@ export default function SearchResults({
                 query.trim().length > 0 &&
                 results.length === 0 && (
                     <div className="p-8 text-center text-sm text-muted-foreground">
-                        কোনো ফলাফল পাওয়া যায়নি।
+                        কোনো ফলাফল পাওয়া যায়নি।
                     </div>
                 )}
 
@@ -91,7 +92,7 @@ export default function SearchResults({
 
                     {/* Footer */}
 
-                    <div className="border-t border-black/10 bg-muted/40 p-2">
+                    <div className="border-t border-border bg-muted/40 p-2">
 
                         <Link
                             href={`/search?q=${encodeURIComponent(query)}`}

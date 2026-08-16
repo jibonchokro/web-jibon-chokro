@@ -12,7 +12,8 @@ export default function PostViews({
     postId,
     initialViews,
 }: Props) {
-    const [views, setViews] = useState(initialViews);
+    const [views, setViews] =
+        useState(initialViews);
 
     const hasLoaded = useRef(false);
 
@@ -27,25 +28,33 @@ export default function PostViews({
 
         async function updateViews() {
             try {
-                const response = await fetch("/api/views", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        postId,
-                    }),
-                });
+                const response = await fetch(
+                    "/api/views",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+                        body: JSON.stringify({
+                            postId,
+                        }),
+                    }
+                );
 
                 if (!response.ok) {
-                    throw new Error("Failed to update views");
+                    throw new Error(
+                        "Failed to update views"
+                    );
                 }
 
-                const data = await response.json();
+                const data =
+                    await response.json();
 
                 if (
                     !cancelled &&
-                    typeof data.views === "number"
+                    typeof data.views ===
+                    "number"
                 ) {
                     setViews((current) =>
                         current === data.views
@@ -54,7 +63,10 @@ export default function PostViews({
                     );
                 }
             } catch (error) {
-                console.error("PostViews Error:", error);
+                console.error(
+                    "PostViews Error:",
+                    error
+                );
             }
         }
 
@@ -66,13 +78,13 @@ export default function PostViews({
     }, [postId]);
 
     return (
-        <div className="inline-flex items-center gap-2 text-[16px] sm:text-[18px] lg:text-[18px] text-[#555]">
+        <div className="inline-flex items-center gap-2 text-[16px] text-muted-foreground sm:text-[18px] lg:text-[18px]">
             <Eye
                 size={20}
                 className="shrink-0"
             />
 
-            <span className="font-base">
+            <span className="font-normal">
                 {views.toLocaleString("en-US")}
             </span>
         </div>

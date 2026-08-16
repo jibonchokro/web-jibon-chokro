@@ -1,6 +1,10 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar";
 
 import type { Comment } from "@/types/comment";
 
@@ -41,12 +45,7 @@ export default function CommentHeader({
             </Avatar>
 
             <div className="min-w-0 flex-1">
-                <div
-                    className={`inline-block max-w-full rounded-2xl px-3 py-2 ${comment.is_deleted
-                            ? "bg-transparent px-0 py-0"
-                            : "bg-muted"
-                        }`}
-                >
+                <div className={`inline-block max-w-full rounded-2xl px-3 py-2 ${comment.is_deleted ? "bg-transparent px-0 py-0" : "bg-muted"}`}>
                     {!comment.is_deleted && (
                         <p className="truncate text-sm font-semibold leading-tight">
                             {name}

@@ -166,23 +166,7 @@ export default function EditCommentForm({
                         disabled={loading}
                         autoFocus
                         placeholder="Edit your comment..."
-                        className="
-                            comment-textarea
-                            h-10
-                            min-h-10
-                            max-h-[168px]
-                            resize-none
-                            overflow-hidden
-                            rounded-[20px]
-                            border-none
-                            bg-muted
-                            px-4
-                            py-2
-                            leading-6
-                            shadow-none
-                            focus-visible:ring-1
-                            focus-visible:ring-ring
-                        "
+                        className="comment-textarea h-10 min-h-10 max-h-[168px] resize-none overflow-hidden rounded-[20px] border border-border bg-muted px-4 py-2 leading-6 shadow-none focus-visible:ring-1 focus-visible:ring-ring"
                     />
                 </div>
 
@@ -193,14 +177,7 @@ export default function EditCommentForm({
                     onClick={onCancel}
                     disabled={loading}
                     aria-label="Cancel editing"
-                    className="
-                        h-10
-                        w-10
-                        shrink-0
-                        rounded-full
-                        text-muted-foreground
-                        hover:text-foreground
-                    "
+                    className="h-10 w-10 shrink-0 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                     <X
                         className="h-4 w-4"
@@ -216,12 +193,7 @@ export default function EditCommentForm({
                         !content.trim()
                     }
                     aria-label="Save comment"
-                    className="
-                        h-10
-                        w-10
-                        shrink-0
-                        rounded-full
-                    "
+                    className="h-10 w-10 shrink-0 rounded-full"
                 >
                     <Check
                         className="h-4 w-4"

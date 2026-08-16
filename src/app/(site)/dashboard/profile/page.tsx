@@ -1,4 +1,3 @@
-import { createClient } from "@/lib/supabase/server";
 import {
     Calendar,
     CheckCircle2,
@@ -8,6 +7,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+
+import EditProfileForm from "@/components/dashboard/EditProfileForm";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Page() {
     const supabase = await createClient();
@@ -20,13 +22,49 @@ export default async function Page() {
         redirect("/auth/login");
     }
 
+    const [
+        { data: profile },
+        { count: bookmarksCount },
+        { count: commentsCount },
+    ] = await Promise.all([
+        supabase
+            .from("profiles")
+            .select("name, avatar")
+            .eq("id", user.id)
+            .maybeSingle(),
+        supabase
+            .from("bookmarks")
+            .select("*", {
+                count: "exact",
+                head: true,
+            })
+            .eq("user_id", user.id),
+        // NOTE: assumes `comments` has a `user_id` column matching
+        // `bookmarks` — adjust if yours is named differently
+        // (e.g. `author_id`).
+        supabase
+            .from("comments")
+            .select("*", {
+                count: "exact",
+                head: true,
+            })
+            .eq("user_id", user.id)
+            .eq("is_deleted", false),
+    ]);
+
     const fullName =
+        profile?.name ??
         user.user_metadata.full_name ??
         user.user_metadata.name ??
         "User";
 
     const avatar =
-        user.user_metadata.avatar_url ?? null;
+        profile?.avatar ??
+        user.user_metadata.avatar_url ??
+        null;
+
+    const provider =
+        user.app_metadata?.provider ?? "email";
 
     const joinedDate = new Date(
         user.created_at
@@ -35,6 +73,17 @@ export default async function Page() {
         month: "long",
         year: "numeric",
     });
+
+    const stats = [
+        {
+            label: "Bookmarks",
+            value: bookmarksCount ?? 0,
+        },
+        {
+            label: "Comments",
+            value: commentsCount ?? 0,
+        },
+    ];
 
     return (
         <div className="space-y-8">
@@ -69,19 +118,23 @@ export default async function Page() {
                         </div>
                     )}
 
-                    <div className="min-w-0 flex-1">
-                        <h2 className="truncate text-2xl font-semibold tracking-tight">
-                            {fullName}
-                        </h2>
+                    <div className="min-w-0 flex-1 space-y-4">
+                        <div>
+                            <h2 className="truncate text-2xl font-semibold tracking-tight">
+                                {fullName}
+                            </h2>
 
-                        <p className="mt-1 break-all text-muted-foreground">
-                            {user.email}
-                        </p>
+                            <p className="mt-1 break-all text-muted-foreground">
+                                {user.email}
+                            </p>
+                        </div>
 
-                        <div className="mt-5 flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-3">
                             <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-3 py-1.5 text-sm">
                                 <ShieldCheck size={15} />
-                                Google Account
+                                {provider === "google"
+                                    ? "Google Account"
+                                    : "Email Account"}
                             </span>
 
                             <span className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700">
@@ -89,6 +142,10 @@ export default async function Page() {
                                 Active
                             </span>
                         </div>
+
+                        <EditProfileForm
+                            initialName={fullName}
+                        />
                     </div>
                 </div>
             </div>
@@ -182,24 +239,7 @@ export default async function Page() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 p-6">
-                        {[
-                            {
-                                label: "Bookmarks",
-                                value: 0,
-                            },
-                            {
-                                label: "Likes",
-                                value: 0,
-                            },
-                            {
-                                label: "Comments",
-                                value: 0,
-                            },
-                            {
-                                label: "Followers",
-                                value: 0,
-                            },
-                        ].map((item) => (
+                        {stats.map((item) => (
                             <div
                                 key={item.label}
                                 className="rounded-xl border border-black/10 bg-muted/40 p-5 text-center"

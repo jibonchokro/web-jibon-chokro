@@ -61,7 +61,13 @@ export default function CommentFooter({
         <div className="ml-11 mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
             <span>{timeAgo}</span>
 
-            {comment.is_edited && <span>Edited</span>}
+            {comment.is_edited && (
+                <span className="text-muted-foreground">·</span>
+            )}
+
+            {comment.is_edited && (
+                <span>Edited</span>
+            )}
 
             <button
                 type="button"

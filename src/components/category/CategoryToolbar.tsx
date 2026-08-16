@@ -169,7 +169,7 @@ export default function CategoryToolbar({
         <>
             {/* Toolbar */}
 
-            <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-black/10 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-border bg-background p-4 sm:flex-row sm:items-center sm:justify-between">
 
                 {/* Search */}
 
@@ -188,7 +188,7 @@ export default function CategoryToolbar({
                             )
                         }
                         placeholder="লেখা খুঁজুন..."
-                        className="h-11 w-full rounded-xl border border-black/10 bg-background pl-10 pr-4 text-sm outline-none transition focus:border-black"
+                        className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm text-foreground outline-none transition focus:border-foreground"
                     />
 
                 </div>
@@ -208,7 +208,7 @@ export default function CategoryToolbar({
                                     e.target.value
                                 )
                             }
-                            className="h-11 rounded-xl border border-black/10 bg-background px-4 text-sm outline-none"
+                            className="h-11 rounded-xl border border-border bg-background px-4 text-sm text-foreground outline-none"
                         >
                             <option value={ALL_CATEGORIES}>
                                 সব বিভাগ
@@ -237,7 +237,7 @@ export default function CategoryToolbar({
                                     .value as SortOption
                             )
                         }
-                        className="h-11 rounded-xl border border-black/10 bg-background px-4 text-sm outline-none"
+                        className="h-11 rounded-xl border border-border bg-background px-4 text-sm text-foreground outline-none"
                     >
                         <option value="latest">
                             সর্বশেষ
@@ -263,7 +263,7 @@ export default function CategoryToolbar({
 
             {/* Result Count */}
 
-            <p className="mb-6 inline-flex gap-1 items-center rounded-full border border-black/10 bg-background px-4 py-2 text-sm font-medium whitespace-nowrap">
+            <p className="mb-6 inline-flex gap-1 items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium whitespace-nowrap">
                 মোট{" "}
                 <span className="font-semibold text-foreground">
                     {filteredPosts.length}
@@ -292,7 +292,7 @@ export default function CategoryToolbar({
 
             ) : (
 
-                <div className="rounded-2xl border border-dashed border-black/10 bg-white py-16 text-center text-muted-foreground">
+                <div className="rounded-2xl border border-dashed border-border bg-background py-16 text-center text-muted-foreground">
                     কোনো লেখা পাওয়া যায়নি।
                 </div>
 

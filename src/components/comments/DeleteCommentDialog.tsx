@@ -54,7 +54,7 @@ export default function DeleteCommentDialog({
                 render={
                     <button
                         type="button"
-                        className="text-xs font-semibold text-muted-foreground hover:text-red-600 hover:underline"
+                        className="text-xs font-semibold text-muted-foreground transition-colors hover:text-destructive hover:underline"
                     />
                 }
             >
@@ -62,9 +62,7 @@ export default function DeleteCommentDialog({
             </AlertDialogTrigger>
 
             <AlertDialogContent>
-
                 <AlertDialogHeader>
-
                     <AlertDialogTitle>
                         Delete Comment?
                     </AlertDialogTitle>
@@ -72,11 +70,9 @@ export default function DeleteCommentDialog({
                     <AlertDialogDescription>
                         This action cannot be undone.
                     </AlertDialogDescription>
-
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-
                     <AlertDialogCancel>
                         Cancel
                     </AlertDialogCancel>
@@ -89,9 +85,7 @@ export default function DeleteCommentDialog({
                             ? "Deleting..."
                             : "Delete"}
                     </AlertDialogAction>
-
                 </AlertDialogFooter>
-
             </AlertDialogContent>
         </AlertDialog>
     );

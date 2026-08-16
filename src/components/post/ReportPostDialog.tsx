@@ -29,7 +29,10 @@ const REPORT_REASONS: {
             value: "incorrect_information",
             label: "ভুল তথ্য",
         },
-        { value: "spam", label: "স্প্যাম" },
+        {
+            value: "spam",
+            label: "স্প্যাম",
+        },
         {
             value: "inappropriate",
             label: "অনুপযুক্ত কনটেন্ট",
@@ -38,7 +41,10 @@ const REPORT_REASONS: {
             value: "copyright",
             label: "কপিরাইট লঙ্ঘন",
         },
-        { value: "other", label: "অন্যান্য" },
+        {
+            value: "other",
+            label: "অন্যান্য",
+        },
     ];
 
 export default function ReportPostDialog({
@@ -46,17 +52,23 @@ export default function ReportPostDialog({
     postTitle,
     postUrl,
 }: ReportPostDialogProps) {
-    const [open, setOpen] = useState(false);
-    const [reason, setReason] = useState("");
+    const [open, setOpen] =
+        useState(false);
+
+    const [reason, setReason] =
+        useState("");
+
     const [description, setDescription] =
         useState("");
+
     const [reporterEmail, setReporterEmail] =
         useState("");
+
     const [submitting, setSubmitting] =
         useState(false);
-    const [error, setError] = useState<
-        string | null
-    >(null);
+
+    const [error, setError] =
+        useState<string | null>(null);
 
     function resetForm() {
         setReason("");
@@ -78,7 +90,9 @@ export default function ReportPostDialog({
         }
 
         if (!description.trim()) {
-            setError("সমস্যাটি বর্ণনা করুন।");
+            setError(
+                "সমস্যাটি বর্ণনা করুন।"
+            );
             return;
         }
 
@@ -86,31 +100,35 @@ export default function ReportPostDialog({
             setSubmitting(true);
             setError(null);
 
-            const response = await fetch(
-                "/api/report",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-                    },
-                    body: JSON.stringify({
-                        postId,
-                        postTitle,
-                        postUrl,
-                        reason,
-                        description:
-                            description.trim(),
-                        reporterEmail:
-                            reporterEmail.trim() ||
-                            undefined,
-                    }),
-                }
-            );
+            const response =
+                await fetch(
+                    "/api/report",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+                        body: JSON.stringify({
+                            postId,
+                            postTitle,
+                            postUrl,
+                            reason,
+                            description:
+                                description.trim(),
+                            reporterEmail:
+                                reporterEmail.trim() ||
+                                undefined,
+                        }),
+                    }
+                );
 
-            const data = await response
-                .json()
-                .catch(() => null);
+            const data =
+                await response
+                    .json()
+                    .catch(
+                        () => null
+                    );
 
             if (!response.ok) {
                 throw new Error(
@@ -119,11 +137,15 @@ export default function ReportPostDialog({
                 );
             }
 
-            toast.success("রিপোর্ট পাঠানো হয়েছে", {
-                description:
-                    "আপনার রিপোর্টের জন্য ধন্যবাদ। আমরা শীঘ্রই এটি পর্যালোচনা করব।",
-                position: "bottom-center",
-            });
+            toast.success(
+                "রিপোর্ট পাঠানো হয়েছে",
+                {
+                    description:
+                        "আপনার রিপোর্টের জন্য ধন্যবাদ। আমরা শীঘ্রই এটি পর্যালোচনা করব।",
+                    position:
+                        "bottom-center",
+                }
+            );
 
             resetForm();
             setOpen(false);
@@ -144,21 +166,11 @@ export default function ReportPostDialog({
         <>
             <button
                 type="button"
-                onClick={() => setOpen(true)}
+                onClick={() =>
+                    setOpen(true)
+                }
                 aria-label="Report this post"
-                className="
-                    flex
-                    h-[35px]
-                    w-[35px]
-                    items-center
-                    justify-center
-                    rounded-lg
-                    bg-muted
-                    px-1
-                    text-muted-foreground
-                    transition
-                    hover:text-red-600
-                "
+                className="flex h-[35px] w-[35px] items-center justify-center rounded-lg bg-muted px-1 text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
             >
                 <Flag size={18} />
             </button>
@@ -167,17 +179,24 @@ export default function ReportPostDialog({
                 open={open}
                 onOpenChange={(next) => {
                     setOpen(next);
-                    if (!next) resetForm();
+
+                    if (!next) {
+                        resetForm();
+                    }
                 }}
             >
                 <AlertDialogContent>
-                    <form onSubmit={handleSubmit}>
+                    <form
+                        onSubmit={
+                            handleSubmit
+                        }
+                    >
                         <AlertDialogHeader>
-                            <AlertDialogTitle>
+                            <AlertDialogTitle className="text-foreground">
                                 রিপোর্ট করুন
                             </AlertDialogTitle>
 
-                            <AlertDialogDescription>
+                            <AlertDialogDescription className="text-muted-foreground">
                                 এই পোস্টে কোনো সমস্যা
                                 থাকলে আমাদের জানান।
                                 আমরা যত দ্রুত সম্ভব এটি
@@ -186,6 +205,8 @@ export default function ReportPostDialog({
                         </AlertDialogHeader>
 
                         <div className="mt-4 space-y-3">
+                            {/* Reason */}
+
                             <div className="space-y-1.5">
                                 <label
                                     htmlFor="report-reason"
@@ -206,7 +227,7 @@ export default function ReportPostDialog({
                                     disabled={
                                         submitting
                                     }
-                                    className="w-full rounded-md border border-black/10 bg-background px-3 py-2 text-sm"
+                                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     <option value="">
                                         নির্বাচন করুন
@@ -222,12 +243,16 @@ export default function ReportPostDialog({
                                                     r.value
                                                 }
                                             >
-                                                {r.label}
+                                                {
+                                                    r.label
+                                                }
                                             </option>
                                         )
                                     )}
                                 </select>
                             </div>
+
+                            {/* Description */}
 
                             <div className="space-y-1.5">
                                 <label
@@ -239,8 +264,12 @@ export default function ReportPostDialog({
 
                                 <Textarea
                                     id="report-description"
-                                    value={description}
-                                    onChange={(e) =>
+                                    value={
+                                        description
+                                    }
+                                    onChange={(
+                                        e
+                                    ) =>
                                         setDescription(
                                             e.target
                                                 .value
@@ -255,12 +284,15 @@ export default function ReportPostDialog({
                                 />
                             </div>
 
+                            {/* Email */}
+
                             <div className="space-y-1.5">
                                 <label
                                     htmlFor="report-email"
                                     className="text-sm font-medium text-foreground"
                                 >
-                                    আপনার ইমেইল (ঐচ্ছিক)
+                                    আপনার ইমেইল
+                                    (ঐচ্ছিক)
                                 </label>
 
                                 <input
@@ -269,7 +301,9 @@ export default function ReportPostDialog({
                                     value={
                                         reporterEmail
                                     }
-                                    onChange={(e) =>
+                                    onChange={(
+                                        e
+                                    ) =>
                                         setReporterEmail(
                                             e.target
                                                 .value
@@ -279,12 +313,14 @@ export default function ReportPostDialog({
                                         submitting
                                     }
                                     placeholder="you@example.com"
-                                    className="w-full rounded-md border border-black/10 bg-background px-3 py-2 text-sm"
+                                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50"
                                 />
                             </div>
 
+                            {/* Error */}
+
                             {error && (
-                                <p className="text-xs text-red-600">
+                                <p className="text-xs text-destructive">
                                     {error}
                                 </p>
                             )}
@@ -295,16 +331,22 @@ export default function ReportPostDialog({
                                 type="button"
                                 variant="outline"
                                 onClick={() =>
-                                    setOpen(false)
+                                    setOpen(
+                                        false
+                                    )
                                 }
-                                disabled={submitting}
+                                disabled={
+                                    submitting
+                                }
                             >
                                 বাতিল
                             </Button>
 
                             <Button
                                 type="submit"
-                                disabled={submitting}
+                                disabled={
+                                    submitting
+                                }
                             >
                                 {submitting
                                     ? "পাঠানো হচ্ছে..."

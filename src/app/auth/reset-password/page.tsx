@@ -22,17 +22,13 @@ export default async function ResetPasswordPage() {
         <>
             <Header user={user} />
 
-            <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-[#f4f4f4] px-4 py-10 sm:px-6">
-
+            <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-background px-4 py-10 text-foreground sm:px-6">
                 <div className="w-full max-w-[400px]">
-
-                    <div className="rounded-xl border border-black/10 bg-background p-6 shadow-xs sm:p-8">
-
+                    <div className="rounded-xl border border-border bg-card p-6 shadow-xs sm:p-8">
                         {/* Header */}
 
                         <div className="text-center">
-
-                            <h1 className="text-3xl font-bold tracking-tight">
+                            <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                 নতুন পাসওয়ার্ড
                             </h1>
 
@@ -40,21 +36,15 @@ export default async function ResetPasswordPage() {
                                 আপনার অ্যাকাউন্টের জন্য নতুন
                                 পাসওয়ার্ড দিন।
                             </p>
-
                         </div>
 
                         {/* Form */}
 
                         <div className="mt-8">
-
                             <ResetPasswordForm />
-
                         </div>
-
                     </div>
-
                 </div>
-
             </main>
 
             <Footer />

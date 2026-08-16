@@ -35,9 +35,9 @@ export default function SearchResultItem({
         <Link
             href={`/posts/${post.slug.current}`}
             onClick={onSelect}
-            className="flex gap-4 border-b border-black/5 p-4 transition-colors hover:bg-muted/50 last:border-b-0"
+            className="flex gap-4 border-b border-border p-4 transition-colors hover:bg-muted/50 last:border-b-0"
         >
-            <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-black/10 bg-muted">
+            <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
                 {imageUrl ? (
                     <Image
                         src={imageUrl}

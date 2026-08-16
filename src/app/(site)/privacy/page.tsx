@@ -43,9 +43,8 @@ export default function PrivacyPage() {
 
                 {/* Hero */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-
-                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground shadow-sm sm:px-3 sm:text-sm">
                         Privacy Policy
                     </div>
 
@@ -54,7 +53,6 @@ export default function PrivacyPage() {
                     </h2>
 
                     <div className="mt-5 max-w-4xl space-y-4 sm:mt-6 sm:space-y-5">
-
                         <p className="text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 lg:leading-9">
                             জীবন চক্র ব্যবহার করার সময় আপনার গোপনীয়তা রক্ষা করা
                             আমাদের অন্যতম প্রধান দায়িত্ব। আমরা শুধুমাত্র সেই
@@ -68,38 +66,30 @@ export default function PrivacyPage() {
                             গুরুত্বপূর্ণ কোনো পরিবর্তন হলে এই পৃষ্ঠায় তা
                             প্রকাশ করা হবে।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* Information Collection */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         আমরা কী ধরনের তথ্য সংগ্রহ করি?
                     </h2>
 
                     <ul className="mt-5 list-disc space-y-3 pl-5 text-sm leading-7 text-muted-foreground sm:mt-6 sm:pl-6 sm:text-base sm:leading-8">
-
                         {informationTypes.map((item) => (
                             <li key={item}>
                                 {item}
                             </li>
                         ))}
-
                     </ul>
-
                 </section>
 
                 {/* Information Usage */}
 
                 <section>
-
                     <div className="mb-6 sm:mb-8">
-
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             সংগৃহীত তথ্য কীভাবে ব্যবহার করা হয়?
                         </h2>
 
@@ -107,36 +97,30 @@ export default function PrivacyPage() {
                             আপনার তথ্য শুধুমাত্র বৈধ ও প্রয়োজনীয় উদ্দেশ্যে
                             ব্যবহার করা হয়।
                         </p>
-
                     </div>
 
                     <div className="grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6">
-
                         {usageItems.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-border bg-card p-5 shadow-custom transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
                             >
-                                <p className="text-base font-medium leading-7">
+                                <p className="text-base font-medium leading-7 text-foreground">
                                     {item}
                                 </p>
                             </div>
                         ))}
-
                     </div>
-
                 </section>
 
                 {/* Cookies */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         Cookies
                     </h2>
 
                     <div className="mt-5 space-y-4">
-
                         <p className="text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
                             আমাদের ওয়েবসাইট Cookies ব্যবহার করতে পারে যাতে
                             ব্যবহারকারীর অভিজ্ঞতা উন্নত করা যায়। Cookies-এর
@@ -149,16 +133,13 @@ export default function PrivacyPage() {
                             নিষ্ক্রিয় করতে পারেন। তবে এতে ওয়েবসাইটের কিছু
                             সুবিধা সঠিকভাবে কাজ নাও করতে পারে।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* Third Party */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         তৃতীয় পক্ষের সেবা
                     </h2>
 
@@ -169,14 +150,12 @@ export default function PrivacyPage() {
                         রয়েছে এবং সেগুলো তাদের নিজস্ব নিয়ম অনুযায়ী তথ্য
                         সংগ্রহ করতে পারে।
                     </p>
-
                 </section>
 
                 {/* Security */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         তথ্যের নিরাপত্তা
                     </h2>
 
@@ -186,14 +165,12 @@ export default function PrivacyPage() {
                         তথ্য আদান-প্রদান শতভাগ নিরাপদ—এমন নিশ্চয়তা দেওয়া সম্ভব
                         নয়।
                     </p>
-
                 </section>
 
                 {/* Children's Privacy */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         শিশুদের গোপনীয়তা
                     </h2>
 
@@ -203,16 +180,13 @@ export default function PrivacyPage() {
                         এমন কোনো তথ্য অনিচ্ছাকৃতভাবে সংগ্রহ হয়ে থাকে, তবে
                         আমাদের জানালে তা দ্রুত মুছে ফেলা হবে।
                     </p>
-
                 </section>
 
                 {/* User Rights */}
 
                 <section>
-
                     <div className="mb-6 sm:mb-8">
-
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             আপনার অধিকার
                         </h2>
 
@@ -220,31 +194,26 @@ export default function PrivacyPage() {
                             আপনার ব্যক্তিগত তথ্যের ওপর আপনার কিছু গুরুত্বপূর্ণ
                             অধিকার রয়েছে।
                         </p>
-
                     </div>
 
                     <div className="grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6">
-
                         {userRights.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-border bg-card p-5 shadow-custom transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md sm:rounded-2xl sm:p-6 md:p-8"
                             >
-                                <p className="text-base font-medium leading-7">
+                                <p className="text-base font-medium leading-7 text-foreground">
                                     {item}
                                 </p>
                             </div>
                         ))}
-
                     </div>
-
                 </section>
 
                 {/* Policy Updates */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         নীতিমালার পরিবর্তন
                     </h2>
 
@@ -254,14 +223,12 @@ export default function PrivacyPage() {
                         প্রকাশিত থাকবে। তাই নিয়মিত এই নীতিমালাটি পর্যালোচনা
                         করার জন্য আপনাকে উৎসাহিত করা হচ্ছে।
                     </p>
-
                 </section>
 
                 {/* Contact CTA */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-custom sm:rounded-3xl sm:p-8 md:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         কোনো প্রশ্ন আছে?
                     </h2>
 
@@ -273,11 +240,10 @@ export default function PrivacyPage() {
 
                     <Link
                         href="/contact"
-                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-black px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-zinc-800 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-all duration-200 hover:bg-primary/90 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                     >
                         যোগাযোগ করুন
                     </Link>
-
                 </section>
 
             </div>

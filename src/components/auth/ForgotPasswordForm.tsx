@@ -11,9 +11,7 @@ export default function ForgotPasswordForm() {
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
-    async function handleSubmit(
-        e: React.FormEvent
-    ) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         if (loading) return;
@@ -23,13 +21,9 @@ export default function ForgotPasswordForm() {
         try {
             const supabase = createClient();
 
-            const { error } =
-                await supabase.auth.resetPasswordForEmail(
-                    email,
-                    {
-                        redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset-password`,
-                    }
-                );
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset-password`,
+            });
 
             if (error) {
                 toast.error("লিংক পাঠানো যায়নি", {
@@ -40,9 +34,6 @@ export default function ForgotPasswordForm() {
                 return;
             }
 
-            // Always show the same success state regardless of
-            // whether the email is registered — avoids leaking
-            // which addresses have an account.
             setSubmitted(true);
         } catch (error) {
             console.error(error);
@@ -58,24 +49,16 @@ export default function ForgotPasswordForm() {
 
     if (submitted) {
         return (
-            <div className="rounded-lg border border-black/10 bg-muted/40 p-4 text-center text-sm leading-6">
-                আপনার ইমেইলে একটি পাসওয়ার্ড রিসেট
-                লিংক পাঠানো হয়েছে। লিংকে ক্লিক করে
-                নতুন পাসওয়ার্ড সেট করুন।
+            <div className="rounded-lg border border-border bg-muted/40 p-4 text-center text-sm leading-6 text-foreground">
+                আপনার ইমেইলে একটি পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে। লিংকে ক্লিক করে নতুন পাসওয়ার্ড সেট করুন।
             </div>
         );
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
                     ইমেইল
                 </label>
 
@@ -85,27 +68,21 @@ export default function ForgotPasswordForm() {
                     required
                     autoComplete="email"
                     value={email}
-                    onChange={(e) =>
-                        setEmail(e.target.value)
-                    }
+                    onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
                     placeholder="you@example.com"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-foreground py-3 text-sm font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-                {loading && (
-                    <Loader2 className="size-4 animate-spin" />
-                )}
+                {loading && <Loader2 className="size-4 animate-spin" />}
 
-                {loading
-                    ? "পাঠানো হচ্ছে..."
-                    : "রিসেট লিংক পাঠান"}
+                {loading ? "পাঠানো হচ্ছে..." : "রিসেট লিংক পাঠান"}
             </button>
         </form>
     );

@@ -42,20 +42,19 @@ export default function BookmarkButton({
         setSaving(true);
 
         try {
-            const response = await fetch("/api/bookmarks", {
-                method: bookmarked ? "DELETE" : "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    postId,
-                }),
-            });
+            const response = await fetch(
+                "/api/bookmarks",
+                {
+                    method: bookmarked ? "DELETE" : "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        postId,
+                    }),
+                }
+            );
 
-            // Check auth status BEFORE parsing the body. This way,
-            // even if a 401 response ever came back without a JSON
-            // body, the login dialog still opens instead of falling
-            // through to the generic error toast.
             if (response.status === 401) {
                 setLoginDialogOpen(true);
                 return;
@@ -108,13 +107,13 @@ export default function BookmarkButton({
                         ? "Remove bookmark"
                         : "Add bookmark"
                 }
-                className="inline-flex items-center justify-center transition disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-md p-1 transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
             >
                 <Bookmark
                     size={20}
                     className={`transition-colors ${bookmarked
-                        ? "fill-[#555] text-[#555] hover:fill-foreground hover:text-foreground"
-                        : "text-[#555] hover:text-foreground"
+                            ? "fill-foreground text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
                         }`}
                 />
             </button>
@@ -126,7 +125,7 @@ export default function BookmarkButton({
                 <AlertDialogContent size="default">
                     <AlertDialogHeader>
                         <AlertDialogMedia>
-                            <Bookmark className="size-5 text-green-600" />
+                            <Bookmark className="size-5 text-green-600 dark:text-green-400" />
                         </AlertDialogMedia>
 
                         <AlertDialogTitle>

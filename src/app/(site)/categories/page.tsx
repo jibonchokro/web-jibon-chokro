@@ -20,37 +20,39 @@ export default async function CategoriesPage() {
 
     return (
         <main className="py-8 sm:py-10 lg:py-12">
-
             <Container>
 
                 {/* Breadcrumb */}
 
-                <nav className="mb-5 flex items-center gap-2 text-sm text-muted-foreground">
-
+                <nav
+                    aria-label="Breadcrumb"
+                    className="mb-5 flex items-center gap-2 text-sm text-muted-foreground"
+                >
                     <Link
                         href="/"
-                        className="transition hover:text-foreground"
+                        className="transition-colors hover:text-foreground"
                     >
                         হোম
                     </Link>
 
-                    <ChevronRight size={15} />
+                    <ChevronRight
+                        size={15}
+                        className="shrink-0"
+                    />
 
                     <span className="font-medium text-foreground">
                         বিভাগসমূহ
                     </span>
-
                 </nav>
 
                 {/* Hero */}
 
-                <section className="rounded-3xl text-center bg-white border border-black/10 p-5 sm:p-6 lg:p-8">
-
-                    <span className="inline-flex rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium shadow-xs">
+                <section className="rounded-3xl border border-border bg-card p-5 text-center shadow-sm sm:p-6 lg:p-8">
+                    <span className="inline-flex rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-foreground shadow-xs">
                         বিভাগসমূহ
                     </span>
 
-                    <h1 className="mt-5 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                    <h1 className="mt-5 text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                         সকল বিভাগ
                     </h1>
 
@@ -66,84 +68,51 @@ export default async function CategoriesPage() {
                         </span>{" "}
                         টি বিভাগ
                     </p>
-
                 </section>
 
                 {/* Categories */}
 
                 <section className="mt-10">
-
                     {categories.length === 0 ? (
-
-                        <div className="rounded-2xl border border-dashed border-black/10 bg-white py-16 text-center">
-
-                            <h2 className="text-lg font-semibold">
+                        <div className="rounded-2xl border border-dashed border-border bg-card py-16 text-center shadow-sm">
+                            <h2 className="text-lg font-semibold text-foreground">
                                 কোনো বিভাগ পাওয়া যায়নি
                             </h2>
 
                             <p className="mt-2 text-sm text-muted-foreground">
                                 পরে আবার চেষ্টা করুন।
                             </p>
-
                         </div>
-
                     ) : (
-
                         <div className="flex flex-wrap gap-3">
-
                             {categories.map((category) => (
-
                                 <Link
                                     key={category._id}
                                     href={`/category/${category.slug.current}`}
                                     aria-label={`${category.title} বিভাগ`}
-                                    className="
-                                        group
-                                        inline-flex
-                                        items-center
-                                        gap-4
-                                        rounded-xl
-                                        border
-                                        border-black/10
-                                        bg-white
-                                        px-5
-                                        py-3
-                                        transition-all
-                                        hover:border-black/20
-                                        hover:bg-muted
-                                        hover:shadow-sm
-                                    "
+                                    className="group inline-flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-3 text-foreground shadow-sm transition-all hover:border-foreground/20 hover:bg-muted hover:shadow-md"
                                 >
-
                                     <div className="min-w-0">
-
-                                        <h2 className="text-sm font-semibold sm:text-base">
+                                        <h2 className="text-sm font-semibold text-foreground sm:text-base">
                                             {category.title}
                                         </h2>
 
                                         <p className="mt-1 text-xs text-muted-foreground">
                                             {category.postCount} টি লেখা
                                         </p>
-
                                     </div>
 
                                     <ArrowRight
                                         size={16}
-                                        className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                                        className="shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-foreground"
                                     />
-
                                 </Link>
-
                             ))}
-
                         </div>
-
                     )}
-
                 </section>
 
             </Container>
-
         </main>
     );
 }

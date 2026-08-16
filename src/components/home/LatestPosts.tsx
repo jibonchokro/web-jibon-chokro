@@ -46,22 +46,20 @@ export default function LatestPosts({
                 {/* Header */}
 
                 <div className="mb-6 flex items-end justify-between gap-4">
-
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             সর্বশেষ লেখা
                         </h2>
                     </div>
 
-                    <div className="flex items-center gap-2">
-
+                    <div className="flex shrink-0 items-center gap-2">
                         <button
                             type="button"
                             onClick={() =>
                                 scroll("left")
                             }
                             aria-label="Scroll left"
-                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background/80 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted"
                         >
                             <ChevronLeft
                                 size={18}
@@ -74,7 +72,7 @@ export default function LatestPosts({
                                 scroll("right")
                             }
                             aria-label="Scroll right"
-                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background/80 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted"
                         >
                             <ChevronRight
                                 size={18}
@@ -83,7 +81,7 @@ export default function LatestPosts({
 
                         <Link
                             href="/posts"
-                            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition hover:bg-muted"
+                            className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-background/80 px-4 text-sm font-medium text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted"
                         >
                             সব লেখা
 
@@ -91,48 +89,25 @@ export default function LatestPosts({
                                 size={16}
                             />
                         </Link>
-
                     </div>
-
                 </div>
 
                 {latestPosts.length === 0 ? (
-
-                    <div className="rounded-xl border border-dashed border-black/10 bg-muted/30 py-12 text-center text-muted-foreground">
+                    <div className="rounded-xl border border-dashed border-border bg-muted/30 py-12 text-center text-muted-foreground">
                         এখনো কোনো লেখা প্রকাশ করা হয়নি।
                     </div>
-
                 ) : (
-
                     <div
                         ref={scrollRef}
-                        className="
-                            flex
-                            snap-x
-                            snap-mandatory
-                            gap-4
-                            overflow-x-auto
-                            pb-2
-                            [-ms-overflow-style:none]
-                            [scrollbar-width:none]
-                            [&::-webkit-scrollbar]:hidden
-                        "
+                        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
-
                         {latestPosts.map(
                             (post) => (
-
                                 <div
                                     key={
                                         post._id
                                     }
-                                    className="
-                                        w-[250px]
-                                        shrink-0
-                                        snap-start
-                                        sm:w-[275px]
-                                        lg:w-[300px]
-                                    "
+                                    className="w-[250px] shrink-0 snap-start sm:w-[275px] lg:w-[300px]"
                                 >
                                     <PostCard
                                         post={
@@ -140,14 +115,10 @@ export default function LatestPosts({
                                         }
                                     />
                                 </div>
-
                             )
                         )}
-
                     </div>
-
                 )}
-
             </Container>
         </section>
     );

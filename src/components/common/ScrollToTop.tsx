@@ -51,18 +51,18 @@ export default function ScrollToTop() {
                 justify-center
                 rounded-full
                 border
-                border-black/10
-                bg-white/70
+                border-border
+                bg-background/70
                 text-foreground
                 shadow-sm
                 backdrop-blur-md
                 transition-all
                 duration-300
-                hover:bg-white/90
+                hover:bg-background/90
                 hover:shadow-md
                 focus:outline-none
                 focus:ring-2
-                focus:ring-black/10
+                focus:ring-ring
                 sm:right-6
                 sm:bottom-6
                 sm:size-10

@@ -87,9 +87,9 @@ export default function MobileSearch() {
                 onClick={() =>
                     setOpen(true)
                 }
-                className="flex h-10 w-10 items-center justify-start rounded-xl transition hover:bg-muted"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-                <Search className="size-6" />
+                <Search className="size-5" />
             </button>
 
             {/* Search Header */}
@@ -102,8 +102,9 @@ export default function MobileSearch() {
                     z-[200]
                     origin-top
                     border-b
-                    border-black/10
-                    bg-white
+                    border-border
+                    bg-background
+                    text-foreground
                     shadow-sm
                     transition-all
                     duration-200

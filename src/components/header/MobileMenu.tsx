@@ -47,7 +47,7 @@ export default function MobileMenu({
                 onClick={() => setMobileOpen(false)}
                 className={`
                     fixed inset-0 z-[90] lg:hidden
-                    bg-black/45 h-dvh backdrop-blur-sm
+                    bg-black/45 dark:bg-black/60 h-dvh backdrop-blur-sm
                     transition-opacity duration-300
                     ${mobileOpen
                         ? "opacity-100 pointer-events-auto"
@@ -61,7 +61,7 @@ export default function MobileMenu({
             <aside
                 className={`
                     fixed inset-y-0 left-0 z-[100]
-                    flex h-dvh w-[100%] max-w-[320px] flex-col overflow-hidden bg-white
+                    flex h-dvh w-[100%] max-w-[320px] flex-col overflow-hidden bg-background text-foreground
                     transition-transform duration-300 ease-out
                     lg:hidden
                     ${mobileOpen
@@ -73,7 +73,7 @@ export default function MobileMenu({
 
                 {/* Header */}
 
-                <div className="sticky top-0 z-20 border-b border-black/10 bg-white">
+                <div className="sticky top-0 z-20 border-b border-border bg-background">
 
                     <div className="flex h-16 items-center justify-between px-5">
 
@@ -85,7 +85,7 @@ export default function MobileMenu({
                             type="button"
                             aria-label="Close Menu"
                             onClick={() => setMobileOpen(false)}
-                            className="rounded-lg border border-black/10 p-1 transition hover:bg-gray-100"
+                            className="rounded-lg border border-border p-1 transition hover:bg-muted"
                         >
                             <X size={22} />
                         </button>
@@ -109,8 +109,8 @@ export default function MobileMenu({
                                     href={item.href}
                                     onClick={() => setMobileOpen(false)}
                                     className={`flex items-center justify-between rounded-lg border px-3 py-2 text-[15px] font-medium transition ${isActive(item.href)
-                                        ? "border-black bg-black text-white"
-                                        : "border-black/10 bg-white hover:bg-gray-50"
+                                        ? "border-foreground bg-foreground text-background"
+                                        : "border-border bg-background hover:bg-muted"
                                         }`}
                                 >
                                     <span>{item.label}</span>
@@ -126,14 +126,14 @@ export default function MobileMenu({
 
                 {/* Footer */}
 
-                <div className="sticky bottom-0 z-20 shrink-0 border-t border-black/10 bg-white/95 backdrop-blur-md">
+                <div className="sticky bottom-0 z-20 shrink-0 border-t border-border bg-background/95 backdrop-blur-md">
 
-                    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-black/3 px-3 pt-3 pb-2 text-[12px] text-gray-500">
+                    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-b border-border/50 px-3 pt-3 pb-2 text-[12px] text-muted-foreground">
 
                         <Link
                             href="/about"
                             onClick={() => setMobileOpen(false)}
-                            className="transition hover:text-black"
+                            className="transition hover:text-foreground"
                         >
                             About
                         </Link>
@@ -141,7 +141,7 @@ export default function MobileMenu({
                         <Link
                             href="/contact"
                             onClick={() => setMobileOpen(false)}
-                            className="transition hover:text-black"
+                            className="transition hover:text-foreground"
                         >
                             Contact
                         </Link>
@@ -149,7 +149,7 @@ export default function MobileMenu({
                         <Link
                             href="/privacy"
                             onClick={() => setMobileOpen(false)}
-                            className="transition hover:text-black"
+                            className="transition hover:text-foreground"
                         >
                             Privacy
                         </Link>
@@ -157,14 +157,14 @@ export default function MobileMenu({
                         <Link
                             href="/terms"
                             onClick={() => setMobileOpen(false)}
-                            className="transition hover:text-black"
+                            className="transition hover:text-foreground"
                         >
                             Terms
                         </Link>
 
                     </div>
 
-                    <p className="px-3 pb-3 pt-2 text-center text-[10px] text-gray-500">
+                    <p className="px-3 pb-3 pt-2 text-center text-[10px] text-muted-foreground">
                         © {new Date().getFullYear()} Jibonchokro. All rights reserved.
                     </p>
 

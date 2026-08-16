@@ -3,6 +3,7 @@ import { Anek_Bangla, Geist } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 import ScrollToTop from "@/components/common/ScrollToTop";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | জীবন চক্র",
   },
   description:
-    "উপদেশ, উক্তি, শিক্ষণীয় গল্প, বাস্তব ঘটনা ও অনুপ্রেরণামূলক বাংলা ব্লগ।",
+    "উপদেশ, উক্তি, শিক্ষণীয় গল্প, বাস্তব ঘটনা ও অনুপ্রেরণামূলক বাংলা ব্লগ।",
 };
 
 export default function RootLayout({
@@ -48,34 +49,43 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geist.variable} ${anekBangla.variable}`}
     >
-      <body className="min-h-screen bg-white font-sans text-gray-900 antialiased">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
 
-        <NextTopLoader
-          color="#333"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={2}
-          crawl
-          showSpinner={false}
-          easing="ease"
-          speed={200}
-          shadow="0 0 5px #555,0 0 3px #555"
-        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
 
-        <div className="flex min-h-screen flex-col">
-          <main className="flex-1">
-            {children}
-          </main>
-        </div>
+          <NextTopLoader
+            color="#333"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={2}
+            crawl
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 5px #555,0 0 3px #555"
+          />
 
-        <Toaster
-          position="top-right"
-          richColors
-          closeButton
-          duration={2500}
-        />
+          <div className="flex min-h-screen flex-col">
+            <main className="flex-1">
+              {children}
+            </main>
+          </div>
 
-        <ScrollToTop />
+          <Toaster
+            position="top-right"
+            richColors
+            closeButton
+            duration={2500}
+          />
+
+          <ScrollToTop />
+
+        </ThemeProvider>
 
       </body>
     </html>

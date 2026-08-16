@@ -21,12 +21,11 @@ export default function Error({
 
     return (
         <main className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl items-center px-6 py-16">
-
             <div className="mx-auto w-full max-w-3xl text-center">
 
                 {/* Badge */}
 
-                <div className="inline-flex rounded-full border border-black/10 bg-muted px-4 py-1 text-sm font-medium text-muted-foreground">
+                <div className="inline-flex rounded-full border border-border bg-muted px-4 py-1 text-sm font-medium text-muted-foreground">
                     Error
                 </div>
 
@@ -60,7 +59,7 @@ export default function Error({
                     <button
                         type="button"
                         onClick={reset}
-                        className="inline-flex items-center gap-2 rounded-lg bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+                        className="inline-flex items-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-medium text-background shadow-sm transition-colors hover:bg-foreground/90"
                     >
                         <RefreshCcw size={18} />
                         আবার চেষ্টা করুন
@@ -68,7 +67,7 @@ export default function Error({
 
                     <Link
                         href="/"
-                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-background px-5 py-3 text-sm font-medium text-foreground transition hover:bg-muted"
+                        className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-3 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
                     >
                         <Home size={18} />
                         হোমপেজ
@@ -78,7 +77,7 @@ export default function Error({
 
                 {/* Helpful Links */}
 
-                <div className="mt-14 border-t border-black/10 pt-8">
+                <div className="mt-14 border-t border-border pt-8">
 
                     <p className="mb-5 text-sm font-medium uppercase tracking-wide text-muted-foreground">
                         আপনি হয়তো খুঁজছেন
@@ -97,7 +96,7 @@ export default function Error({
                             <Link
                                 key={href}
                                 href={href}
-                                className="rounded-full border border-black/10 bg-background px-4 py-2 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                                className="rounded-full border border-border bg-background px-4 py-2 text-sm text-muted-foreground shadow-sm transition-colors hover:bg-muted hover:text-foreground"
                             >
                                 {label}
                             </Link>
@@ -113,7 +112,7 @@ export default function Error({
                     সমস্যাটি বারবার হলে{" "}
                     <Link
                         href="/contact"
-                        className="font-medium text-foreground underline underline-offset-4"
+                        className="font-medium text-foreground underline underline-offset-4 transition-colors hover:text-foreground/80"
                     >
                         আমাদের জানান
                     </Link>
@@ -121,7 +120,6 @@ export default function Error({
                 </p>
 
             </div>
-
         </main>
     );
 }

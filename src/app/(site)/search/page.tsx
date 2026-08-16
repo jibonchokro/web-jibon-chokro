@@ -41,116 +41,46 @@ export default async function SearchPage({
 
     return (
         <main className="py-5 sm:py-8 lg:py-10">
-
             <Container>
 
                 {/* Search Header */}
 
-                <section
-                    className="
-                        mb-6
-                        rounded-xl
-                        border
-                        border-[#f0f0f0]
-                        bg-white
-                        shadow-custom
-                        sm:mb-8
-                    "
-                >
-
+                <section className="mb-6 rounded-xl border border-border bg-card shadow-custom sm:mb-8">
                     <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 
                         {/* Heading */}
 
                         <div className="flex items-center gap-3">
-
-                            <div
-                                className="
-                                    flex
-                                    size-12
-                                    shrink-0
-                                    items-center
-                                    justify-center
-                                    rounded-lg
-                                    bg-muted
-                                    text-foreground
-                                    sm:size-13
-                                "
-                            >
+                            <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground sm:size-13">
                                 <Search className="size-7" />
                             </div>
 
-
                             <div className="min-w-0">
-
-                                <h1
-                                    className="
-                                        text-xl
-                                        font-bold
-                                        tracking-tight
-                                        text-foreground
-                                        sm:text-2xl
-                                    "
-                                >
+                                <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                                     সার্চ করুন
                                 </h1>
 
-                                <p
-                                    className="
-                                        text-sm
-                                        leading-6
-                                        text-muted-foreground
-                                    "
-                                >
+                                <p className="text-sm leading-6 text-muted-foreground">
                                     আপনার প্রয়োজনীয় লেখা খুঁজে নিন।
                                 </p>
-
                             </div>
-
                         </div>
-
 
                         {/* Search Box */}
 
                         <div className="mt-5 sm:mt-6">
-
                             <SearchBox />
-
                         </div>
-
 
                         {/* Search Information */}
 
                         {query && (
-                            <div
-                                className="
-                                    mt-4
-                                    flex
-                                    flex-wrap
-                                    items-center
-                                    gap-2
-                                    text-sm
-                                "
-                            >
-
+                            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
                                 <span className="text-muted-foreground">
                                     অনুসন্ধান:
                                 </span>
 
-                                <span
-                                    className="
-                                        max-w-full
-                                        truncate
-                                        rounded-full
-                                        border
-                                        border-black/10
-                                        bg-muted
-                                        px-3
-                                        py-1
-                                        font-medium
-                                        text-foreground
-                                    "
-                                >
+                                <span className="max-w-full truncate rounded-full border border-border bg-muted px-3 py-1 font-medium text-foreground">
                                     {query}
                                 </span>
 
@@ -161,196 +91,66 @@ export default async function SearchPage({
                                 <span className="text-muted-foreground">
                                     {posts.length} টি ফলাফল
                                 </span>
-
                             </div>
                         )}
-
                     </div>
-
                 </section>
-
 
                 {/* Empty Search */}
 
                 {query.length < 2 && (
-
-                    <div
-                        className="
-                            flex
-                            min-h-[300px]
-                            flex-col
-                            items-center
-                            justify-center
-                            rounded-xl
-                            border
-                            border-dashed
-                            border-black/10
-                            bg-white
-                            px-6
-                            text-center
-                        "
-                    >
-
-                        <div
-                            className="
-                                flex
-                                size-14
-                                items-center
-                                justify-center
-                                rounded-full
-                                bg-muted
-                            "
-                        >
-                            <Search
-                                className="
-                                    size-6
-                                    text-muted-foreground
-                                "
-                            />
+                    <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card px-6 text-center shadow-sm">
+                        <div className="flex size-14 items-center justify-center rounded-full bg-muted">
+                            <Search className="size-6 text-muted-foreground" />
                         </div>
 
-
-                        <h2
-                            className="
-                                mt-5
-                                text-lg
-                                font-semibold
-                                text-foreground
-                                sm:text-xl
-                            "
-                        >
+                        <h2 className="mt-5 text-lg font-semibold text-foreground sm:text-xl">
                             কিছু লিখে সার্চ করুন
                         </h2>
 
-
-                        <p
-                            className="
-                                mt-2
-                                max-w-md
-                                text-sm
-                                leading-6
-                                text-muted-foreground
-                            "
-                        >
-                            কমপক্ষে ২টি অক্ষর লিখে আপনার
-                            প্রয়োজনীয় লেখা খুঁজে নিন।
+                        <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                            কমপক্ষে ২টি অক্ষর লিখে আপনার প্রয়োজনীয় লেখা খুঁজে নিন।
                         </p>
-
                     </div>
-
                 )}
-
 
                 {/* No Results */}
 
                 {query.length >= 2 &&
                     posts.length === 0 && (
-
-                        <div
-                            className="
-                                flex
-                                min-h-[300px]
-                                flex-col
-                                items-center
-                                justify-center
-                                rounded-xl
-                                border
-                                border-dashed
-                                border-black/10
-                                bg-white
-                                px-6
-                                text-center
-                            "
-                        >
-
-                            <div
-                                className="
-                                    flex
-                                    size-14
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-muted
-                                "
-                            >
-                                <FileText
-                                    className="
-                                        size-6
-                                        text-muted-foreground
-                                    "
-                                />
+                        <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card px-6 text-center shadow-sm">
+                            <div className="flex size-14 items-center justify-center rounded-full bg-muted">
+                                <FileText className="size-6 text-muted-foreground" />
                             </div>
 
-
-                            <h2
-                                className="
-                                    mt-5
-                                    text-lg
-                                    font-semibold
-                                    text-foreground
-                                    sm:text-xl
-                                "
-                            >
+                            <h2 className="mt-5 text-lg font-semibold text-foreground sm:text-xl">
                                 কোনো লেখা পাওয়া যায়নি
                             </h2>
 
-
-                            <p
-                                className="
-                                    mt-2
-                                    max-w-md
-                                    text-sm
-                                    leading-6
-                                    text-muted-foreground
-                                "
-                            >
-                                অন্য কোনো শব্দ দিয়ে আবার চেষ্টা
-                                করুন অথবা সব লেখা দেখুন।
+                            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                                অন্য কোনো শব্দ দিয়ে আবার চেষ্টা করুন অথবা সব লেখা দেখুন।
                             </p>
-
 
                             <Link
                                 href="/posts"
-                                className="
-                                    mt-5
-                                    inline-flex
-                                    items-center
-                                    gap-2
-                                    rounded-lg
-                                    bg-primary
-                                    px-4
-                                    py-2.5
-                                    text-sm
-                                    font-medium
-                                    text-primary-foreground
-                                    transition-opacity
-                                    hover:opacity-90
-                                "
+                                className="mt-5 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                             >
                                 সব লেখা দেখুন
 
                                 <ArrowRight className="size-4" />
-
                             </Link>
-
                         </div>
-
                     )}
-
 
                 {/* Results */}
 
                 {posts.length > 0 && (
-
                     <SearchResultsPage
                         initialPosts={posts}
                         query={query}
                     />
-
                 )}
-
             </Container>
-
         </main>
     );
 }

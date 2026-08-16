@@ -77,30 +77,23 @@ export default async function Page({
 
                     <p className="mt-1 text-sm text-muted-foreground">
                         {total > 0
-                            ? `${total} comment${total === 1
-                                ? ""
-                                : "s"
-                            } across all your posts`
+                            ? `${total} comment${total === 1 ? "" : "s"} across all your posts`
                             : "You haven't commented on anything yet"}
                     </p>
                 </div>
 
-                <form
-                    action="/dashboard/comments"
-                    method="GET"
-                    className="flex w-full max-w-sm items-center gap-2 sm:w-auto"
-                >
+                <form action="/dashboard/comments" method="GET" className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
                     <input
                         type="search"
                         name="q"
                         defaultValue={search}
                         placeholder="Search your comments..."
-                        className="w-full min-w-0 rounded-lg border border-black/10 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full min-w-0 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
                     />
 
                     <button
                         type="submit"
-                        className="shrink-0 rounded-lg border border-black/10 bg-muted px-3 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
+                        className="shrink-0 rounded-lg border border-border bg-muted px-3 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
                     >
                         Search
                     </button>
@@ -124,7 +117,7 @@ export default async function Page({
             )}
 
             {comments.length === 0 ? (
-                <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-black/10 bg-white px-6 py-16 text-center shadow-custom">
+                <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border bg-card px-6 py-16 text-center shadow-custom">
                     {search ? (
                         <>
                             <MessageSquareOff
@@ -152,9 +145,7 @@ export default async function Page({
                             />
 
                             <p className="text-sm font-medium text-foreground">
-                                You haven&apos;t
-                                commented on anything
-                                yet
+                                You haven&apos;t commented on anything yet
                             </p>
 
                             <Link
@@ -181,16 +172,13 @@ export default async function Page({
                 <div className="flex items-center justify-between gap-3 pt-2">
                     {hasPrev ? (
                         <Link
-                            href={buildPageHref(
-                                page - 1,
-                                search
-                            )}
-                            className="rounded-lg border border-black/10 bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
+                            href={buildPageHref(page - 1, search)}
+                            className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
                         >
                             Previous
                         </Link>
                     ) : (
-                        <span className="rounded-lg border border-black/10 bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-50">
+                        <span className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-50">
                             Previous
                         </span>
                     )}
@@ -201,16 +189,13 @@ export default async function Page({
 
                     {hasNext ? (
                         <Link
-                            href={buildPageHref(
-                                page + 1,
-                                search
-                            )}
-                            className="rounded-lg border border-black/10 bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
+                            href={buildPageHref(page + 1, search)}
+                            className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
                         >
                             Next
                         </Link>
                     ) : (
-                        <span className="rounded-lg border border-black/10 bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-50">
+                        <span className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-muted-foreground opacity-50">
                             Next
                         </span>
                     )}

@@ -250,8 +250,9 @@ textarea {
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: #fafafa;
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  /* Softer dark-mode borders */
+  --border: oklch(0.30 0 0);
+  --input: oklch(0.30 0 0);
   --ring: oklch(0.556 0 0);
 
   --chart-1: oklch(0.87 0 0);
@@ -269,8 +270,10 @@ textarea {
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
 
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: oklch(0.30 0 0);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --shadow-custom: 0 0 1px 0.5px oklch(0 0 0 / 45%);
 }
 
 /* =========================================================

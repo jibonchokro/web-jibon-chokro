@@ -1,13 +1,8 @@
 "use client";
 
-import {
-    FormEvent,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-
+import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import {
     AlertDialog,
@@ -22,14 +17,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Send } from "lucide-react";
-
 interface CommentFormProps {
     postId: string;
     parentId?: string | null;
     currentUserId?: string | null;
     onSuccess: () => void;
-    /** Where "Sign In" in the login prompt should send the user. */
     loginHref?: string;
 }
 
@@ -48,13 +40,11 @@ export default function CommentForm({
 }: CommentFormProps) {
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
-    const [loginPromptOpen, setLoginPromptOpen] =
-        useState(false);
+    const [loginPromptOpen, setLoginPromptOpen] = useState(false);
 
     const router = useRouter();
 
-    const textareaRef =
-        useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     function resizeTextarea() {
         const textarea = textareaRef.current;
@@ -64,10 +54,7 @@ export default function CommentForm({
         textarea.style.height = `${INITIAL_HEIGHT}px`;
 
         const height = Math.min(
-            Math.max(
-                textarea.scrollHeight,
-                INITIAL_HEIGHT
-            ),
+            Math.max(textarea.scrollHeight, INITIAL_HEIGHT),
             MAX_HEIGHT
         );
 
@@ -85,8 +72,6 @@ export default function CommentForm({
 
     function handleTextareaFocus() {
         if (!currentUserId) {
-            // Signed-out users shouldn't be able to type at all —
-            // blur immediately and show the prompt instead.
             textareaRef.current?.blur();
             setLoginPromptOpen(true);
         }
@@ -109,33 +94,27 @@ export default function CommentForm({
         try {
             setLoading(true);
 
-            const response = await fetch(
-                "/api/comments",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-                    },
-                    body: JSON.stringify({
-                        postId,
-                        parentId,
-                        content: text,
-                    }),
-                }
-            );
+            const response = await fetch("/api/comments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    postId,
+                    parentId,
+                    content: text,
+                }),
+            });
 
             const data = await response.json();
 
             if (!response.ok) {
                 throw new Error(
-                    data?.error ||
-                    "Failed to post comment."
+                    data?.error || "Failed to post comment."
                 );
             }
 
             setContent("");
-
             onSuccess();
         } catch (error) {
             console.error(
@@ -175,23 +154,7 @@ export default function CommentForm({
                         rows={1}
                         maxLength={MAX_LENGTH}
                         disabled={loading}
-                        className="
-                            comment-textarea
-                            h-10
-                            min-h-10
-                            max-h-[168px]
-                            resize-none
-                            overflow-hidden
-                            rounded-[20px]
-                            border-none
-                            bg-muted
-                            px-4
-                            py-2
-                            leading-6
-                            shadow-none
-                            focus-visible:ring-1
-                            focus-visible:ring-ring
-                        "
+                        className="comment-textarea h-10 min-h-10 max-h-[168px] resize-none overflow-hidden rounded-[20px] border-none bg-muted px-4 py-2 leading-6 shadow-none focus-visible:ring-1 focus-visible:ring-ring"
                     />
                 </div>
 
@@ -208,12 +171,7 @@ export default function CommentForm({
                             ? "Submit reply"
                             : "Submit comment"
                     }
-                    className="
-                        h-10
-                        w-10
-                        shrink-0
-                        rounded-full
-                    "
+                    className="h-10 w-10 shrink-0 rounded-full"
                 >
                     <Send
                         className="h-4 w-4"

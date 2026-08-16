@@ -65,60 +65,68 @@ export default async function CategoryPage({
 
                 {/* Breadcrumb */}
 
-                <nav className="mb-5 flex items-center gap-2 text-sm text-muted-foreground">
-
+                <nav
+                    aria-label="Breadcrumb"
+                    className="mb-5 flex items-center gap-2 text-sm text-muted-foreground"
+                >
                     <Link
                         href="/"
-                        className="transition hover:text-foreground"
+                        className="transition-colors hover:text-foreground"
                     >
                         হোম
                     </Link>
 
-                    <ChevronRight size={15} />
+                    <ChevronRight
+                        size={15}
+                        className="shrink-0"
+                    />
 
                     <Link
                         href="/categories"
-                        className="transition hover:text-foreground"
+                        className="transition-colors hover:text-foreground"
                     >
                         বিভাগসমূহ
                     </Link>
 
-                    <ChevronRight size={15} />
+                    <ChevronRight
+                        size={15}
+                        className="shrink-0"
+                    />
 
                     <span className="font-medium text-foreground">
                         {category.title}
                     </span>
-
                 </nav>
 
                 {/* Header */}
 
-                <section className="rounded-3xl border border-black/10 bg-white p-5 sm:p-6 lg:p-8">
+                <section className="rounded-3xl border border-border bg-card p-5 shadow-sm sm:p-6 lg:p-8">
 
-                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-muted px-4 py-2 text-sm font-medium">
+                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-foreground">
+                        <FolderOpen
+                            size={16}
+                            className="shrink-0 text-muted-foreground"
+                        />
 
-                        <FolderOpen size={16} />
-
-                        বিভাগ
-
+                        <span>
+                            বিভাগ
+                        </span>
                     </div>
 
-                    <div className="flex gap-4 flex-row sm:items-center justify-between">
+                    <div className="flex flex-row justify-between gap-4 sm:items-center">
 
                         <h1 className="text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-
                             {category.title}
-
                         </h1>
 
-                        <div className="inline-flex items-center rounded-full border border-black/10 bg-background px-4 py-2 text-sm font-medium whitespace-nowrap">
-
+                        <div className="inline-flex shrink-0 items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground">
                             মোট&nbsp;
+
                             <span className="font-bold">
                                 {posts.length}
                             </span>
-                            &nbsp;টি লেখা
 
+                            &nbsp;টি লেখা
                         </div>
 
                     </div>
@@ -128,11 +136,9 @@ export default async function CategoryPage({
                 {/* Posts */}
 
                 <section className="mt-8">
-
                     <CategoryToolbar
                         posts={posts}
                     />
-
                 </section>
 
             </Container>

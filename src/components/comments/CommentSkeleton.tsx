@@ -4,10 +4,7 @@ export default function CommentSkeleton() {
     return (
         <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, index) => (
-                <div
-                    key={index}
-                    className="flex items-start gap-2.5"
-                >
+                <div key={index} className="flex items-start gap-2.5">
                     <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
 
                     <div className="flex-1 space-y-2">

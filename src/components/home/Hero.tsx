@@ -21,93 +21,66 @@ export default async function Hero() {
     const categoriesCount = categories.length;
 
     return (
-        <section className="relative border-b border-black/10">
-
+        <section className="relative border-b border-border bg-background">
             {/* Background */}
-
             <div className="absolute inset-0 overflow-hidden">
-
                 {/* Background Image */}
-
                 <div className="absolute inset-0">
                     <Image
                         src="/HeroBackground.jpeg"
                         alt=""
                         fill
                         priority
-                        className="object-cover opacity-5"
+                        className="object-cover opacity-[0.04] dark:opacity-[0.07]"
                     />
                 </div>
 
-                {/* White Overlay */}
-
-                <div className="absolute inset-0 bg-[#a8f8ff61]" />
+                {/* Theme-aware Overlay */}
+                <div className="absolute inset-0 bg-cyan-100/40 dark:bg-cyan-950/20" />
 
                 {/* Background Blur */}
+                <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl dark:bg-red-500/10" />
 
-                <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl" />
-
+                <div className="absolute bottom-[-160px] left-[-120px] h-[350px] w-[350px] rounded-full bg-cyan-300/10 blur-3xl dark:bg-cyan-500/10" />
             </div>
 
-
             <Container>
-
                 <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
-
                     {/* Badge */}
-
-                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/20 bg-black/15 px-4 py-2 text-sm font-medium text-black">
-
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur-md">
                         <Sparkles size={15} />
-
                         প্রতিদিন নতুন কিছু শিখুন
-
                     </div>
 
-
                     {/* Title */}
-
                     <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-
-                        <span className="block text-red-500">
+                        <span className="block text-red-500 dark:text-red-400">
                             জীবনকে সমৃদ্ধ করার
                         </span>
 
                         <span className="block text-3xl font-black sm:text-4xl lg:text-5xl">
                             বাংলা জ্ঞানভান্ডার
                         </span>
-
                     </h1>
 
-
                     {/* Description */}
-
-                    <p className="mt-6 max-w-3xl text-base leading-8 text-black sm:mt-8 sm:text-md lg:text-xl">
-
+                    <p className="mt-6 max-w-3xl text-base leading-8 text-foreground/80 sm:mt-8 sm:text-md lg:text-xl">
                         জীবন চক্রে পাবেন অনুপ্রেরণামূলক লেখা,
                         বাস্তব জীবনের শিক্ষা, সফলতার গল্প,
                         ইসলামিক জ্ঞান, ক্যারিয়ার, প্রযুক্তি,
                         স্বাস্থ্য, সম্পর্ক, উক্তি এবং আরও অনেক
                         মূল্যবান বাংলা কনটেন্ট।
-
                     </p>
 
-
                     {/* Search */}
-
                     <div className="relative z-50 mt-8 flex w-full justify-center sm:mt-10">
-
                         <SearchBox
-                            className="w-full max-w-[520px] rounded-xl bg-white"
+                            className="w-full max-w-[520px]"
                         />
-
                     </div>
 
-
                     {/* Popular Search */}
-
                     <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-
                         <span className="text-sm text-muted-foreground">
                             জনপ্রিয়:
                         </span>
@@ -120,56 +93,38 @@ export default async function Hero() {
                             "প্রযুক্তি",
                             "স্বাস্থ্য",
                         ].map((item) => (
-
                             <Link
                                 key={item}
                                 href={`/search?q=${encodeURIComponent(item)}`}
-                                className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                                className="rounded-full border border-border bg-background/70 px-3 py-1.5 text-sm text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted hover:text-foreground"
                             >
                                 {item}
                             </Link>
-
                         ))}
-
                     </div>
 
-
                     {/* CTA */}
-
                     <div className="mt-6 flex w-full flex-row justify-center gap-3 sm:mt-8">
-
                         <Link
                             href="/posts"
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-black px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-foreground px-5 py-2 text-sm font-semibold text-background shadow-sm transition-all hover:opacity-90"
                         >
-
                             সব লেখা পড়ুন
-
                             <ArrowRight size={18} />
-
                         </Link>
-
 
                         <Link
                             href="/categories"
-                            className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-7 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
+                            className="inline-flex items-center justify-center rounded-xl border border-border bg-background/80 px-7 py-2 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted"
                         >
-
                             বিভাগসমূহ
-
                         </Link>
-
                     </div>
 
-
                     {/* Stats */}
-
                     <div className="mt-8 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-10 sm:gap-5">
-
                         {/* Published Posts */}
-
-                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
-
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
                             <BookOpen
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
@@ -182,14 +137,10 @@ export default async function Hero() {
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                                 প্রকাশিত লেখা
                             </p>
-
                         </div>
 
-
                         {/* Monthly Readers */}
-
-                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
-
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
                             <Users
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
@@ -202,14 +153,10 @@ export default async function Hero() {
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                                 মাসিক পাঠক
                             </p>
-
                         </div>
 
-
                         {/* Categories */}
-
-                        <div className="rounded-2xl border border-black/7 bg-white px-2 py-3 shadow-xs transition hover:shadow-sm sm:px-6 sm:py-6">
-
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
                             <Sparkles
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
@@ -222,15 +169,10 @@ export default async function Hero() {
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                                 বিষয়ভিত্তিক বিভাগ
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </Container>
-
         </section>
     );
 }

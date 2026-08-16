@@ -34,14 +34,14 @@ export default function LogoutButton({
     const modal = confirmOpen && typeof window !== "undefined"
         ? createPortal(
             <div
-                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4"
+                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4 dark:bg-black/60"
                 onClick={() => setConfirmOpen(false)}
             >
                 <div
-                    className="w-full max-w-[300px] rounded-xl border border-black/10 bg-white p-6 shadow-xl"
+                    className="w-full max-w-[300px] rounded-xl border border-border bg-background p-6 shadow-xl"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <h2 className="text-lg font-semibold">
+                    <h2 className="text-lg font-semibold text-foreground">
                         লগ আউট করবেন?
                     </h2>
 
@@ -53,7 +53,7 @@ export default function LogoutButton({
                         <button
                             type="button"
                             onClick={() => setConfirmOpen(false)}
-                            className="rounded-lg border border-black/10 px-4 py-2 text-sm font-medium hover:bg-muted"
+                            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
                         >
                             বাতিল
                         </button>
@@ -62,7 +62,7 @@ export default function LogoutButton({
                             type="button"
                             onClick={handleLogout}
                             disabled={loading}
-                            className="rounded-lg border border-black/10 bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+                            className="rounded-lg border border-border bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:opacity-90 disabled:opacity-50"
                         >
                             {loading ? "অপেক্ষা করুন..." : "লগ আউট"}
                         </button>
@@ -81,7 +81,7 @@ export default function LogoutButton({
                 onClick={() => setConfirmOpen(true)}
                 disabled={loading}
                 className={cn(
-                    "inline-flex items-center gap-2 rounded-lg border border-black/10 text-sm font-medium text-muted-foreground transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+                    "inline-flex items-center gap-2 rounded-lg border border-border text-sm font-medium text-muted-foreground transition-colors hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
                     className
                 )}
             >

@@ -54,12 +54,9 @@ export default function AboutPage() {
             description="জীবন চক্র একটি আধুনিক বাংলা জ্ঞানভিত্তিক প্ল্যাটফর্ম যেখানে নির্ভরযোগ্য তথ্য, অনুপ্রেরণা এবং বাস্তব জীবনের অভিজ্ঞতা একসাথে তুলে ধরা হয়।"
         >
             <div className="space-y-8 md:space-y-10 lg:space-y-12">
-
                 {/* Hero */}
-
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-
-                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
                         বাংলা জ্ঞানভিত্তিক প্ল্যাটফর্ম
                     </div>
 
@@ -68,7 +65,6 @@ export default function AboutPage() {
                     </h2>
 
                     <div className="mt-5 max-w-4xl space-y-4 sm:mt-6 sm:space-y-5">
-
                         <p className="text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 lg:leading-9">
                             জীবন চক্র একটি আধুনিক বাংলা ব্লগ যেখানে শিক্ষা,
                             আত্মউন্নয়ন, ক্যারিয়ার, স্বাস্থ্য, সম্পর্ক, সমাজ,
@@ -83,18 +79,13 @@ export default function AboutPage() {
                             যাতে পাঠক শুধু তথ্যই না পান, বরং বাস্তব জীবনেও
                             সেটি কাজে লাগাতে পারেন।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* Mission */}
-
                 <section className="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6">
-
-                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                        <h3 className="text-xl font-semibold sm:text-2xl">
+                    <div className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                        <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
                             আমাদের লক্ষ্য
                         </h3>
 
@@ -103,12 +94,10 @@ export default function AboutPage() {
                             আধুনিক এবং সমৃদ্ধ জ্ঞানভাণ্ডার তৈরি করা,
                             যেখানে সহজ ভাষায় মানসম্পন্ন তথ্য পাওয়া যাবে।
                         </p>
-
                     </div>
 
-                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                        <h3 className="text-xl font-semibold sm:text-2xl">
+                    <div className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                        <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
                             আমাদের উদ্দেশ্য
                         </h3>
 
@@ -117,49 +106,37 @@ export default function AboutPage() {
                             কনটেন্ট প্রকাশের মাধ্যমে মানুষের জ্ঞান বৃদ্ধি,
                             সচেতনতা এবং আত্মউন্নয়নে সহায়তা করা।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* Topics */}
-
                 <section>
-
                     <div className="mb-6 sm:mb-8">
-
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             আমরা কী প্রকাশ করি?
                         </h2>
 
                         <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
                             বিভিন্ন বিষয়ে নিয়মিত নতুন নতুন লেখা প্রকাশ করা হয়।
                         </p>
-
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-
                         {topics.map((topic) => (
                             <div
                                 key={topic}
-                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] px-4 py-3 text-sm font-medium sm:px-5 sm:py-4 sm:text-base"
+                                className="rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-custom transition-colors hover:bg-muted sm:px-5 sm:py-4 sm:text-base"
                             >
                                 {topic}
                             </div>
                         ))}
-
                     </div>
-
                 </section>
 
                 {/* Values */}
-
                 <section>
-
                     <div className="mb-6 sm:mb-8">
-
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             আমাদের মূল্যবোধ
                         </h2>
 
@@ -167,86 +144,68 @@ export default function AboutPage() {
                             প্রতিটি সিদ্ধান্ত এবং প্রতিটি প্রকাশনার পেছনে
                             আমাদের মূল নীতিগুলো কাজ করে।
                         </p>
-
                     </div>
 
                     <div className="grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6">
-
                         {values.map((value) => (
                             <div
                                 key={value.title}
-                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:rounded-2xl sm:p-6 md:p-8"
+                                className="rounded-xl border border-border bg-card p-5 shadow-custom sm:rounded-2xl sm:p-6 md:p-8"
                             >
-                                <h3 className="text-lg font-semibold sm:text-xl">
+                                <h3 className="text-lg font-semibold text-foreground sm:text-xl">
                                     {value.title}
                                 </h3>
 
                                 <p className="mt-3 text-sm leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
                                     {value.description}
                                 </p>
-
                             </div>
                         ))}
-
                     </div>
-
                 </section>
 
                 {/* Stats */}
-
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         কেন জীবন চক্র?
                     </h2>
 
                     <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-8">
-
-                        <div className="rounded-xl border border-black/10 bg-background p-5 text-center sm:text-left">
-
-                            <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                        <div className="rounded-xl border border-border bg-background p-5 text-center sm:text-left">
+                            <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                                 100+
                             </h3>
 
                             <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">
                                 মানসম্পন্ন নিবন্ধ
                             </p>
-
                         </div>
 
-                        <div className="rounded-xl border border-black/10 bg-background p-5 text-center sm:text-left">
-
-                            <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                        <div className="rounded-xl border border-border bg-background p-5 text-center sm:text-left">
+                            <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                                 20+
                             </h3>
 
                             <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">
                                 বিভিন্ন বিভাগ
                             </p>
-
                         </div>
 
-                        <div className="rounded-xl border border-black/10 bg-background p-5 text-center sm:col-span-2 sm:text-left lg:col-span-1">
-
-                            <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                        <div className="rounded-xl border border-border bg-background p-5 text-center sm:col-span-2 sm:text-left lg:col-span-1">
+                            <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                                 প্রতিদিন
                             </h3>
 
                             <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">
                                 নতুন কনটেন্ট প্রকাশের লক্ষ্য
                             </p>
-
                         </div>
-
                     </div>
-
                 </section>
 
                 {/* CTA */}
-
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-custom sm:rounded-3xl sm:p-8 md:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         আপনার মতামত আমাদের কাছে গুরুত্বপূর্ণ
                     </h2>
 
@@ -258,13 +217,11 @@ export default function AboutPage() {
 
                     <Link
                         href="/contact"
-                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-black px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-zinc-800 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                     >
                         যোগাযোগ করুন
                     </Link>
-
                 </section>
-
             </div>
         </PageLayout>
     );

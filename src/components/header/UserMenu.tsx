@@ -160,7 +160,7 @@ export default function UserMenu({
                 onClick={() =>
                     setOpen((prev) => !prev)
                 }
-                className="flex items-center transition lg:gap-3 lg:rounded-xl lg:border lg:border-black/10 lg:bg-background lg:px-2 lg:py-1 lg:hover:bg-muted"
+                className="flex items-center transition lg:gap-3 lg:rounded-xl lg:border lg:border-border lg:bg-background/10 lg:px-2 lg:py-1 lg:backdrop-blur-md lg:hover:bg-muted/70"
             >
                 <div className="relative">
                     <UserAvatar
@@ -168,7 +168,7 @@ export default function UserMenu({
                         avatar={avatar}
                     />
 
-                    <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-gray-200 bg-gray-50 lg:hidden">
+                    <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-border bg-muted lg:hidden">
                         <ChevronDown
                             size={12}
                             className={
@@ -181,7 +181,7 @@ export default function UserMenu({
                 </div>
 
                 <div className="hidden text-left lg:block">
-                    <p className="text-sm font-medium">
+                    <p className="text-sm font-medium text-foreground">
                         {fullName}
                     </p>
 
@@ -202,10 +202,10 @@ export default function UserMenu({
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-[12px] lg:mt-[7px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-black/10 bg-white shadow-lg">
+                <div className="absolute right-0 mt-[12px] lg:mt-[7px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-border bg-popover text-popover-foreground shadow-lg">
 
                     {/* User Info */}
-                    <div className="border-b border-black/10 p-4">
+                    <div className="border-b border-border p-4">
                         <div className="flex items-center gap-3">
                             <UserAvatar
                                 name={fullName}
@@ -240,9 +240,9 @@ export default function UserMenu({
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className={`mb-1 flex items-center gap-3 rounded-lg border border-black/10 px-3 py-2 text-sm transition ${active
-                                        ? "bg-gray-100 font-medium text-black"
-                                        : "text-muted-foreground hover:bg-gray-100 hover:text-black"
+                                    className={`mb-1 flex items-center gap-3 rounded-lg border border-border px-3 py-2 text-sm transition ${active
+                                        ? "bg-muted font-medium text-foreground"
+                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                         }`}
                                 >
                                     <Icon size={17} />
@@ -257,7 +257,7 @@ export default function UserMenu({
                     </nav>
 
                     {/* Logout */}
-                    <div className="border-t border-black/10 p-2">
+                    <div className="border-t border-border p-2">
                         <LogoutButton
                             className="w-full justify-start px-3 py-2 text-left text-sm"
                         />

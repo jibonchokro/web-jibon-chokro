@@ -13,8 +13,14 @@ export default function PageLayout({
     children,
 }: PageLayoutProps) {
     return (
-        <main className="mx-auto max-w-5xl px-4 py-10">
-
+        <main
+            className="
+                mx-auto
+                max-w-5xl
+                px-4
+                py-10
+            "
+        >
             <PageHero
                 title={title}
                 description={description}
@@ -23,7 +29,6 @@ export default function PageLayout({
             <PageContent>
                 {children}
             </PageContent>
-
         </main>
     );
 }

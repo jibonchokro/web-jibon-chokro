@@ -15,7 +15,7 @@ export default function EmptyBookmarks() {
                 rounded-2xl
                 border
                 border-dashed
-                border-black/10
+                border-border
                 bg-background
                 px-6
                 py-12

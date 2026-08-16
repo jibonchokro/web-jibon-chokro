@@ -14,29 +14,18 @@ export default function RegisterForm() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] =
-        useState("");
-
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
-    // Supabase can be configured either way: some projects log the
-    // user in immediately after signUp, others require clicking an
-    // emailed confirmation link first (no session is returned yet
-    // in that case). Handle both instead of assuming one.
-    const [awaitingConfirmation, setAwaitingConfirmation] =
-        useState(false);
-
-    async function handleSubmit(
-        e: React.FormEvent
-    ) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         if (loading) return;
 
         if (password !== confirmPassword) {
             toast.error("পাসওয়ার্ড মিলছে না", {
-                description:
-                    "দুটি পাসওয়ার্ড একই হতে হবে।",
+                description: "দুটি পাসওয়ার্ড একই হতে হবে।",
                 position: "bottom-center",
             });
 
@@ -44,14 +33,10 @@ export default function RegisterForm() {
         }
 
         if (password.length < 6) {
-            toast.error(
-                "পাসওয়ার্ড খুবই ছোট",
-                {
-                    description:
-                        "কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।",
-                    position: "bottom-center",
-                }
-            );
+            toast.error("পাসওয়ার্ড খুবই ছোট", {
+                description: "কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।",
+                position: "bottom-center",
+            });
 
             return;
         }
@@ -61,36 +46,26 @@ export default function RegisterForm() {
         try {
             const supabase = createClient();
 
-            const { data, error } =
-                await supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            full_name: name,
-                        },
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: name,
                     },
-                });
+                },
+            });
 
             if (error) {
-                toast.error(
-                    "অ্যাকাউন্ট তৈরি ব্যর্থ হয়েছে",
-                    {
-                        description:
-                            error.message ===
-                                "User already registered"
-                                ? "এই ইমেইল দিয়ে ইতিমধ্যে অ্যাকাউন্ট আছে।"
-                                : error.message,
-                        position: "bottom-center",
-                    }
-                );
+                toast.error("অ্যাকাউন্ট তৈরি ব্যর্থ হয়েছে", {
+                    description: error.message === "User already registered" ? "এই ইমেইল দিয়ে ইতিমধ্যে অ্যাকাউন্ট আছে।" : error.message,
+                    position: "bottom-center",
+                });
 
                 return;
             }
 
             if (!data.session) {
-                // Email confirmation required — no session yet, so
-                // there's nothing to redirect into.
                 setAwaitingConfirmation(true);
                 return;
             }
@@ -117,24 +92,16 @@ export default function RegisterForm() {
 
     if (awaitingConfirmation) {
         return (
-            <div className="rounded-lg border border-black/10 bg-muted/40 p-4 text-center text-sm leading-6">
-                আপনার ইমেইলে একটি নিশ্চিতকরণ লিংক পাঠানো
-                হয়েছে। লিংকে ক্লিক করে আপনার অ্যাকাউন্ট
-                সক্রিয় করুন।
+            <div className="rounded-lg border border-border bg-muted/40 p-4 text-center text-sm leading-6 text-foreground">
+                আপনার ইমেইলে একটি নিশ্চিতকরণ লিংক পাঠানো হয়েছে। লিংকে ক্লিক করে আপনার অ্যাকাউন্ট সক্রিয় করুন।
             </div>
         );
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
                     নাম
                 </label>
 
@@ -144,20 +111,15 @@ export default function RegisterForm() {
                     required
                     autoComplete="name"
                     value={name}
-                    onChange={(e) =>
-                        setName(e.target.value)
-                    }
+                    onChange={(e) => setName(e.target.value)}
                     disabled={loading}
                     placeholder="আপনার নাম"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <div>
-                <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
                     ইমেইল
                 </label>
 
@@ -167,20 +129,15 @@ export default function RegisterForm() {
                     required
                     autoComplete="email"
                     value={email}
-                    onChange={(e) =>
-                        setEmail(e.target.value)
-                    }
+                    onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
                     placeholder="you@example.com"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <div>
-                <label
-                    htmlFor="password"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="password" className="mb-2 block text-sm font-medium text-foreground">
                     পাসওয়ার্ড
                 </label>
 
@@ -190,20 +147,15 @@ export default function RegisterForm() {
                     required
                     autoComplete="new-password"
                     value={password}
-                    onChange={(e) =>
-                        setPassword(e.target.value)
-                    }
+                    onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
                     placeholder="কমপক্ষে ৬ অক্ষর"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <div>
-                <label
-                    htmlFor="confirmPassword"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="confirmPassword" className="mb-2 block text-sm font-medium text-foreground">
                     পাসওয়ার্ড নিশ্চিত করুন
                 </label>
 
@@ -213,29 +165,21 @@ export default function RegisterForm() {
                     required
                     autoComplete="new-password"
                     value={confirmPassword}
-                    onChange={(e) =>
-                        setConfirmPassword(
-                            e.target.value
-                        )
-                    }
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     disabled={loading}
                     placeholder="আবার লিখুন"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-foreground py-3 text-sm font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-                {loading && (
-                    <Loader2 className="size-4 animate-spin" />
-                )}
+                {loading && <Loader2 className="size-4 animate-spin" />}
 
-                {loading
-                    ? "তৈরি হচ্ছে..."
-                    : "অ্যাকাউন্ট তৈরি করুন"}
+                {loading ? "তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
             </button>
         </form>
     );

@@ -25,7 +25,7 @@ export default function MobileMenuButton({
             onClick={() =>
                 setMobileOpen((prev) => !prev)
             }
-            className="rounded-lg border border-black/10 bg-white p-1.5 transition hover:bg-gray-100 lg:hidden"
+            className="rounded-lg border border-border bg-background p-1.5 text-foreground transition hover:bg-muted lg:hidden"
         >
             <Menu size={22} />
         </button>

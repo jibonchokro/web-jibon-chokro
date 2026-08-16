@@ -62,16 +62,13 @@ export default function ContactPage() {
             description="আপনার যেকোনো প্রশ্ন, মতামত, পরামর্শ অথবা সহযোগিতার বিষয়ে আমাদের সঙ্গে যোগাযোগ করতে পারেন। আমরা যত দ্রুত সম্ভব উত্তর দেওয়ার চেষ্টা করি।"
         >
             <div className="space-y-8 md:space-y-10 lg:space-y-12">
-
                 {/* Hero */}
-
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-
-                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom transition-colors sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground shadow-sm sm:px-3 sm:text-sm">
                         আমরা আপনার কথা শুনতে আগ্রহী
                     </div>
 
-                    <h2 className="mt-4 text-2xl font-bold tracking-tight sm:mt-5 sm:text-3xl lg:mt-6 lg:text-4xl">
+                    <h2 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:mt-6 lg:text-4xl">
                         যোগাযোগ করুন
                     </h2>
 
@@ -82,30 +79,22 @@ export default function ContactPage() {
                         অথবা সাধারণ মতামত—যেকোনো বিষয়ে নির্দ্বিধায়
                         আমাদের সঙ্গে যোগাযোগ করতে পারেন।
                     </p>
-
                 </section>
 
                 {/* Contact */}
-
                 <section className="grid gap-6 lg:grid-cols-[340px_1fr] lg:gap-8 xl:grid-cols-[360px_1fr]">
-
                     {/* Contact Cards */}
-
                     <div className="space-y-4 sm:space-y-5">
-
                         {contactItems.map((item) => {
-
                             const Icon = item.icon;
 
                             return (
                                 <div
                                     key={item.title}
-                                    className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:rounded-2xl sm:p-6"
+                                    className="rounded-xl border border-border bg-card p-5 shadow-custom transition-all duration-200 hover:-translate-y-1 hover:bg-muted/40 hover:shadow-sm sm:rounded-2xl sm:p-6"
                                 >
-
                                     <div className="flex items-start gap-3 sm:gap-4">
-
-                                        <div className="rounded-lg border border-[#f0f0f0] shadow-custom bg-muted p-2.5 sm:rounded-xl sm:p-3">
+                                        <div className="rounded-lg border border-border bg-muted p-2.5 shadow-sm sm:rounded-xl sm:p-3">
                                             <Icon
                                                 size={20}
                                                 className="text-foreground sm:h-[22px] sm:w-[22px]"
@@ -113,8 +102,7 @@ export default function ContactPage() {
                                         </div>
 
                                         <div className="min-w-0 flex-1">
-
-                                            <h3 className="text-base font-semibold sm:text-lg">
+                                            <h3 className="text-base font-semibold text-foreground sm:text-lg">
                                                 {item.title}
                                             </h3>
 
@@ -127,119 +115,93 @@ export default function ContactPage() {
                                                     {item.description}
                                                 </p>
                                             )}
-
                                         </div>
-
                                     </div>
-
                                 </div>
                             );
-
                         })}
-
                     </div>
 
                     {/* Form */}
-
-                    <div className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8">
-
+                    <div className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8">
                         <div className="flex items-center gap-3">
-
-                            <div className="rounded-lg border border-[#f0f0f0] shadow-custom bg-muted p-2 sm:rounded-xl">
+                            <div className="rounded-lg border border-border bg-muted p-2 shadow-sm sm:rounded-xl">
                                 <MessageCircle
                                     size={20}
                                     className="text-foreground sm:h-[22px] sm:w-[22px]"
                                 />
                             </div>
 
-                            <h2 className="text-xl font-bold sm:text-2xl">
+                            <h2 className="text-xl font-bold text-foreground sm:text-2xl">
                                 আমাদের বার্তা পাঠান
                             </h2>
-
                         </div>
 
                         <form className="mt-6 space-y-5 sm:mt-8 sm:space-y-6">
-
                             <div className="grid gap-5 md:grid-cols-2">
-
                                 <div>
-
-                                    <label className="mb-2 block text-sm font-medium sm:text-base">
+                                    <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
                                         আপনার নাম
                                     </label>
 
                                     <input
                                         type="text"
                                         placeholder="আপনার নাম লিখুন"
-                                        className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
                                     />
-
                                 </div>
 
                                 <div>
-
-                                    <label className="mb-2 block text-sm font-medium sm:text-base">
+                                    <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
                                         ইমেইল
                                     </label>
 
                                     <input
                                         type="email"
                                         placeholder="name@example.com"
-                                        className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
                                     />
-
                                 </div>
-
                             </div>
 
                             <div>
-
-                                <label className="mb-2 block text-sm font-medium sm:text-base">
+                                <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
                                     বিষয়
                                 </label>
 
                                 <input
                                     type="text"
                                     placeholder="বার্তার বিষয়"
-                                    className="w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:text-base"
+                                    className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
                                 />
-
                             </div>
 
                             <div>
-
-                                <label className="mb-2 block text-sm font-medium sm:text-base">
+                                <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
                                     আপনার বার্তা
                                 </label>
 
                                 <textarea
                                     rows={8}
                                     placeholder="আপনার বার্তা লিখুন..."
-                                    className="min-h-[180px] w-full rounded-xl border border-[#f0f0f0] shadow-custom bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-foreground sm:min-h-[220px] sm:text-base"
+                                    className="min-h-[180px] w-full resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:min-h-[220px] sm:text-base"
                                 />
 
                                 <button
                                     type="submit"
-                                    className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-black px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-zinc-800 sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+                                    className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                                 >
                                     বার্তা পাঠান
                                 </button>
-
                             </div>
-
                         </form>
-
                     </div>
-
                 </section>
 
                 {/* FAQ */}
-
                 <section>
-
                     <div className="mb-6 sm:mb-8">
-
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                        <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             কী বিষয়ে যোগাযোগ করতে পারেন?
                         </h2>
 
@@ -247,29 +209,23 @@ export default function ContactPage() {
                             নিচের যেকোনো বিষয়ে আমাদের সঙ্গে যোগাযোগ করতে
                             পারেন। আমরা যথাসম্ভব দ্রুত উত্তর দেওয়ার চেষ্টা করি।
                         </p>
-
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
-
                         {contactReasons.map((item) => (
                             <div
                                 key={item}
-                                className="rounded-xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] px-5 py-4 text-sm font-medium leading-7 transition-all duration-200 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-sm sm:text-base"
+                                className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-medium leading-7 text-foreground shadow-custom transition-all duration-200 hover:-translate-y-1 hover:bg-muted/40 hover:shadow-sm sm:text-base"
                             >
                                 {item}
                             </div>
                         ))}
-
                     </div>
-
                 </section>
 
                 {/* CTA */}
-
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-custom sm:rounded-3xl sm:p-8 md:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         আপনার মতামত আমাদের জন্য মূল্যবান
                     </h2>
 
@@ -283,13 +239,11 @@ export default function ContactPage() {
 
                     <Link
                         href="/contact"
-                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-black px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-zinc-800 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                     >
                         যোগাযোগ করুন
                     </Link>
-
                 </section>
-
             </div>
         </PageLayout>
     );

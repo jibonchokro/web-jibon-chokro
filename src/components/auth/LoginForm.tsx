@@ -15,9 +15,7 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(
-        e: React.FormEvent
-    ) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
         if (loading) return;
@@ -27,27 +25,20 @@ export default function LoginForm() {
         try {
             const supabase = createClient();
 
-            const { error } =
-                await supabase.auth.signInWithPassword({
-                    email,
-                    password,
-                });
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
             if (error) {
                 toast.error("লগইন ব্যর্থ হয়েছে", {
-                    description:
-                        error.message ===
-                            "Invalid login credentials"
-                            ? "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।"
-                            : error.message,
+                    description: error.message === "Invalid login credentials" ? "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।" : error.message,
                     position: "bottom-center",
                 });
 
                 return;
             }
 
-            // Ensures a profiles row exists even for accounts
-            // created before this table/flow existed.
             await createUserProfile();
 
             toast.success("লগইন সফল হয়েছে", {
@@ -69,15 +60,9 @@ export default function LoginForm() {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
                     ইমেইল
                 </label>
 
@@ -87,20 +72,15 @@ export default function LoginForm() {
                     required
                     autoComplete="email"
                     value={email}
-                    onChange={(e) =>
-                        setEmail(e.target.value)
-                    }
+                    onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
                     placeholder="you@example.com"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <div>
-                <label
-                    htmlFor="password"
-                    className="mb-2 block text-sm font-medium"
-                >
+                <label htmlFor="password" className="mb-2 block text-sm font-medium text-foreground">
                     পাসওয়ার্ড
                 </label>
 
@@ -110,27 +90,21 @@ export default function LoginForm() {
                     required
                     autoComplete="current-password"
                     value={password}
-                    onChange={(e) =>
-                        setPassword(e.target.value)
-                    }
+                    onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
                     placeholder="••••••••"
-                    className="w-full rounded-lg border border-black/10 bg-background px-4 py-3 text-sm outline-none transition focus:border-black disabled:opacity-60"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-foreground disabled:opacity-60"
                 />
             </div>
 
             <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-foreground py-3 text-sm font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-                {loading && (
-                    <Loader2 className="size-4 animate-spin" />
-                )}
+                {loading && <Loader2 className="size-4 animate-spin" />}
 
-                {loading
-                    ? "লগইন হচ্ছে..."
-                    : "লগইন করুন"}
+                {loading ? "লগইন হচ্ছে..." : "লগইন করুন"}
             </button>
         </form>
     );

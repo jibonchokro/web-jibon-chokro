@@ -33,13 +33,12 @@ export default function TermsPage() {
 
                 {/* Hero */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-
-                    <div className="inline-flex rounded-full border border-[#f0f0f0] shadow-custom bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground sm:px-3 sm:text-sm">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
+                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground shadow-sm sm:px-3 sm:text-sm">
                         Terms of Use
                     </div>
 
-                    <h2 className="mt-4 text-2xl font-bold tracking-tight sm:mt-5 sm:text-3xl lg:mt-6 lg:text-4xl">
+                    <h2 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:mt-5 sm:text-3xl lg:mt-6 lg:text-4xl">
                         শর্তাবলীর উদ্দেশ্য
                     </h2>
 
@@ -50,14 +49,12 @@ export default function TermsPage() {
                         সেবা ব্যবহার করার মাধ্যমে আপনি এই শর্তাবলী মেনে
                         চলতে সম্মত হচ্ছেন।
                     </p>
-
                 </section>
 
                 {/* Website Usage */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ১. ওয়েবসাইটের ব্যবহার
                     </h2>
 
@@ -69,25 +66,20 @@ export default function TermsPage() {
                     </p>
 
                     <ul className="mt-6 list-disc space-y-3 pl-5 text-sm leading-7 text-muted-foreground sm:pl-6 sm:text-base sm:leading-8">
-
                         {websiteRules.map((rule) => (
                             <li key={rule}>{rule}</li>
                         ))}
-
                     </ul>
-
                 </section>
 
                 {/* Ownership */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ২. কনটেন্টের মালিকানা
                     </h2>
 
                     <div className="mt-5 space-y-4">
-
                         <p className="text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
                             জীবন চক্রে প্রকাশিত নিবন্ধ, ছবি, লোগো,
                             ডিজাইন এবং অন্যান্য কনটেন্ট সংশ্লিষ্ট
@@ -100,16 +92,13 @@ export default function TermsPage() {
                             সম্পূর্ণ বা আংশিকভাবে কপি, পুনঃপ্রকাশ,
                             বিক্রি বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* User Behaviour */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ৩. ব্যবহারকারীর আচরণ
                     </h2>
 
@@ -121,25 +110,20 @@ export default function TermsPage() {
                     </p>
 
                     <ul className="mt-6 list-disc space-y-3 pl-5 text-sm leading-7 text-muted-foreground sm:pl-6 sm:text-base sm:leading-8">
-
                         {userBehaviors.map((item) => (
                             <li key={item}>{item}</li>
                         ))}
-
                     </ul>
-
                 </section>
 
                 {/* Accuracy */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ৪. তথ্যের নির্ভুলতা
                     </h2>
 
                     <div className="mt-5 space-y-4">
-
                         <p className="text-sm leading-7 text-muted-foreground sm:text-base sm:leading-8">
                             আমরা যথাসম্ভব নির্ভুল এবং হালনাগাদ তথ্য
                             প্রকাশের চেষ্টা করি। তবে কোনো তথ্য শতভাগ
@@ -153,16 +137,13 @@ export default function TermsPage() {
                             নির্ভরযোগ্য উৎস থেকে তথ্য যাচাই করার
                             পরামর্শ দেওয়া হচ্ছে।
                         </p>
-
                     </div>
-
                 </section>
 
                 {/* Third-party Links */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ৫. তৃতীয় পক্ষের লিংক
                     </h2>
 
@@ -173,14 +154,12 @@ export default function TermsPage() {
                         তৃতীয় পক্ষের ওয়েবসাইট ব্যবহারের আগে তাদের নিজস্ব
                         নীতিমালা পর্যালোচনা করার পরামর্শ দেওয়া হচ্ছে।
                     </p>
-
                 </section>
 
                 {/* Limitation of Liability */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ৬. দায় সীমাবদ্ধতা
                     </h2>
 
@@ -190,14 +169,12 @@ export default function TermsPage() {
                         ক্ষতির জন্য আমরা দায়ী থাকব না, যদি না প্রচলিত
                         আইন অনুযায়ী অন্যথা প্রযোজ্য হয়।
                     </p>
-
                 </section>
 
                 {/* Updates */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:rounded-3xl sm:p-6 md:p-8 lg:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         ৭. শর্তাবলীর পরিবর্তন
                     </h2>
 
@@ -209,14 +186,12 @@ export default function TermsPage() {
                         সর্বশেষ সংস্করণ সম্পর্কে জানার জন্য নিয়মিত
                         এই পৃষ্ঠাটি পর্যালোচনা করার অনুরোধ করা হচ্ছে।
                     </p>
-
                 </section>
 
                 {/* Contact */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-5 sm:p-6 md:p-8">
-
-                    <h2 className="text-xl font-semibold sm:text-2xl">
+                <section className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:p-8">
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
                         ৮. যোগাযোগ
                     </h2>
 
@@ -230,14 +205,12 @@ export default function TermsPage() {
                         যথাসম্ভব দ্রুত আপনার প্রশ্নের উত্তর দেওয়ার
                         চেষ্টা করব।
                     </p>
-
                 </section>
 
                 {/* CTA */}
 
-                <section className="rounded-2xl border border-[#f0f0f0] shadow-custom bg-[#fcfcfc] p-6 text-center sm:rounded-3xl sm:p-8 md:p-10">
-
-                    <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-custom sm:rounded-3xl sm:p-8 md:p-10">
+                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         আরও কিছু জানতে চান?
                     </h2>
 
@@ -250,11 +223,10 @@ export default function TermsPage() {
 
                     <Link
                         href="/contact"
-                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-black px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-zinc-800 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
+                        className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                     >
                         যোগাযোগ করুন
                     </Link>
-
                 </section>
 
             </div>

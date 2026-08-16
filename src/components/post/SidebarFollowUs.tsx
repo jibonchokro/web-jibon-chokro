@@ -32,16 +32,13 @@ export default function SidebarFollowUs() {
     ];
 
     return (
-        <section className="rounded-none sm:rounded-xl lg:rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-custom">
-
+        <section className="rounded-none border border-border bg-card p-4 shadow-custom sm:rounded-xl lg:rounded-xl">
             <div className="flex items-center justify-between">
-
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">
                     অনুসরণ করুন:
                 </h2>
 
                 <div className="flex items-center gap-2">
-
                     {socialLinks.map((item) => {
                         const Icon = item.icon;
 
@@ -52,32 +49,14 @@ export default function SidebarFollowUs() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={item.name}
-                                className="
-                                    flex
-                                    h-9
-                                    w-9
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    border
-                                    border-black/10
-                                    bg-background
-                                    text-muted-foreground
-                                    transition-all
-                                    duration-200
-                                    hover:bg-muted
-                                    hover:text-foreground
-                                "
+                                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                             >
                                 <Icon size={16} />
                             </Link>
                         );
                     })}
-
                 </div>
-
             </div>
-
         </section>
     );
 }

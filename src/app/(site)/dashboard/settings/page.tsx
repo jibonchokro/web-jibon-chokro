@@ -1,22 +1,40 @@
 import {
     Bell,
-    Download,
     Eye,
-    Laptop,
     Mail,
-    Monitor,
-    Moon,
     Shield,
-    Trash2,
 } from "lucide-react";
+import { redirect } from "next/navigation";
 
-export default function SettingsPage() {
+import ChangeEmailForm from "@/components/settings/ChangeEmailForm";
+import ChangePasswordForm from "@/components/settings/ChangePasswordForm";
+import DeleteAccountDialog from "@/components/settings/DeleteAccountDialog";
+import DownloadDataButton from "@/components/settings/DownloadDataButton";
+import ThemeToggle from "@/components/settings/ThemeToggle";
+import { createClient } from "@/lib/supabase/server";
+
+export default async function SettingsPage() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+        redirect("/auth/login");
+    }
+
+    const provider =
+        user.app_metadata?.provider ?? "email";
+
+    const isEmailAccount = provider === "email";
+
     return (
         <div className="space-y-8">
             {/* Header */}
 
             <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                     সেটিংস
                 </h1>
 
@@ -28,9 +46,9 @@ export default function SettingsPage() {
 
             {/* Account */}
 
-            <section className="rounded-xl border border-black/10 bg-card">
-                <div className="border-b border-black/10 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight">
+            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="border-b border-border bg-muted/30 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-foreground">
                         অ্যাকাউন্ট
                     </h2>
 
@@ -39,61 +57,76 @@ export default function SettingsPage() {
                     </p>
                 </div>
 
-                <div className="divide-y divide-black/10">
+                <div className="divide-y divide-border">
+                    {/* Email */}
+
                     <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3">
-                            <div className="rounded-lg border border-black/10 bg-muted p-2">
+                            <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
                                 <Mail size={18} />
                             </div>
 
-                            <div>
-                                <p className="font-medium">
+                            <div className="min-w-0">
+                                <p className="font-medium text-foreground">
                                     ইমেইল
                                 </p>
 
-                                <p className="text-sm text-muted-foreground">
-                                    Google Account
+                                <p className="break-all text-sm text-muted-foreground">
+                                    {user.email}
                                 </p>
                             </div>
                         </div>
 
-                        <button
-                            disabled
-                            className="rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
-                        >
-                            পরিবর্তন করা যাবে না
-                        </button>
+                        {isEmailAccount ? (
+                            <ChangeEmailForm
+                                currentEmail={
+                                    user.email ?? ""
+                                }
+                            />
+                        ) : (
+                            <span className="inline-flex w-fit items-center rounded-lg border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
+                                Google দিয়ে পরিচালিত
+                            </span>
+                        )}
                     </div>
+
+                    {/* Login Method */}
 
                     <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3">
-                            <div className="rounded-lg border border-black/10 bg-muted p-2">
+                            <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
                                 <Shield size={18} />
                             </div>
 
                             <div>
-                                <p className="font-medium">
+                                <p className="font-medium text-foreground">
                                     লগইন পদ্ধতি
                                 </p>
 
                                 <p className="text-sm text-muted-foreground">
-                                    Google OAuth
+                                    {isEmailAccount
+                                        ? "ইমেইল ও পাসওয়ার্ড"
+                                        : "Google OAuth"}
                                 </p>
                             </div>
                         </div>
 
-                        <span className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-                            Connected
-                        </span>
+                        {isEmailAccount ? (
+                            <ChangePasswordForm />
+                        ) : (
+                            <span className="inline-flex w-fit items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                                Connected
+                            </span>
+                        )}
                     </div>
                 </div>
             </section>
 
             {/* Appearance */}
 
-            <section className="rounded-xl border border-black/10 bg-card">
-                <div className="border-b border-black/10 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight">
+            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="border-b border-border bg-muted/30 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-foreground">
                         Appearance
                     </h2>
 
@@ -102,44 +135,25 @@ export default function SettingsPage() {
                     </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3 p-6">
-                    <button className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-black px-4 py-2 text-sm font-medium text-white">
-                        <Laptop size={16} />
-                        Light
-                    </button>
-
-                    <button
-                        disabled
-                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
-                    >
-                        <Moon size={16} />
-                        Dark
-                    </button>
-
-                    <button
-                        disabled
-                        className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-muted px-4 py-2 text-sm text-muted-foreground"
-                    >
-                        <Monitor size={16} />
-                        System
-                    </button>
+                <div className="p-6">
+                    <ThemeToggle />
                 </div>
             </section>
 
             {/* Notifications */}
 
-            <section className="rounded-xl border border-black/10 bg-card">
-                <div className="border-b border-black/10 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight">
+            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="border-b border-border bg-muted/30 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-foreground">
                         Notifications
                     </h2>
 
                     <p className="mt-1 text-sm text-muted-foreground">
-                        কোন নোটিফিকেশনগুলো পেতে চান।
+                        কোন নোটিফিকেশনগুলো পেতে চান। (শীঘ্রই আসছে)
                     </p>
                 </div>
 
-                <div className="divide-y divide-black/10">
+                <div className="divide-y divide-border">
                     {[
                         "নতুন পোস্টের নোটিফিকেশন",
                         "মন্তব্যের রিপ্লাই",
@@ -147,19 +161,22 @@ export default function SettingsPage() {
                     ].map((item) => (
                         <label
                             key={item}
-                            className="flex items-center justify-between p-6"
+                            className="flex cursor-not-allowed items-center justify-between p-6 opacity-60"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="rounded-lg border border-black/10 bg-muted p-2">
+                                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
                                     <Bell size={16} />
                                 </div>
 
-                                <span>{item}</span>
+                                <span className="text-sm font-medium text-foreground">
+                                    {item}
+                                </span>
                             </div>
 
                             <input
                                 type="checkbox"
                                 disabled
+                                className="size-4 accent-primary"
                             />
                         </label>
                     ))}
@@ -168,37 +185,41 @@ export default function SettingsPage() {
 
             {/* Privacy */}
 
-            <section className="rounded-xl border border-black/10 bg-card">
-                <div className="border-b border-black/10 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight">
+            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="border-b border-border bg-muted/30 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-foreground">
                         Privacy
                     </h2>
 
                     <p className="mt-1 text-sm text-muted-foreground">
                         আপনার ব্যক্তিগত তথ্য ও দৃশ্যমানতা নিয়ন্ত্রণ করুন।
+                        (শীঘ্রই আসছে)
                     </p>
                 </div>
 
-                <div className="divide-y divide-black/10">
+                <div className="divide-y divide-border">
                     {[
                         "পাবলিক প্রোফাইল",
                         "আমার কার্যক্রম দেখানো হবে",
                     ].map((item) => (
                         <label
                             key={item}
-                            className="flex items-center justify-between p-6"
+                            className="flex cursor-not-allowed items-center justify-between p-6 opacity-60"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="rounded-lg border border-black/10 bg-muted p-2">
+                                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
                                     <Eye size={16} />
                                 </div>
 
-                                <span>{item}</span>
+                                <span className="text-sm font-medium text-foreground">
+                                    {item}
+                                </span>
                             </div>
 
                             <input
                                 type="checkbox"
                                 disabled
+                                className="size-4 accent-primary"
                             />
                         </label>
                     ))}
@@ -207,9 +228,9 @@ export default function SettingsPage() {
 
             {/* Connected Account */}
 
-            <section className="rounded-xl border border-black/10 bg-card">
-                <div className="border-b border-black/10 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight">
+            <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                <div className="border-b border-border bg-muted/30 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-foreground">
                         Connected Account
                     </h2>
 
@@ -220,50 +241,47 @@ export default function SettingsPage() {
 
                 <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <p className="font-medium">
+                        <p className="font-medium text-foreground">
                             Google
                         </p>
 
                         <p className="text-sm text-muted-foreground">
-                            আপনার Google Account সংযুক্ত আছে।
+                            {provider === "google"
+                                ? "আপনার Google Account সংযুক্ত আছে।"
+                                : "সংযুক্ত নয়।"}
                         </p>
                     </div>
 
-                    <span className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-                        Connected
+                    <span
+                        className={`inline-flex w-fit items-center rounded-full border px-3 py-1 text-xs font-medium ${provider === "google"
+                            ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : "border-border bg-muted text-muted-foreground"
+                            }`}
+                    >
+                        {provider === "google"
+                            ? "Connected"
+                            : "Not connected"}
                     </span>
                 </div>
             </section>
 
             {/* Danger Zone */}
 
-            <section className="rounded-xl border border-red-200 bg-red-50/50">
-                <div className="border-b border-red-200 px-6 py-4">
-                    <h2 className="font-semibold text-red-700">
+            <section className="overflow-hidden rounded-xl border border-destructive/20 bg-destructive/5 shadow-sm">
+                <div className="border-b border-destructive/20 bg-destructive/5 px-6 py-4">
+                    <h2 className="font-semibold tracking-tight text-destructive">
                         Danger Zone
                     </h2>
 
-                    <p className="mt-1 text-sm text-red-600">
-                        এই অপশনগুলো ভবিষ্যতে চালু হবে। সতর্কতার সাথে ব্যবহার করুন।
+                    <p className="mt-1 text-sm text-destructive/80">
+                        এই কাজগুলো স্থায়ী এবং ফিরিয়ে আনা যাবে না।
+                        সতর্কতার সাথে ব্যবহার করুন।
                     </p>
                 </div>
 
                 <div className="flex flex-wrap gap-3 p-6">
-                    <button
-                        disabled
-                        className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white opacity-60"
-                    >
-                        <Trash2 size={16} />
-                        Delete Account
-                    </button>
-
-                    <button
-                        disabled
-                        className="inline-flex items-center gap-2 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm text-red-700 opacity-60"
-                    >
-                        <Download size={16} />
-                        Download My Data
-                    </button>
+                    <DeleteAccountDialog />
+                    <DownloadDataButton />
                 </div>
             </section>
         </div>

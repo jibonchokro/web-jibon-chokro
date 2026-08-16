@@ -18,8 +18,7 @@ export default function SinglePostSidebar({
     categories,
 }: SinglePostSidebarProps) {
     return (
-        <aside className="space-y-5 lg:space-y-8 lg:sticky lg:top-24">
-
+        <aside className="space-y-5 lg:sticky lg:top-24 lg:space-y-8">
             <SidebarFollowUs />
 
             <SidebarLatestPosts
@@ -33,7 +32,6 @@ export default function SinglePostSidebar({
             <SidebarCategories
                 categories={categories}
             />
-
         </aside>
     );
 }

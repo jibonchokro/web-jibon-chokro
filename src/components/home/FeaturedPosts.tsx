@@ -1,6 +1,10 @@
 "use client";
 
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+    ArrowRight,
+    ChevronLeft,
+    ChevronRight,
+} from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -37,28 +41,23 @@ export default function FeaturedPosts({
     return (
         <section className="py-8 sm:py-10 lg:py-12">
             <Container>
-
                 {/* Header */}
 
                 <div className="mb-6 flex items-end justify-between gap-4">
-
                     <div>
-
                         <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                             নির্বাচিত লেখা
                         </h2>
-
                     </div>
 
                     <div className="flex items-center gap-2">
-
                         <button
                             type="button"
                             onClick={() =>
                                 scroll("left")
                             }
                             aria-label="Scroll left"
-                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
                         >
                             <ChevronLeft
                                 size={18}
@@ -71,7 +70,7 @@ export default function FeaturedPosts({
                                 scroll("right")
                             }
                             aria-label="Scroll right"
-                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white transition hover:bg-muted"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
                         >
                             <ChevronRight
                                 size={18}
@@ -80,69 +79,42 @@ export default function FeaturedPosts({
 
                         <Link
                             href="/featured"
-                            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-medium transition hover:bg-muted"
+                            className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
                         >
                             সব দেখুন
 
-                            <ArrowRight size={16} />
+                            <ArrowRight
+                                size={16}
+                            />
                         </Link>
-
                     </div>
-
                 </div>
 
-                {featuredPosts.length === 0 ? (
+                {/* Empty State */}
 
-                    <div className="rounded-xl border border-dashed border-black/10 bg-muted/30 py-12 text-center text-muted-foreground">
+                {featuredPosts.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-border bg-muted/30 py-12 text-center text-muted-foreground">
                         এখনো কোনো নির্বাচিত লেখা প্রকাশ করা হয়নি।
                     </div>
-
                 ) : (
-
                     <div
                         ref={scrollRef}
-                        className="
-                            flex
-                            snap-x
-                            snap-mandatory
-                            gap-4
-                            overflow-x-auto
-                            pb-2
-                            [-ms-overflow-style:none]
-                            [scrollbar-width:none]
-                            [&::-webkit-scrollbar]:hidden
-                        "
+                        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
-
                         {featuredPosts.map(
                             (post) => (
-
                                 <div
-                                    key={
-                                        post._id
-                                    }
-                                    className="
-                                        w-[250px]
-                                        shrink-0
-                                        snap-start
-                                        sm:w-[275px]
-                                        lg:w-[300px]
-                                    "
+                                    key={post._id}
+                                    className="w-[250px] shrink-0 snap-start sm:w-[275px] lg:w-[300px]"
                                 >
                                     <PostCard
-                                        post={
-                                            post
-                                        }
+                                        post={post}
                                     />
                                 </div>
-
                             )
                         )}
-
                     </div>
-
                 )}
-
             </Container>
         </section>
     );

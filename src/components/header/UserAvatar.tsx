@@ -18,7 +18,7 @@ export default function UserAvatar({
                 alt={name}
                 width={40}
                 height={40}
-                className="h-10 w-10 rounded-xl border border-gray-200 object-cover lg:rounded-full"
+                className="h-10 w-10 rounded-xl border border-border object-cover lg:rounded-full"
             />
         );
     }

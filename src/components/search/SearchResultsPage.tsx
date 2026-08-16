@@ -24,7 +24,7 @@ type SortOption =
 const ALL_CATEGORIES = "all";
 const POSTS_PER_LOAD = 16;
 
-export default function SearchResults({
+export default function SearchResultsPage({
     initialPosts,
     query,
 }: Props) {
@@ -217,7 +217,7 @@ export default function SearchResults({
         <section>
             <div className="mb-5 flex items-center justify-between gap-3">
                 {/* Title */}
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-semibold text-foreground">
                     পাওয়া লেখা
                 </h2>
 
@@ -229,7 +229,7 @@ export default function SearchResults({
                             onChange={(e) =>
                                 setCategorySlug(e.target.value)
                             }
-                            className="h-10 rounded-xl border border-border bg-white px-3 text-sm outline-none"
+                            className="h-10 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none"
                         >
                             <option value={ALL_CATEGORIES}>
                                 সব বিভাগ
@@ -251,7 +251,7 @@ export default function SearchResults({
                         onChange={(e) =>
                             setSort(e.target.value as SortOption)
                         }
-                        className="h-10 rounded-xl border border-border bg-white px-3 text-sm outline-none"
+                        className="h-10 rounded-xl border border-border bg-background px-3 text-sm text-foreground outline-none"
                     >
                         <option value="latest">সর্বশেষ</option>
                         <option value="popular">জনপ্রিয়</option>
@@ -276,7 +276,7 @@ export default function SearchResults({
                         type="button"
                         onClick={loadMore}
                         disabled={loading}
-                        className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-6 py-3 text-sm font-medium transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {loading && (
                             <Loader2 className="size-4 animate-spin" />

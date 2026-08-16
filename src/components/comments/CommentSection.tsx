@@ -1,6 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useState,
+} from "react";
 
 import { createClient } from "@/lib/supabase/client";
 
@@ -19,12 +23,15 @@ interface CommentSectionProps {
 export default function CommentSection({
     postId,
 }: CommentSectionProps) {
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [currentUserId, setCurrentUserId] = useState<
-        string | null
-    >(null);
+    const [comments, setComments] = useState<
+        Comment[]
+    >([]);
+    const [loading, setLoading] =
+        useState(true);
+    const [error, setError] =
+        useState<string | null>(null);
+    const [currentUserId, setCurrentUserId] =
+        useState<string | null>(null);
 
     useEffect(() => {
         const supabase = createClient();
@@ -32,7 +39,9 @@ export default function CommentSection({
         supabase.auth
             .getUser()
             .then(({ data }) => {
-                setCurrentUserId(data.user?.id ?? null);
+                setCurrentUserId(
+                    data.user?.id ?? null
+                );
             });
 
         const {
@@ -48,32 +57,40 @@ export default function CommentSection({
         return () => subscription.unsubscribe();
     }, []);
 
-    const loadComments = useCallback(async () => {
-        try {
-            setLoading(true);
-            setError(null);
+    const loadComments = useCallback(
+        async () => {
+            try {
+                setLoading(true);
+                setError(null);
 
-            const response = await fetch(
-                `/api/comments?postId=${postId}`,
-                {
-                    cache: "no-store",
+                const response = await fetch(
+                    `/api/comments?postId=${postId}`,
+                    {
+                        cache: "no-store",
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load comments."
+                    );
                 }
-            );
 
-            if (!response.ok) {
-                throw new Error("Failed to load comments.");
+                const data: Comment[] =
+                    await response.json();
+
+                setComments(data);
+            } catch (err) {
+                console.error(err);
+                setError(
+                    "Failed to load comments."
+                );
+            } finally {
+                setLoading(false);
             }
-
-            const data: Comment[] = await response.json();
-
-            setComments(data);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to load comments.");
-        } finally {
-            setLoading(false);
-        }
-    }, [postId]);
+        },
+        [postId]
+    );
 
     useEffect(() => {
         loadComments();
@@ -82,7 +99,6 @@ export default function CommentSection({
     return (
         <section>
             <div className="mb-5 flex items-center gap-2">
-
                 <MessageCircle
                     size={18}
                     className="text-foreground"
@@ -104,7 +120,7 @@ export default function CommentSection({
             {loading ? (
                 <CommentSkeleton />
             ) : error ? (
-                <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-600">
+                <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
                     {error}
                 </div>
             ) : (

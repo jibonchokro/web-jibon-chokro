@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar";
 
 import type { Comment } from "@/types/comment";
 
@@ -16,12 +20,6 @@ interface CommentItemProps {
     comments: Comment[];
     currentUserId?: string | null;
     onRefresh: () => void;
-    /**
-     * The user_id of the top-level comment this item belongs to, if
-     * it's a reply. Lets a parent-comment owner moderate replies left
-     * on their own comment, the same way a post owner can moderate
-     * comments on their post.
-     */
     parentOwnerId?: string | null;
 }
 
@@ -53,9 +51,12 @@ export default function CommentItem({
         !!parentOwnerId &&
         currentUserId === parentOwnerId;
 
-    const canEdit = isOwner && !comment.is_deleted;
+    const canEdit =
+        isOwner && !comment.is_deleted;
+
     const canDelete =
-        (isOwner || isParentOwner) && !comment.is_deleted;
+        (isOwner || isParentOwner) &&
+        !comment.is_deleted;
 
     const name =
         comment.profiles?.name?.trim() ||
@@ -83,6 +84,7 @@ export default function CommentItem({
                             }
                             alt={name}
                         />
+
                         <AvatarFallback className="text-xs">
                             {initials}
                         </AvatarFallback>
@@ -103,35 +105,49 @@ export default function CommentItem({
                 </div>
             ) : (
                 <>
-                    <CommentHeader comment={comment} />
+                    <CommentHeader
+                        comment={comment}
+                    />
 
                     <CommentFooter
                         comment={comment}
                         canEdit={canEdit}
                         canDelete={canDelete}
-                        onEdit={() => setEditing(true)}
+                        onEdit={() =>
+                            setEditing(true)
+                        }
                         replying={replying}
                         onReply={() =>
                             setReplying(
-                                (previous) => !previous
+                                (previous) =>
+                                    !previous
                             )
                         }
                         onRefresh={onRefresh}
                     />
 
-                    {replying && !comment.is_deleted && (
-                        <div className="ml-11 mt-2">
-                            <ReplyForm
-                                postId={comment.post_id}
-                                parentId={comment.id}
-                                currentUserId={currentUserId}
-                                onSuccess={() => {
-                                    setReplying(false);
-                                    onRefresh();
-                                }}
-                            />
-                        </div>
-                    )}
+                    {replying &&
+                        !comment.is_deleted && (
+                            <div className="ml-11 mt-2">
+                                <ReplyForm
+                                    postId={
+                                        comment.post_id
+                                    }
+                                    parentId={
+                                        comment.id
+                                    }
+                                    currentUserId={
+                                        currentUserId
+                                    }
+                                    onSuccess={() => {
+                                        setReplying(
+                                            false
+                                        );
+                                        onRefresh();
+                                    }}
+                                />
+                            </div>
+                        )}
                 </>
             )}
 

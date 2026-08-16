@@ -88,7 +88,7 @@ export default function DashboardSidebar({
         <>
             {/* Desktop Sidebar */}
 
-            <aside className="sticky top-24 hidden h-fit w-72 shrink-0 rounded-xl border border-black/10 bg-white p-6 lg:block">
+            <aside className="sticky top-24 hidden h-fit w-72 shrink-0 rounded-xl border border-border bg-card p-6 lg:block">
 
                 <div className="mb-8 flex items-center gap-4">
 
@@ -123,9 +123,9 @@ export default function DashboardSidebar({
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`group flex items-center justify-between rounded-lg border border-black/10 px-3 py-2 transition ${active
-                                    ? "bg-gray-100 text-black"
-                                    : "hover:bg-gray-100"
+                                className={`group flex items-center justify-between rounded-lg border border-border px-3 py-2 transition ${active
+                                    ? "bg-muted text-foreground"
+                                    : "hover:bg-muted"
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -140,7 +140,7 @@ export default function DashboardSidebar({
 
                 </nav>
 
-                <div className="mt-8 border-t border-black/10 pt-6">
+                <div className="mt-8 border-t border-border pt-6">
                     <LogoutButton className="w-full justify-start px-3 py-2" />
                 </div>
 
@@ -152,7 +152,7 @@ export default function DashboardSidebar({
 
                 {/* User */}
 
-                <div className="relative mb-5 rounded-xl border border-black/10 bg-white p-4">
+                <div className="relative mb-5 rounded-xl border border-border bg-card p-4">
 
                     <div className="flex items-center justify-between">
 
@@ -194,10 +194,10 @@ export default function DashboardSidebar({
                                 <div className="absolute -right-[5px] top-[65px] z-20">
 
                                     {/* Arrow */}
-                                    <div className="absolute -top-1.5 right-4 h-3 w-3 rotate-45 border-l border-t border-gray-50 bg-white" />
+                                    <div className="absolute -top-1.5 right-4 h-3 w-3 rotate-45 border-l border-t border-border bg-card" />
 
                                     {/* Menu */}
-                                    <div className="relative w-44 rounded-lg border border-gray-50 bg-white p-2 shadow-md">
+                                    <div className="relative w-44 rounded-lg border border-border bg-card p-2 shadow-md">
                                         <LogoutButton className="w-full justify-start px-3 py-2" />
                                     </div>
 
@@ -228,9 +228,9 @@ export default function DashboardSidebar({
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-center gap-2 rounded-lg border border-black/10 px-4 py-2 text-sm whitespace-nowrap transition ${active
-                                        ? "border-black bg-black text-white"
-                                        : "bg-white hover:bg-gray-100"
+                                    className={`flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm whitespace-nowrap transition ${active
+                                        ? "border-primary bg-primary text-primary-foreground"
+                                        : "bg-background hover:bg-muted"
                                         }`}
                                 >
                                     <Icon size={16} />

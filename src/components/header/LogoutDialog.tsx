@@ -36,14 +36,14 @@ export default function LogoutDialog({
 
     return createPortal(
         <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm dark:bg-black/60"
             onClick={onClose}
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-sm rounded-2xl border border-black/10 bg-white p-6 shadow-xl"
+                className="w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"
             >
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-semibold text-foreground">
                     লগ আউট করবেন?
                 </h2>
 
@@ -55,7 +55,7 @@ export default function LogoutDialog({
                     <button
                         onClick={onClose}
                         disabled={loading}
-                        className="rounded-lg border border-black/10 px-4 py-2 text-sm hover:bg-muted"
+                        className="rounded-lg border border-border px-4 py-2 text-sm text-foreground hover:bg-muted"
                     >
                         বাতিল
                     </button>
@@ -63,7 +63,7 @@ export default function LogoutDialog({
                     <button
                         onClick={handleLogout}
                         disabled={loading}
-                        className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-neutral-800 disabled:opacity-50"
+                        className="rounded-lg bg-destructive px-4 py-2 text-sm text-destructive-foreground hover:opacity-90 disabled:opacity-50"
                     >
                         {loading ? "অপেক্ষা করুন..." : "লগ আউট"}
                     </button>

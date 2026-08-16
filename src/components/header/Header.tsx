@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import DesktopNavigation from "./DesktopNavigation";
 import HeaderLogo from "./HeaderLogo";
 import HeaderSearch from "./HeaderSearch";
+import HeaderThemeToggle from "./HeaderThemeToggle";
 import MobileMenu from "./MobileMenu";
 import MobileMenuButton from "./MobileMenuButton";
 import MobileSearch from "./MobileSearch";
@@ -17,29 +18,17 @@ interface HeaderProps {
     user: User | null;
 }
 
-export default function Header({
-    user,
-}: HeaderProps) {
+export default function Header({ user }: HeaderProps) {
     const pathname = usePathname();
 
-    const [mobileOpen, setMobileOpen] =
-        useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-    const [
-        desktopMenuOpen,
-        setDesktopMenuOpen,
-    ] = useState(false);
-
-    const [userMenuOpen, setUserMenuOpen] =
-        useState(false);
-
-    const desktopMenuRef =
-        useRef<HTMLDivElement>(null);
+    const desktopMenuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        function handleClickOutside(
-            event: MouseEvent
-        ) {
+        function handleClickOutside(event: MouseEvent) {
             if (
                 desktopMenuRef.current &&
                 !desktopMenuRef.current.contains(
@@ -50,9 +39,7 @@ export default function Header({
             }
         }
 
-        function handleEscape(
-            event: KeyboardEvent
-        ) {
+        function handleEscape(event: KeyboardEvent) {
             if (event.key === "Escape") {
                 setDesktopMenuOpen(false);
                 setMobileOpen(false);
@@ -85,6 +72,7 @@ export default function Header({
 
     useEffect(() => {
         setMobileOpen(false);
+        setDesktopMenuOpen(false);
         setUserMenuOpen(false);
     }, [pathname]);
 
@@ -99,6 +87,7 @@ export default function Header({
 
             if (next) {
                 setUserMenuOpen(false);
+                setDesktopMenuOpen(false);
             }
 
             return next;
@@ -116,6 +105,7 @@ export default function Header({
 
             if (next) {
                 setMobileOpen(false);
+                setDesktopMenuOpen(false);
             }
 
             return next;
@@ -123,14 +113,13 @@ export default function Header({
     };
 
     return (
-        <header className="sticky top-0 z-50 border-b border-black/10 shadow-sm bg-white/70 backdrop-blur-md">
+        <header className="sticky top-0 z-50 border-b border-border bg-background/70 shadow-sm backdrop-blur-md">
             <Container>
                 <div className="flex h-16 items-center">
 
                     {/* Mobile: Menu + Logo */}
 
                     <div className="flex items-center gap-3">
-
                         <MobileMenuButton
                             mobileOpen={mobileOpen}
                             setMobileOpen={
@@ -139,15 +128,12 @@ export default function Header({
                         />
 
                         <HeaderLogo />
-
                     </div>
 
                     {/* Desktop Search */}
 
                     <div className="hidden flex-1 px-6 lg:block">
-
                         <HeaderSearch />
-
                     </div>
 
                     {/* Desktop Navigation */}
@@ -159,6 +145,9 @@ export default function Header({
                         setDesktopMenuOpen={
                             setDesktopMenuOpen
                         }
+                        setUserMenuOpen={
+                            setUserMenuOpen
+                        }
                         desktopMenuRef={
                             desktopMenuRef
                         }
@@ -166,11 +155,15 @@ export default function Header({
 
                     {/* Right Side */}
 
-                    <div className="ml-auto flex items-center gap-1 sm:gap-2">
+                    <div className="ml-auto sm:ml-3 flex items-center justify-center gap-2 sm:gap-3">
 
                         {/* Mobile Search */}
 
                         <MobileSearch />
+
+                        {/* Theme Toggle */}
+
+                        <HeaderThemeToggle />
 
                         {/* User Menu */}
 
@@ -183,14 +176,16 @@ export default function Header({
                         />
 
                     </div>
-
                 </div>
+
+                {/* Mobile Menu */}
 
                 <MobileMenu
                     mobileOpen={mobileOpen}
-                    setMobileOpen={setMobileOpen}
+                    setMobileOpen={
+                        handleMobileOpenChange
+                    }
                 />
-
             </Container>
         </header>
     );
