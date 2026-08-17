@@ -6,11 +6,13 @@ import DashboardSidebar from "./DashboardSidebar";
 interface DashboardLayoutProps {
     children: React.ReactNode;
     user: User;
+    role: string;
 }
 
 export default function DashboardLayout({
     children,
     user,
+    role,
 }: DashboardLayoutProps) {
     return (
         <div className="min-h-screen bg-muted/40">
@@ -18,7 +20,10 @@ export default function DashboardLayout({
                 {/* Mobile */}
 
                 <div className="lg:hidden">
-                    <DashboardSidebar user={user} />
+                    <DashboardSidebar
+                        user={user}
+                        role={role}
+                    />
 
                     <main className="mt-5 rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
                         {children}
@@ -28,7 +33,10 @@ export default function DashboardLayout({
                 {/* Desktop */}
 
                 <div className="hidden items-start gap-6 lg:flex">
-                    <DashboardSidebar user={user} />
+                    <DashboardSidebar
+                        user={user}
+                        role={role}
+                    />
 
                     <main className="min-w-0 flex-1 rounded-2xl border border-border bg-card p-8 shadow-sm">
                         {children}

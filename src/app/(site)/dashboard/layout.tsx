@@ -17,8 +17,19 @@ export default async function Layout({
         redirect("/auth/login");
     }
 
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    const role = profile?.role ?? "user";
+
     return (
-        <DashboardLayout user={user}>
+        <DashboardLayout
+            user={user}
+            role={role}
+        >
             {children}
         </DashboardLayout>
     );

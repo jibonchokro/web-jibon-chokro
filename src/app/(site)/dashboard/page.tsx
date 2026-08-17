@@ -1,4 +1,5 @@
 import {
+    BarChart3,
     Bookmark,
     ChevronRight,
     MessageCircle,
@@ -7,29 +8,64 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function DashboardPage() {
+import { createClient } from "@/lib/supabase/server";
+
+export default async function DashboardPage() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+        return null;
+    }
+
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    const role = profile?.role ?? "user";
+
     const cards = [
         {
             title: "আমার প্রোফাইল",
-            description: "আপনার ব্যক্তিগত তথ্য দেখুন ও সম্পাদনা করুন।",
+            description:
+                "আপনার ব্যক্তিগত তথ্য দেখুন ও সম্পাদনা করুন।",
             href: "/dashboard/profile",
             icon: User,
         },
         {
             title: "বুকমার্ক",
-            description: "সংরক্ষিত লেখাগুলো দেখুন।",
+            description:
+                "সংরক্ষিত লেখাগুলো দেখুন।",
             href: "/dashboard/bookmarks",
             icon: Bookmark,
         },
         {
             title: "আমার কমেন্টস",
-            description: "আপনার করা সকল কমেন্টস দেখুন।",
+            description:
+                "আপনার করা সকল কমেন্টস দেখুন।",
             href: "/dashboard/comments",
             icon: MessageCircle,
         },
+        ...(role === "admin"
+            ? [
+                {
+                    title: "পরিসংখ্যান",
+                    description:
+                        "সাইটের লেখা, ভিউ, মন্তব্য, ব্যবহারকারী এবং অন্যান্য গুরুত্বপূর্ণ পরিসংখ্যান দেখুন।",
+                    href: "/dashboard/statistics",
+                    icon: BarChart3,
+                },
+            ]
+            : []),
         {
             title: "সেটিংস",
-            description: "অ্যাকাউন্ট ও পছন্দসমূহ পরিচালনা করুন।",
+            description:
+                "অ্যাকাউন্ট ও পছন্দসমূহ পরিচালনা করুন।",
             href: "/dashboard/settings",
             icon: Settings,
         },
@@ -45,8 +81,9 @@ export default function DashboardPage() {
                 </h1>
 
                 <p className="max-w-2xl text-muted-foreground">
-                    আপনার অ্যাকাউন্ট, বুকমার্ক, লাইক, মন্তব্য এবং
-                    ব্যক্তিগত সেটিংস এখান থেকে সহজেই পরিচালনা করুন।
+                    আপনার অ্যাকাউন্ট, বুকমার্ক, লাইক,
+                    মন্তব্য এবং ব্যক্তিগত সেটিংস এখান
+                    থেকে সহজেই পরিচালনা করুন।
                 </p>
             </div>
 

@@ -4,18 +4,26 @@ import {
     ArrowRight,
     BookOpen,
     Sparkles,
-    Users,
+    Users
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { getAllCategories } from "@/services/category.service";
-import { getPostCount } from "@/services/post.service";
+import {
+    getPopularSearches,
+    getPostCount,
+} from "@/services/post.service";
 
 export default async function Hero() {
-    const [postsCount, categories] = await Promise.all([
+    const [
+        postsCount,
+        categories,
+        popularSearches,
+    ] = await Promise.all([
         getPostCount(),
         getAllCategories(),
+        getPopularSearches(5),
     ]);
 
     const categoriesCount = categories.length;
@@ -23,8 +31,10 @@ export default async function Hero() {
     return (
         <section className="relative border-b border-border bg-background">
             {/* Background */}
+
             <div className="absolute inset-0 overflow-hidden">
                 {/* Background Image */}
+
                 <div className="absolute inset-0">
                     <Image
                         src="/HeroBackground.jpeg"
@@ -36,9 +46,11 @@ export default async function Hero() {
                 </div>
 
                 {/* Theme-aware Overlay */}
+
                 <div className="absolute inset-0 bg-cyan-100/40 dark:bg-cyan-950/20" />
 
                 {/* Background Blur */}
+
                 <div className="absolute left-1/2 top-[-80px] h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-red-300/20 blur-3xl dark:bg-red-500/10" />
 
                 <div className="absolute bottom-[-160px] left-[-120px] h-[350px] w-[350px] rounded-full bg-cyan-300/10 blur-3xl dark:bg-cyan-500/10" />
@@ -47,12 +59,15 @@ export default async function Hero() {
             <Container>
                 <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center py-8 text-center sm:py-10 lg:py-14">
                     {/* Badge */}
-                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur-md">
+
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 text-sm font-medium text-foreground shadow-xs backdrop-blur-md">
                         <Sparkles size={15} />
+
                         প্রতিদিন নতুন কিছু শিখুন
                     </div>
 
                     {/* Title */}
+
                     <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                         <span className="block text-red-500 dark:text-red-400">
                             জীবনকে সমৃদ্ধ করার
@@ -64,6 +79,7 @@ export default async function Hero() {
                     </h1>
 
                     {/* Description */}
+
                     <p className="mt-6 max-w-3xl text-base leading-8 text-foreground/80 sm:mt-8 sm:text-md lg:text-xl">
                         জীবন চক্রে পাবেন অনুপ্রেরণামূলক লেখা,
                         বাস্তব জীবনের শিক্ষা, সফলতার গল্প,
@@ -73,43 +89,60 @@ export default async function Hero() {
                     </p>
 
                     {/* Search */}
-                    <div className="relative z-50 mt-8 flex w-full justify-center sm:mt-10">
+
+                    <div className="relative z-50 mt-8 flex w-full max-w-[520px] justify-center rounded-xl bg-background sm:mt-10">
                         <SearchBox
                             className="w-full max-w-[520px]"
                         />
                     </div>
 
-                    {/* Popular Search */}
-                    <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-                        <span className="text-sm text-muted-foreground">
-                            জনপ্রিয়:
-                        </span>
+                    {/* Popular Searches */}
 
-                        {[
-                            "উক্তি",
-                            "ইসলাম",
-                            "সফলতা",
-                            "ক্যারিয়ার",
-                            "প্রযুক্তি",
-                            "স্বাস্থ্য",
-                        ].map((item) => (
+                    {popularSearches.length > 0 && (
+                        <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-2.5">
+                            <span className="mr-0.5 text-sm font-medium text-muted-foreground">
+                                জনপ্রিয় সার্চ:
+                            </span>
+
+                            {popularSearches.map(
+                                (search) => (
+                                    <Link
+                                        key={search}
+                                        href={`/search?q=${encodeURIComponent(
+                                            search
+                                        )}`}
+                                        className="rounded-full border border-border bg-background/70 px-3 py-1.5 text-sm text-muted-foreground shadow-xs backdrop-blur-sm transition-colors hover:bg-muted hover:text-foreground"
+                                    >
+                                        {search}
+                                    </Link>
+                                )
+                            )}
+
+                            {/* More Tags */}
+
                             <Link
-                                key={item}
-                                href={`/search?q=${encodeURIComponent(item)}`}
-                                className="rounded-full border border-border bg-background/70 px-3 py-1.5 text-sm text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-muted hover:text-foreground"
+                                href="/tags"
+                                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/70 px-3 py-1.5 text-sm font-medium text-foreground shadow-xs backdrop-blur-sm transition-colors hover:bg-muted"
                             >
-                                {item}
+                                <span>আরও</span>
+
+                                <ArrowRight
+                                    size={14}
+                                    strokeWidth={2}
+                                />
                             </Link>
-                        ))}
-                    </div>
+                        </div>
+                    )}
 
                     {/* CTA */}
+
                     <div className="mt-6 flex w-full flex-row justify-center gap-3 sm:mt-8">
                         <Link
                             href="/posts"
                             className="inline-flex items-center justify-center gap-2 rounded-xl bg-foreground px-5 py-2 text-sm font-semibold text-background shadow-sm transition-all hover:opacity-90"
                         >
                             সব লেখা পড়ুন
+
                             <ArrowRight size={18} />
                         </Link>
 
@@ -122,16 +155,21 @@ export default async function Hero() {
                     </div>
 
                     {/* Stats */}
+
                     <div className="mt-8 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-10 sm:gap-5">
                         {/* Published Posts */}
-                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
+
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-xs backdrop-blur-md sm:px-6 sm:py-6">
                             <BookOpen
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
                             />
 
                             <h3 className="mt-2 text-xl font-bold text-foreground sm:mt-3 sm:text-3xl">
-                                {postsCount.toLocaleString("bn-BD")}+
+                                {postsCount.toLocaleString(
+                                    "bn-BD"
+                                )}
+                                +
                             </h3>
 
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
@@ -140,7 +178,8 @@ export default async function Hero() {
                         </div>
 
                         {/* Monthly Readers */}
-                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
+
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-xs backdrop-blur-md sm:px-6 sm:py-6">
                             <Users
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
@@ -156,14 +195,18 @@ export default async function Hero() {
                         </div>
 
                         {/* Categories */}
-                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-sm backdrop-blur-md transition-all hover:bg-background/90 hover:shadow-md sm:px-6 sm:py-6">
+
+                        <div className="rounded-2xl border border-border bg-background/75 px-2 py-3 shadow-xs backdrop-blur-md sm:px-6 sm:py-6">
                             <Sparkles
                                 size={20}
                                 className="mx-auto text-foreground sm:size-6"
                             />
 
                             <h3 className="mt-2 text-xl font-bold text-foreground sm:mt-3 sm:text-3xl">
-                                {categoriesCount.toLocaleString("bn-BD")}+
+                                {categoriesCount.toLocaleString(
+                                    "bn-BD"
+                                )}
+                                +
                             </h3>
 
                             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">

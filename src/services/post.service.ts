@@ -436,3 +436,129 @@ export async function getPostCommentCount(
 
     return count ?? 0;
 }
+
+interface TagFrequency {
+    label: string;
+    count: number;
+}
+
+/**
+ * Shared helper: fetch every tag occurrence across published posts
+ * and collapse into unique labels with occurrence counts. Case is
+ * folded for deduping (so "AI" and "ai" count as the same tag) but
+ * the first-seen casing is kept as the display label.
+ *
+ * Used by getPopularSearches, getAllTags, and getAllTagsWithCounts
+ * so the three stay consistent with each other.
+ */
+async function getTagFrequencies(): Promise<
+    TagFrequency[]
+> {
+    const tags = await client.fetch<string[]>(
+        `*[
+            _type == "post" &&
+            defined(publishedAt) &&
+            defined(tags)
+        ].tags[]`
+    );
+
+    if (!tags?.length) {
+        return [];
+    }
+
+    const tagCounts = new Map<
+        string,
+        TagFrequency
+    >();
+
+    for (const tag of tags) {
+        if (!tag || typeof tag !== "string") {
+            continue;
+        }
+
+        const label = tag.trim();
+
+        if (!label) {
+            continue;
+        }
+
+        const key = label.toLocaleLowerCase();
+
+        const existing = tagCounts.get(key);
+
+        if (existing) {
+            existing.count += 1;
+        } else {
+            tagCounts.set(key, {
+                label,
+                count: 1,
+            });
+        }
+    }
+
+    return Array.from(tagCounts.values());
+}
+
+/**
+ * Get the most popular search terms based on
+ * tag frequency across published posts.
+ */
+export async function getPopularSearches(
+    limit = 6
+): Promise<string[]> {
+    const frequencies =
+        await getTagFrequencies();
+
+    return frequencies
+        .sort((a, b) => {
+            if (b.count !== a.count) {
+                return b.count - a.count;
+            }
+
+            return a.label.localeCompare(
+                b.label,
+                "bn"
+            );
+        })
+        .slice(0, limit)
+        .map((item) => item.label);
+}
+
+/**
+ * Get all unique tags used by published posts.
+ */
+export async function getAllTags(): Promise<string[]> {
+    const frequencies =
+        await getTagFrequencies();
+
+    return frequencies
+        .map((item) => item.label)
+        .sort((a, b) => a.localeCompare(b, "bn"));
+}
+
+export interface TagWithCount {
+    tag: string;
+    count: number;
+}
+
+/**
+ * Get all unique tags used by published posts, along with how many
+ * posts use each one. Sorted alphabetically (Bengali collation) by
+ * default — consumers that want popularity order (e.g. the Tags
+ * page) can sort by `count` themselves.
+ */
+export async function getAllTagsWithCounts(): Promise<
+    TagWithCount[]
+> {
+    const frequencies =
+        await getTagFrequencies();
+
+    return frequencies
+        .map(({ label, count }) => ({
+            tag: label,
+            count,
+        }))
+        .sort((a, b) =>
+            a.tag.localeCompare(b.tag, "bn")
+        );
+}

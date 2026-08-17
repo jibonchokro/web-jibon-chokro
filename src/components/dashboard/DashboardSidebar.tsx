@@ -4,6 +4,7 @@ import LogoutButton from "@/components/header/LogoutButton";
 import UserAvatar from "@/components/header/UserAvatar";
 import type { User } from "@supabase/supabase-js";
 import {
+    BarChart3,
     Bookmark,
     ChevronRight,
     EllipsisVertical,
@@ -18,10 +19,12 @@ import { useEffect, useRef, useState } from "react";
 
 interface DashboardSidebarProps {
     user: User;
+    role: string;
 }
 
 export default function DashboardSidebar({
     user,
+    role,
 }: DashboardSidebarProps) {
     const pathname = usePathname();
 
@@ -30,7 +33,7 @@ export default function DashboardSidebar({
     const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        function handleClick(event: MouseEvent) {
+        function handleClick(event: PointerEvent) {
             if (
                 menuRef.current &&
                 !menuRef.current.contains(event.target as Node)
@@ -39,10 +42,13 @@ export default function DashboardSidebar({
             }
         }
 
-        document.addEventListener("mousedown", handleClick);
+        document.addEventListener("pointerdown", handleClick);
 
         return () => {
-            document.removeEventListener("mousedown", handleClick);
+            document.removeEventListener(
+                "pointerdown",
+                handleClick
+            );
         };
     }, []);
 
@@ -75,6 +81,18 @@ export default function DashboardSidebar({
             href: "/dashboard/comments",
             icon: MessageCircle,
         },
+
+        // Admin-only menu item
+        ...(role === "admin"
+            ? [
+                {
+                    label: "পরিসংখ্যান",
+                    href: "/dashboard/statistics",
+                    icon: BarChart3,
+                },
+            ]
+            : []),
+
         {
             label: "সেটিংস",
             href: "/dashboard/settings",
@@ -87,7 +105,10 @@ export default function DashboardSidebar({
             return pathname === "/dashboard";
         }
 
-        return pathname === href || pathname.startsWith(`${href}/`);
+        return (
+            pathname === href ||
+            pathname.startsWith(`${href}/`)
+        );
     };
 
     return (
@@ -128,16 +149,24 @@ export default function DashboardSidebar({
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                aria-current={active ? "page" : undefined}
+                                aria-current={
+                                    active
+                                        ? "page"
+                                        : undefined
+                                }
                                 className={`group flex min-h-10 items-center justify-between rounded-lg border px-3 py-2 text-sm font-medium transition-all duration-200 ${active
-                                    ? "border-border/70 bg-muted text-primary dark:border-primary/10 dark:bg-primary/5"
-                                    : "border-transparent text-muted-foreground hover:border-border/70 hover:bg-muted hover:text-foreground dark:hover:border-primary/10 dark:hover:bg-primary/5"
+                                        ? "border-border/70 bg-muted text-primary dark:border-primary/10 dark:bg-primary/5"
+                                        : "border-transparent text-muted-foreground hover:border-border/70 hover:bg-muted hover:text-foreground dark:hover:border-primary/10 dark:hover:bg-primary/5"
                                     }`}
                             >
                                 <span className="flex items-center gap-3">
                                     <Icon
                                         size={18}
-                                        strokeWidth={active ? 2.2 : 1.9}
+                                        strokeWidth={
+                                            active
+                                                ? 2.2
+                                                : 1.9
+                                        }
                                         className="shrink-0"
                                     />
 
@@ -147,8 +176,8 @@ export default function DashboardSidebar({
                                 <ChevronRight
                                     size={15}
                                     className={`shrink-0 transition-transform duration-200 ${active
-                                        ? "text-primary"
-                                        : "text-muted-foreground/60 group-hover:translate-x-0.5 group-hover:text-foreground"
+                                            ? "text-primary"
+                                            : "text-muted-foreground/60 group-hover:translate-x-0.5 group-hover:text-foreground"
                                         }`}
                                 />
                             </Link>
@@ -159,7 +188,9 @@ export default function DashboardSidebar({
                 {/* Logout */}
 
                 <div className="mt-6 border-t border-border/70 pt-5">
-                    <LogoutButton className="w-full justify-start rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive" />
+                    <LogoutButton
+                        className="w-full justify-start rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                    />
                 </div>
             </aside>
 
@@ -194,13 +225,17 @@ export default function DashboardSidebar({
                             <button
                                 type="button"
                                 onClick={() =>
-                                    setMenuOpen((prev) => !prev)
+                                    setMenuOpen(
+                                        (prev) => !prev
+                                    )
                                 }
                                 aria-label="More options"
                                 aria-expanded={menuOpen}
                                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
                             >
-                                <EllipsisVertical size={18} />
+                                <EllipsisVertical
+                                    size={18}
+                                />
                             </button>
 
                             {menuOpen && (
@@ -212,7 +247,9 @@ export default function DashboardSidebar({
                                     {/* Menu */}
 
                                     <div className="relative w-44 overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-lg">
-                                        <LogoutButton className="w-full justify-start rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive" />
+                                        <LogoutButton
+                                            className="w-full justify-start rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                                        />
                                     </div>
                                 </div>
                             )}
@@ -229,26 +266,35 @@ export default function DashboardSidebar({
                     >
                         {menu.map((item) => {
                             const Icon = item.icon;
-                            const active = isActive(item.href);
+                            const active =
+                                isActive(item.href);
 
                             return (
                                 <Link
                                     key={item.href}
                                     href={item.href}
                                     aria-current={
-                                        active ? "page" : undefined
+                                        active
+                                            ? "page"
+                                            : undefined
                                     }
                                     className={`flex min-h-9 items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ${active
-                                        ? "border-primary/15 bg-primary text-primary-foreground shadow-sm dark:border-primary/30 dark:bg-primary dark:text-primary-foreground"
-                                        : "border-border/70 bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
+                                            ? "border-primary/15 bg-primary text-primary-foreground shadow-sm dark:border-primary/30 dark:bg-primary dark:text-primary-foreground"
+                                            : "border-border/70 bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
                                         }`}
                                 >
                                     <Icon
                                         size={16}
-                                        strokeWidth={active ? 2.2 : 1.9}
+                                        strokeWidth={
+                                            active
+                                                ? 2.2
+                                                : 1.9
+                                        }
                                     />
 
-                                    <span>{item.label}</span>
+                                    <span>
+                                        {item.label}
+                                    </span>
                                 </Link>
                             );
                         })}

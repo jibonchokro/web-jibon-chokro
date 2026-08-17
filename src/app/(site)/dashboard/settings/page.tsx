@@ -10,7 +10,6 @@ import ChangeEmailForm from "@/components/settings/ChangeEmailForm";
 import ChangePasswordForm from "@/components/settings/ChangePasswordForm";
 import DeleteAccountDialog from "@/components/settings/DeleteAccountDialog";
 import DownloadDataButton from "@/components/settings/DownloadDataButton";
-import ThemeToggle from "@/components/settings/ThemeToggle";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SettingsPage() {
@@ -119,24 +118,6 @@ export default async function SettingsPage() {
                             </span>
                         )}
                     </div>
-                </div>
-            </section>
-
-            {/* Appearance */}
-
-            <section className="overflow-hidden rounded-xl border border-border bg-card">
-                <div className="border-b border-border bg-muted/30 px-6 py-4">
-                    <h2 className="font-semibold tracking-tight text-foreground">
-                        Appearance
-                    </h2>
-
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        আপনার পছন্দ অনুযায়ী থিম নির্বাচন করুন।
-                    </p>
-                </div>
-
-                <div className="p-6">
-                    <ThemeToggle />
                 </div>
             </section>
 
@@ -254,8 +235,8 @@ export default async function SettingsPage() {
 
                     <span
                         className={`inline-flex w-fit items-center rounded-full border px-3 py-1 text-xs font-medium ${provider === "google"
-                            ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                            : "border-border bg-muted text-muted-foreground"
+                                ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                : "border-border bg-muted text-muted-foreground"
                             }`}
                     >
                         {provider === "google"
