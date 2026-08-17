@@ -2,6 +2,7 @@
 
 import Container from "@/components/ui/Container";
 import type { User } from "@supabase/supabase-js";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -155,7 +156,7 @@ export default function Header({ user }: HeaderProps) {
 
                     {/* Right Side */}
 
-                    <div className="ml-auto sm:ml-3 flex items-center justify-center gap-2 sm:gap-3">
+                    <div className="ml-auto flex items-center justify-center gap-2 sm:ml-3 sm:gap-3">
 
                         {/* Mobile Search */}
 
@@ -165,15 +166,24 @@ export default function Header({ user }: HeaderProps) {
 
                         <HeaderThemeToggle />
 
-                        {/* User Menu */}
+                        {/* User / Login */}
 
-                        <UserMenu
-                            user={user}
-                            open={userMenuOpen}
-                            setOpen={
-                                handleUserMenuOpenChange
-                            }
-                        />
+                        {user ? (
+                            <UserMenu
+                                user={user}
+                                open={userMenuOpen}
+                                setOpen={
+                                    handleUserMenuOpenChange
+                                }
+                            />
+                        ) : (
+                            <Link
+                                href="/auth/login"
+                                className="inline-flex h-9 items-center justify-center rounded-lg border-[1.5px] border-border bg-background px-4 text-sm font-medium text-foreground transition-colors duration-200 hover:border-primary/40 hover:bg-muted"
+                            >
+                                Login
+                            </Link>
+                        )}
 
                     </div>
                 </div>

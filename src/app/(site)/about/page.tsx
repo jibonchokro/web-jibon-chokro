@@ -3,6 +3,9 @@ import Link from "next/link";
 
 import PageLayout from "@/components/page/PageLayout";
 
+import { getAllCategories } from "@/services/category.service";
+import { getPostCount } from "@/services/post.service";
+
 export const metadata: Metadata = {
     title: "আমাদের সম্পর্কে",
     description:
@@ -47,7 +50,14 @@ const topics = [
     "সফলতার গল্প",
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+    const [postsCount, categories] = await Promise.all([
+        getPostCount(),
+        getAllCategories(),
+    ]);
+
+    const categoriesCount = categories.length;
+
     return (
         <PageLayout
             title="আমাদের সম্পর্কে"
@@ -171,19 +181,21 @@ export default function AboutPage() {
                     </h2>
 
                     <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-8">
+                        {/* Articles */}
                         <div className="rounded-xl border border-border bg-background p-5 text-center sm:text-left">
                             <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                                100+
+                                {postsCount.toLocaleString("bn-BD")}+
                             </h3>
 
                             <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">
-                                মানসম্পন্ন নিবন্ধ
+                                প্রকাশিত নিবন্ধ
                             </p>
                         </div>
 
+                        {/* Categories */}
                         <div className="rounded-xl border border-border bg-background p-5 text-center sm:text-left">
                             <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                                20+
+                                {categoriesCount.toLocaleString("bn-BD")}+
                             </h3>
 
                             <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">
@@ -191,6 +203,7 @@ export default function AboutPage() {
                             </p>
                         </div>
 
+                        {/* Publishing */}
                         <div className="rounded-xl border border-border bg-background p-5 text-center sm:col-span-2 sm:text-left lg:col-span-1">
                             <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                                 প্রতিদিন
