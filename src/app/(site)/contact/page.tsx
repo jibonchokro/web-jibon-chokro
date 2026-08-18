@@ -8,6 +8,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import ContactForm from "@/components/page/ContactForm";
 import PageLayout from "@/components/page/PageLayout";
 
 export const metadata: Metadata = {
@@ -20,27 +21,30 @@ const contactItems = [
     {
         icon: Mail,
         title: "ইমেইল",
-        value: "support@jibonchokro.com",
+        value: "jibonchokro2000@gmail.com",
         description:
             "সাধারণ প্রশ্ন, মতামত এবং সহযোগিতার জন্য যোগাযোগ করুন।",
+        href: "mailto:jibonchokro2000@gmail.com",
     },
     {
         icon: Phone,
         title: "ফোন",
-        value: "+880 1XXX-XXXXXX",
-        description: "অফিস সময়ের মধ্যে যোগাযোগ করুন।",
+        value: "ফোনে যোগাযোগের সুবিধা নেই",
+        description:
+            "এই মুহূর্তে ইমেইলের মাধ্যমে যোগাযোগ করুন।",
     },
     {
         icon: MapPin,
         title: "ঠিকানা",
-        value: "ঢাকা,\nবাংলাদেশ",
+        value: "ব্রাহ্মণবাড়িয়া,\nবাংলাদেশ",
         description: "",
     },
     {
         icon: Clock3,
         title: "উত্তরের সময়",
         value: "সাধারণত ২৪–৪৮ ঘণ্টার মধ্যে",
-        description: "",
+        description:
+            "জরুরি নয় এমন বার্তার ক্ষেত্রে।",
     },
 ];
 
@@ -58,13 +62,14 @@ const contactReasons = [
 export default function ContactPage() {
     return (
         <PageLayout
-            title="যোগাযোগ করুন"
+            title="যোগাযোগ"
             description="আপনার যেকোনো প্রশ্ন, মতামত, পরামর্শ অথবা সহযোগিতার বিষয়ে আমাদের সঙ্গে যোগাযোগ করতে পারেন। আমরা যত দ্রুত সম্ভব উত্তর দেওয়ার চেষ্টা করি।"
         >
             <div className="space-y-8 md:space-y-10 lg:space-y-12">
                 {/* Hero */}
+
                 <section className="rounded-2xl border border-border bg-card p-5 shadow-custom transition-colors sm:p-6 md:rounded-3xl md:p-8 lg:p-10">
-                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground shadow-sm sm:px-3 sm:text-sm">
+                    <div className="inline-flex rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground shadow-xs sm:px-3 sm:text-sm">
                         আমরা আপনার কথা শুনতে আগ্রহী
                     </div>
 
@@ -81,124 +86,74 @@ export default function ContactPage() {
                     </p>
                 </section>
 
-                {/* Contact */}
+                {/* Contact + Form */}
+
                 <section className="grid gap-6 lg:grid-cols-[340px_1fr] lg:gap-8 xl:grid-cols-[360px_1fr]">
                     {/* Contact Cards */}
+
                     <div className="space-y-4 sm:space-y-5">
                         {contactItems.map((item) => {
                             const Icon = item.icon;
 
+                            const content = (
+                                <div className="flex items-start gap-3 sm:gap-4">
+                                    <div className="rounded-lg border border-border bg-muted p-2.5 sm:rounded-xl sm:p-3">
+                                        <Icon
+                                            size={20}
+                                            className="text-foreground sm:h-[22px] sm:w-[22px]"
+                                        />
+                                    </div>
+
+                                    <div className="min-w-0 flex-1">
+                                        <h3 className="text-base font-semibold text-foreground sm:text-lg">
+                                            {item.title}
+                                        </h3>
+
+                                        <p className="mt-2 whitespace-pre-line break-words text-sm leading-7 text-muted-foreground sm:text-base">
+                                            {item.value}
+                                        </p>
+
+                                        {item.description && (
+                                            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                                {
+                                                    item.description
+                                                }
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+
+                            if (item.href) {
+                                return (
+                                    <Link
+                                        key={item.title}
+                                        href={item.href}
+                                        className="block rounded-xl border border-border bg-card p-5 sm:rounded-2xl sm:p-6"
+                                    >
+                                        {content}
+                                    </Link>
+                                );
+                            }
+
                             return (
                                 <div
                                     key={item.title}
-                                    className="rounded-xl border border-border bg-card p-5 shadow-custom transition-all duration-200 hover:-translate-y-1 hover:bg-muted/40 hover:shadow-sm sm:rounded-2xl sm:p-6"
+                                    className="rounded-xl border border-border bg-card p-5 sm:rounded-2xl sm:p-6"
                                 >
-                                    <div className="flex items-start gap-3 sm:gap-4">
-                                        <div className="rounded-lg border border-border bg-muted p-2.5 shadow-sm sm:rounded-xl sm:p-3">
-                                            <Icon
-                                                size={20}
-                                                className="text-foreground sm:h-[22px] sm:w-[22px]"
-                                            />
-                                        </div>
-
-                                        <div className="min-w-0 flex-1">
-                                            <h3 className="text-base font-semibold text-foreground sm:text-lg">
-                                                {item.title}
-                                            </h3>
-
-                                            <p className="mt-2 whitespace-pre-line text-sm leading-7 text-muted-foreground sm:text-base">
-                                                {item.value}
-                                            </p>
-
-                                            {item.description && (
-                                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                                                    {item.description}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
+                                    {content}
                                 </div>
                             );
                         })}
                     </div>
 
                     {/* Form */}
-                    <div className="rounded-2xl border border-border bg-card p-5 shadow-custom sm:p-6 md:rounded-3xl md:p-8">
-                        <div className="flex items-center gap-3">
-                            <div className="rounded-lg border border-border bg-muted p-2 shadow-sm sm:rounded-xl">
-                                <MessageCircle
-                                    size={20}
-                                    className="text-foreground sm:h-[22px] sm:w-[22px]"
-                                />
-                            </div>
 
-                            <h2 className="text-xl font-bold text-foreground sm:text-2xl">
-                                আমাদের বার্তা পাঠান
-                            </h2>
-                        </div>
-
-                        <form className="mt-6 space-y-5 sm:mt-8 sm:space-y-6">
-                            <div className="grid gap-5 md:grid-cols-2">
-                                <div>
-                                    <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
-                                        আপনার নাম
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        placeholder="আপনার নাম লিখুন"
-                                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
-                                        ইমেইল
-                                    </label>
-
-                                    <input
-                                        type="email"
-                                        placeholder="name@example.com"
-                                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
-                                    বিষয়
-                                </label>
-
-                                <input
-                                    type="text"
-                                    placeholder="বার্তার বিষয়"
-                                    className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:text-base"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
-                                    আপনার বার্তা
-                                </label>
-
-                                <textarea
-                                    rows={8}
-                                    placeholder="আপনার বার্তা লিখুন..."
-                                    className="min-h-[180px] w-full resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20 sm:min-h-[220px] sm:text-base"
-                                />
-
-                                <button
-                                    type="submit"
-                                    className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background sm:mt-8 sm:w-auto sm:px-8 sm:py-4 sm:text-base"
-                                >
-                                    বার্তা পাঠান
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    <ContactForm />
                 </section>
 
-                {/* FAQ */}
+                {/* Contact Reasons */}
+
                 <section>
                     <div className="mb-6 sm:mb-8">
                         <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
@@ -224,8 +179,16 @@ export default function ContactPage() {
                 </section>
 
                 {/* CTA */}
+
                 <section className="rounded-2xl border border-border bg-card p-6 text-center shadow-custom sm:rounded-3xl sm:p-8 md:p-10">
-                    <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                    <div className="mx-auto flex size-12 items-center justify-center rounded-xl border border-border bg-muted">
+                        <MessageCircle
+                            size={22}
+                            className="text-foreground"
+                        />
+                    </div>
+
+                    <h2 className="mt-5 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                         আপনার মতামত আমাদের জন্য মূল্যবান
                     </h2>
 
@@ -238,10 +201,10 @@ export default function ContactPage() {
                     </p>
 
                     <Link
-                        href="/contact"
+                        href="mailto:jibonchokro2000@gmail.com"
                         className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-200 hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background sm:w-auto sm:px-8 sm:py-4 sm:text-base"
                     >
-                        যোগাযোগ করুন
+                        ইমেইল করুন
                     </Link>
                 </section>
             </div>
