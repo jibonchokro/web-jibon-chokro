@@ -11,28 +11,61 @@ export default function HeaderThemeToggle() {
 
     useEffect(() => {
         setMounted(true);
-        setDark(document.documentElement.classList.contains("dark"));
+        setDark(
+            document.documentElement.classList.contains("dark")
+        );
     }, []);
 
     function toggleTheme() {
-        const nextDark = !document.documentElement.classList.contains("dark");
+        const nextDark =
+            !document.documentElement.classList.contains("dark");
 
-        document.documentElement.classList.toggle("dark", nextDark);
-        localStorage.setItem("theme", nextDark ? "dark" : "light");
+        document.documentElement.classList.toggle(
+            "dark",
+            nextDark
+        );
+
+        localStorage.setItem(
+            "theme",
+            nextDark ? "dark" : "light"
+        );
+
         setDark(nextDark);
     }
 
     if (!mounted) {
         return (
-            <Button type="button" variant="ghost" size="icon" className="h-9.5 w-9.5 sm:w-10 sm:h-10 rounded-full" aria-label="Toggle theme">
-                <Moon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />
+            <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-9.5 rounded-full sm:size-10"
+                aria-label="Toggle theme"
+            >
+                <Moon className="size-5" />
             </Button>
         );
     }
 
     return (
-        <Button type="button" variant="ghost" size="icon" onClick={toggleTheme} className="h-9.5 w-9.5 sm:w-10 sm:h-10 rounded-full bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} title={dark ? "Light mode" : "Dark mode"}>
-            {dark ? <Sun className="h-5.5 w-5.5 sm:h-6 sm:w-6" /> : <Moon className="h-5.5 w-5.5 sm:h-6 sm:w-6" />}
+        <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="size-9.5 rounded-full bg-muted/80 text-muted-foreground hover:bg-muted hover:text-foreground sm:size-10"
+            aria-label={
+                dark
+                    ? "Switch to light mode"
+                    : "Switch to dark mode"
+            }
+            title={dark ? "Light mode" : "Dark mode"}
+        >
+            {dark ? (
+                <Sun className="size-5" />
+            ) : (
+                <Moon className="size-5" />
+            )}
         </Button>
     );
 }

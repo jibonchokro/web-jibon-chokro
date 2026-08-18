@@ -1,6 +1,9 @@
 "use client";
 
-import { mainNavigation } from "@/constants/navigation";
+import {
+    exploreNavigation,
+    mainNavigation,
+} from "@/constants/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -38,34 +41,51 @@ export default function DesktopNavigation({
         );
     };
 
+    const featured = exploreNavigation[0];
+
+    const renderItem = (
+        item: (typeof mainNavigation)[number]
+    ) => {
+        const active = isActive(item.href);
+        const Icon = item.icon;
+
+        return (
+            <Link
+                key={item.href}
+                href={item.href}
+                className={`inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-medium whitespace-nowrap transition-colors ${active
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
+                    }`}
+            >
+                {Icon && (
+                    <Icon
+                        size={16}
+                        strokeWidth={
+                            active ? 2.2 : 1.9
+                        }
+                    />
+                )}
+
+                <span>{item.label}</span>
+            </Link>
+        );
+    };
+
+    const FeaturedIcon = featured.icon;
+
     return (
         <nav
-            aria-label="Main navigation"
-            className="hidden items-center gap-2 lg:flex"
+            aria-label="প্রধান নেভিগেশন"
+            className="hidden items-center gap-1 lg:flex"
         >
-            {mainNavigation.map((item) => {
-                const active = isActive(item.href);
-
-                return (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        aria-current={
-                            active ? "page" : undefined
-                        }
-                        className={`inline-flex h-9 items-center rounded-lg px-3 text-sm font-medium whitespace-nowrap transition-all duration-200 ${active
-                            ? "bg-muted/80 text-foreground"
-                            : "bg-muted/80 text-muted-foreground hover:bg-muted/70 hover:text-foreground"
-                            }`}
-                    >
-                        {item.label}
-                    </Link>
-                );
-            })}
+            {mainNavigation.map(renderItem)}
 
             <DesktopMoreMenu
                 desktopMenuOpen={desktopMenuOpen}
-                setDesktopMenuOpen={setDesktopMenuOpen}
+                setDesktopMenuOpen={
+                    setDesktopMenuOpen
+                }
                 setUserMenuOpen={setUserMenuOpen}
                 desktopMenuRef={desktopMenuRef}
                 isActive={isActive}

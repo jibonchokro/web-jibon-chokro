@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import CategoryToolbar from "@/components/category/CategoryToolbar";
+import PostToolbar from "@/components/post/PostToolbar";
 import Container from "@/components/ui/Container";
 
 import {
@@ -136,9 +136,7 @@ export default async function CategoryPage({
                 {/* Posts */}
 
                 <section className="mt-8">
-                    <CategoryToolbar
-                        posts={posts}
-                    />
+                    <PostToolbar posts={posts} />
                 </section>
 
             </Container>

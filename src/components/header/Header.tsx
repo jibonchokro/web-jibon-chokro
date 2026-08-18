@@ -55,11 +55,13 @@ export default function Header({
         function handleEscape(
             event: KeyboardEvent
         ) {
-            if (event.key === "Escape") {
-                setDesktopMenuOpen(false);
-                setMobileOpen(false);
-                setUserMenuOpen(false);
+            if (event.key !== "Escape") {
+                return;
             }
+
+            setDesktopMenuOpen(false);
+            setMobileOpen(false);
+            setUserMenuOpen(false);
         }
 
         document.addEventListener(
@@ -101,8 +103,26 @@ export default function Header({
                     : value;
 
             if (next) {
-                setUserMenuOpen(false);
                 setDesktopMenuOpen(false);
+                setUserMenuOpen(false);
+            }
+
+            return next;
+        });
+    };
+
+    const handleDesktopMenuOpenChange: React.Dispatch<
+        React.SetStateAction<boolean>
+    > = (value) => {
+        setDesktopMenuOpen((prev) => {
+            const next =
+                typeof value === "function"
+                    ? value(prev)
+                    : value;
+
+            if (next) {
+                setMobileOpen(false);
+                setUserMenuOpen(false);
             }
 
             return next;
@@ -131,7 +151,6 @@ export default function Header({
         <header className="sticky top-0 z-50 border-b border-border bg-background/70 shadow-sm backdrop-blur-md">
             <Container>
                 <div className="flex h-16 items-center">
-
                     {/* Mobile: Menu + Logo */}
 
                     <div className="flex items-center gap-3">
@@ -147,7 +166,7 @@ export default function Header({
 
                     {/* Desktop Search */}
 
-                    <div className="hidden flex-1 px-6 lg:block">
+                    <div className="hidden flex-1 px-4 lg:block">
                         <HeaderSearch />
                     </div>
 
@@ -158,7 +177,7 @@ export default function Header({
                             desktopMenuOpen
                         }
                         setDesktopMenuOpen={
-                            setDesktopMenuOpen
+                            handleDesktopMenuOpenChange
                         }
                         setUserMenuOpen={
                             setUserMenuOpen
@@ -171,16 +190,9 @@ export default function Header({
                     {/* Right Side */}
 
                     <div className="ml-auto flex items-center justify-center gap-2 sm:ml-3 sm:gap-3">
-
-                        {/* Mobile Search */}
-
                         <MobileSearch />
 
-                        {/* Theme Toggle */}
-
                         <HeaderThemeToggle />
-
-                        {/* User / Login */}
 
                         {user ? (
                             <UserMenu
