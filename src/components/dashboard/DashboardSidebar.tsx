@@ -10,6 +10,7 @@ import {
     EllipsisVertical,
     LayoutDashboard,
     MessageCircle,
+    PanelTop,
     Settings,
     User as UserIcon,
 } from "lucide-react";
@@ -36,13 +37,18 @@ export default function DashboardSidebar({
         function handleClick(event: PointerEvent) {
             if (
                 menuRef.current &&
-                !menuRef.current.contains(event.target as Node)
+                !menuRef.current.contains(
+                    event.target as Node
+                )
             ) {
                 setMenuOpen(false);
             }
         }
 
-        document.addEventListener("pointerdown", handleClick);
+        document.addEventListener(
+            "pointerdown",
+            handleClick
+        );
 
         return () => {
             document.removeEventListener(
@@ -82,13 +88,18 @@ export default function DashboardSidebar({
             icon: MessageCircle,
         },
 
-        // Admin-only menu item
+        // Admin-only menu items
         ...(role === "admin"
             ? [
                 {
                     label: "পরিসংখ্যান",
                     href: "/dashboard/statistics",
                     icon: BarChart3,
+                },
+                {
+                    label: "স্টুডিও",
+                    href: "/studio",
+                    icon: PanelTop,
                 },
             ]
             : []),
@@ -143,7 +154,9 @@ export default function DashboardSidebar({
                 >
                     {menu.map((item) => {
                         const Icon = item.icon;
-                        const active = isActive(item.href);
+                        const active = isActive(
+                            item.href
+                        );
 
                         return (
                             <Link
@@ -170,7 +183,9 @@ export default function DashboardSidebar({
                                         className="shrink-0"
                                     />
 
-                                    <span>{item.label}</span>
+                                    <span>
+                                        {item.label}
+                                    </span>
                                 </span>
 
                                 <ChevronRight
@@ -230,7 +245,9 @@ export default function DashboardSidebar({
                                     )
                                 }
                                 aria-label="More options"
-                                aria-expanded={menuOpen}
+                                aria-expanded={
+                                    menuOpen
+                                }
                                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
                             >
                                 <EllipsisVertical
@@ -247,6 +264,29 @@ export default function DashboardSidebar({
                                     {/* Menu */}
 
                                     <div className="relative w-44 overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-lg">
+                                        {role ===
+                                            "admin" && (
+                                                <Link
+                                                    href="/studio"
+                                                    onClick={() =>
+                                                        setMenuOpen(
+                                                            false
+                                                        )
+                                                    }
+                                                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                                                >
+                                                    <PanelTop
+                                                        size={
+                                                            16
+                                                        }
+                                                    />
+
+                                                    <span>
+                                                        স্টুডিও
+                                                    </span>
+                                                </Link>
+                                            )}
+
                                         <LogoutButton
                                             className="w-full justify-start rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                                         />
@@ -267,7 +307,9 @@ export default function DashboardSidebar({
                         {menu.map((item) => {
                             const Icon = item.icon;
                             const active =
-                                isActive(item.href);
+                                isActive(
+                                    item.href
+                                );
 
                             return (
                                 <Link

@@ -3,6 +3,7 @@ import {
     Bookmark,
     ChevronRight,
     MessageCircle,
+    PanelTop,
     Settings,
     User,
 } from "lucide-react";
@@ -51,6 +52,8 @@ export default async function DashboardPage() {
             href: "/dashboard/comments",
             icon: MessageCircle,
         },
+
+        // Admin-only cards
         ...(role === "admin"
             ? [
                 {
@@ -60,8 +63,16 @@ export default async function DashboardPage() {
                     href: "/dashboard/statistics",
                     icon: BarChart3,
                 },
+                {
+                    title: "স্টুডিও",
+                    description:
+                        "Sanity Studio থেকে সাইটের কনটেন্ট ও অন্যান্য তথ্য পরিচালনা করুন।",
+                    href: "/studio",
+                    icon: PanelTop,
+                },
             ]
             : []),
+
         {
             title: "সেটিংস",
             description:
@@ -97,7 +108,7 @@ export default async function DashboardPage() {
                         <Link
                             key={card.href}
                             href={card.href}
-                            className="group rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-xs"
+                            className="group rounded-xl border border-border bg-muted/40 p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-xs"
                         >
                             <div className="flex items-start justify-between">
                                 <div className="flex size-11 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors duration-200 group-hover:bg-accent group-hover:text-accent-foreground">

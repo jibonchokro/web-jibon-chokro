@@ -3,10 +3,12 @@
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import {
+    BarChart3,
     Bookmark,
     ChevronDown,
     LayoutDashboard,
     MessageCircle,
+    PanelTop,
     Settings,
     User as UserIcon,
 } from "lucide-react";
@@ -20,6 +22,7 @@ import UserAvatar from "./UserAvatar";
 
 interface UserMenuProps {
     user: User | null;
+    role: string;
     open: boolean;
     setOpen: React.Dispatch<
         React.SetStateAction<boolean>
@@ -28,6 +31,7 @@ interface UserMenuProps {
 
 export default function UserMenu({
     user: initialUser,
+    role,
     open,
     setOpen,
 }: UserMenuProps) {
@@ -61,9 +65,7 @@ export default function UserMenu({
     }, []);
 
     useEffect(() => {
-        function handleClick(
-            event: MouseEvent
-        ) {
+        function handleClick(event: MouseEvent) {
             if (
                 menuRef.current &&
                 !menuRef.current.contains(
@@ -74,18 +76,12 @@ export default function UserMenu({
             }
         }
 
-        function handleEscape(
-            event: KeyboardEvent
-        ) {
+        function handleEscape(event: KeyboardEvent) {
             if (event.key === "Escape") {
                 setOpen(false);
             }
         }
 
-        // IMPORTANT:
-        // Use click instead of mousedown so
-        // Next.js Links can navigate before
-        // the menu closes.
         document.addEventListener(
             "click",
             handleClick
@@ -119,8 +115,7 @@ export default function UserMenu({
         "User";
 
     const avatar =
-        user.user_metadata.avatar_url ??
-        null;
+        user.user_metadata.avatar_url ?? null;
 
     const menu = [
         {
@@ -143,6 +138,23 @@ export default function UserMenu({
             label: "মন্তব্য",
             icon: MessageCircle,
         },
+
+        // Admin-only menu items
+        ...(role === "admin"
+            ? [
+                {
+                    href: "/dashboard/statistics",
+                    label: "পরিসংখ্যান",
+                    icon: BarChart3,
+                },
+                {
+                    href: "/studio",
+                    label: "স্টুডিও",
+                    icon: PanelTop,
+                },
+            ]
+            : []),
+
         {
             href: "/dashboard/settings",
             label: "সেটিংস",
@@ -194,17 +206,17 @@ export default function UserMenu({
                     <ChevronDown
                         size={16}
                         className={`text-muted-foreground transition-transform ${open
-                            ? "rotate-180"
-                            : ""
+                                ? "rotate-180"
+                                : ""
                             }`}
                     />
                 </span>
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-[12px] lg:mt-[7px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-border bg-popover text-popover-foreground shadow-lg">
-
+                <div className="absolute right-0 mt-[12px] flex max-h-[80vh] w-72 flex-col overflow-hidden rounded-br-xl rounded-bl-xl border border-border bg-popover text-popover-foreground shadow-lg lg:mt-[7px]">
                     {/* User Info */}
+
                     <div className="border-b border-border p-4">
                         <div className="flex items-center gap-3">
                             <UserAvatar
@@ -225,27 +237,37 @@ export default function UserMenu({
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 overflow-y-auto p-2">
 
+                    <nav className="flex-1 overflow-y-auto p-2">
                         {menu.map((item) => {
                             const Icon = item.icon;
 
                             const active =
-                                item.href === "/dashboard"
-                                    ? pathname === "/dashboard"
-                                    : pathname.startsWith(item.href);
+                                item.href ===
+                                    "/dashboard"
+                                    ? pathname ===
+                                    "/dashboard"
+                                    : pathname ===
+                                    item.href ||
+                                    pathname.startsWith(
+                                        `${item.href}/`
+                                    );
 
                             return (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    onClick={() => setOpen(false)}
+                                    onClick={() =>
+                                        setOpen(false)
+                                    }
                                     className={`mb-1 flex items-center gap-3 rounded-lg border border-border px-3 py-2 text-sm transition ${active
-                                        ? "bg-muted font-medium text-foreground"
-                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                            ? "bg-muted font-medium text-foreground"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                         }`}
                                 >
-                                    <Icon size={17} />
+                                    <Icon
+                                        size={17}
+                                    />
 
                                     <span>
                                         {item.label}
@@ -253,19 +275,17 @@ export default function UserMenu({
                                 </Link>
                             );
                         })}
-
                     </nav>
 
                     {/* Logout */}
+
                     <div className="border-t border-border p-2">
                         <LogoutButton
                             className="w-full justify-start px-3 py-2 text-left text-sm"
                         />
                     </div>
-
                 </div>
             )}
-
         </div>
     );
 }

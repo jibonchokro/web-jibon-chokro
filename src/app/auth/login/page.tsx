@@ -19,13 +19,11 @@ export default async function LoginPage() {
 
     return (
         <>
-            <Header user={user} />
+            <Header user={user} role="user" />
 
             <main className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-background px-4 py-10 text-foreground sm:px-6">
                 <div className="w-full max-w-[400px]">
                     <div className="rounded-xl border border-border bg-card p-6 shadow-xs sm:p-8">
-                        {/* Header */}
-
                         <div className="text-center">
                             <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                 স্বাগতম
@@ -36,13 +34,9 @@ export default async function LoginPage() {
                             </p>
                         </div>
 
-                        {/* Google */}
-
                         <div className="mt-8">
                             <LoginButton />
                         </div>
-
-                        {/* Divider */}
 
                         <div className="my-8 flex items-center gap-4">
                             <div className="h-px flex-1 bg-border" />
@@ -54,11 +48,7 @@ export default async function LoginPage() {
                             <div className="h-px flex-1 bg-border" />
                         </div>
 
-                        {/* Manual Login */}
-
                         <LoginForm />
-
-                        {/* Links */}
 
                         <div className="mt-6 flex items-center justify-between text-sm">
                             <Link

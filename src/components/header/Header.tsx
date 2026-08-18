@@ -17,19 +17,31 @@ import UserMenu from "./UserMenu";
 
 interface HeaderProps {
     user: User | null;
+    role: string;
 }
 
-export default function Header({ user }: HeaderProps) {
+export default function Header({
+    user,
+    role,
+}: HeaderProps) {
     const pathname = usePathname();
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
-    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] =
+        useState(false);
 
-    const desktopMenuRef = useRef<HTMLDivElement>(null);
+    const [desktopMenuOpen, setDesktopMenuOpen] =
+        useState(false);
+
+    const [userMenuOpen, setUserMenuOpen] =
+        useState(false);
+
+    const desktopMenuRef =
+        useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+        function handleClickOutside(
+            event: MouseEvent
+        ) {
             if (
                 desktopMenuRef.current &&
                 !desktopMenuRef.current.contains(
@@ -40,7 +52,9 @@ export default function Header({ user }: HeaderProps) {
             }
         }
 
-        function handleEscape(event: KeyboardEvent) {
+        function handleEscape(
+            event: KeyboardEvent
+        ) {
             if (event.key === "Escape") {
                 setDesktopMenuOpen(false);
                 setMobileOpen(false);
@@ -171,6 +185,7 @@ export default function Header({ user }: HeaderProps) {
                         {user ? (
                             <UserMenu
                                 user={user}
+                                role={role}
                                 open={userMenuOpen}
                                 setOpen={
                                     handleUserMenuOpenChange
@@ -184,7 +199,6 @@ export default function Header({ user }: HeaderProps) {
                                 Login
                             </Link>
                         )}
-
                     </div>
                 </div>
 

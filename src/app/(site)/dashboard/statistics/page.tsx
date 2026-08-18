@@ -11,6 +11,7 @@ import {
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import ViewsAnalytics from "@/components/statistics/ViewsAnalytics";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { getAllPosts } from "@/services/post.service";
@@ -18,7 +19,7 @@ import { getAllPosts } from "@/services/post.service";
 export const metadata: Metadata = {
     title: "পরিসংখ্যান",
     description:
-        "জীবন চক্রের ওয়েবসাইটের বিভিন্ন পরিসংখ্যান দেখুন।",
+        "জীবন চক্রের ওয়েবসাইটের বিভিন্ন পরিসংখ্যান দেখুন।",
 };
 
 export default async function StatisticsPage() {
@@ -46,11 +47,24 @@ export default async function StatisticsPage() {
      * The role is stored in the profiles table.
      */
 
-    const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .maybeSingle();
+    const { data: profile, error: profileRoleError } =
+        await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", user.id)
+            .maybeSingle();
+
+    if (profileRoleError) {
+        console.error(
+            "Statistics: failed to fetch user role:",
+            {
+                message: profileRoleError.message,
+                details: profileRoleError.details,
+                hint: profileRoleError.hint,
+                code: profileRoleError.code,
+            }
+        );
+    }
 
     const role = profile?.role ?? "user";
 
@@ -75,48 +89,70 @@ export default async function StatisticsPage() {
      * ---------------------------------------------------------
      * Supabase statistics
      * ---------------------------------------------------------
+     *
+     * IMPORTANT:
+     *
+     * We use supabaseAdmin here because this is an admin-only
+     * statistics page and we need reliable counts regardless of
+     * normal RLS policies.
      */
 
     const [
-        { count: userCount },
-        { count: bookmarkCount },
-        { count: commentCount },
-        { data: postViews },
+        usersResult,
+        bookmarksResult,
+        commentsResult,
+        postViewsResult,
     ] = await Promise.all([
         /*
+         * -----------------------------------------------------
          * Total registered users
+         * -----------------------------------------------------
+         *
+         * profiles.id is used as the count target.
          */
+
         supabaseAdmin
             .from("profiles")
-            .select("id", {
+            .select("*", {
                 count: "exact",
                 head: true,
             }),
 
         /*
+         * -----------------------------------------------------
          * Total bookmarks
+         * -----------------------------------------------------
+         *
+         * Count every row in the bookmarks table.
          */
+
         supabaseAdmin
             .from("bookmarks")
-            .select("id", {
+            .select("*", {
                 count: "exact",
                 head: true,
             }),
 
         /*
+         * -----------------------------------------------------
          * Total live comments
+         * -----------------------------------------------------
          */
+
         supabaseAdmin
             .from("comments")
-            .select("id", {
+            .select("*", {
                 count: "exact",
                 head: true,
             })
             .eq("is_deleted", false),
 
         /*
+         * -----------------------------------------------------
          * All post view counters
+         * -----------------------------------------------------
          */
+
         supabaseAdmin
             .from("post_views")
             .select("post_id, views"),
@@ -124,11 +160,85 @@ export default async function StatisticsPage() {
 
     /*
      * ---------------------------------------------------------
+     * Check database errors
+     * ---------------------------------------------------------
+     *
+     * Previously these errors were ignored. If Supabase
+     * returned an error, the UI silently displayed 0.
+     */
+
+    if (usersResult.error) {
+        console.error(
+            "Statistics: failed to count users:",
+            {
+                message: usersResult.error.message,
+                details: usersResult.error.details,
+                hint: usersResult.error.hint,
+                code: usersResult.error.code,
+            }
+        );
+    }
+
+    if (bookmarksResult.error) {
+        console.error(
+            "Statistics: failed to count bookmarks:",
+            {
+                message: bookmarksResult.error.message,
+                details: bookmarksResult.error.details,
+                hint: bookmarksResult.error.hint,
+                code: bookmarksResult.error.code,
+            }
+        );
+    }
+
+    if (commentsResult.error) {
+        console.error(
+            "Statistics: failed to count comments:",
+            {
+                message: commentsResult.error.message,
+                details: commentsResult.error.details,
+                hint: commentsResult.error.hint,
+                code: commentsResult.error.code,
+            }
+        );
+    }
+
+    if (postViewsResult.error) {
+        console.error(
+            "Statistics: failed to fetch post views:",
+            {
+                message: postViewsResult.error.message,
+                details: postViewsResult.error.details,
+                hint: postViewsResult.error.hint,
+                code: postViewsResult.error.code,
+            }
+        );
+    }
+
+    /*
+     * ---------------------------------------------------------
+     * Actual counts
+     * ---------------------------------------------------------
+     */
+
+    const userCount = usersResult.count ?? 0;
+
+    const bookmarkCount =
+        bookmarksResult.count ?? 0;
+
+    const commentCount =
+        commentsResult.count ?? 0;
+
+    const postViews =
+        postViewsResult.data ?? [];
+
+    /*
+     * ---------------------------------------------------------
      * Total views
      * ---------------------------------------------------------
      */
 
-    const totalViews = (postViews ?? []).reduce(
+    const totalViews = postViews.reduce(
         (total, item) =>
             total + Number(item.views ?? 0),
         0
@@ -154,7 +264,9 @@ export default async function StatisticsPage() {
      */
 
     const totalComments =
-        commentCount ?? totalPostComments;
+        commentsResult.error
+            ? totalPostComments
+            : commentCount;
 
     /*
      * ---------------------------------------------------------
@@ -312,19 +424,19 @@ export default async function StatisticsPage() {
             title: "মোট মন্তব্য",
             value: totalComments,
             description:
-                "সকল সক্রিয় মন্তব্য",
+                "সকল সক্রিয় মন্তব্য",
             icon: MessageCircle,
         },
         {
             title: "মোট ব্যবহারকারী",
-            value: userCount ?? 0,
+            value: userCount,
             description:
                 "নিবন্ধিত ব্যবহারকারীর সংখ্যা",
             icon: Users,
         },
         {
             title: "মোট বুকমার্ক",
-            value: bookmarkCount ?? 0,
+            value: bookmarkCount,
             description:
                 "ব্যবহারকারীদের সংরক্ষিত লেখা",
             icon: Bookmark,
@@ -348,7 +460,7 @@ export default async function StatisticsPage() {
                             </h1>
 
                             <p className="mt-1 text-sm text-muted-foreground sm:text-base">
-                                জীবন চক্রের ওয়েবসাইটের
+                                জীবন চক্রের ওয়েবসাইটের
                                 গুরুত্বপূর্ণ পরিসংখ্যান
                                 দেখুন।
                             </p>
@@ -375,7 +487,7 @@ export default async function StatisticsPage() {
                         return (
                             <div
                                 key={stat.title}
-                                className="rounded-xl border border-border bg-card p-5 transition-shadow duration-200 hover:shadow-sm"
+                                className="rounded-xl border border-border bg-muted/40 p-5"
                             >
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
@@ -404,12 +516,18 @@ export default async function StatisticsPage() {
                 </div>
             </section>
 
+            {/* Views Analytics */}
+
+            <section>
+                <ViewsAnalytics />
+            </section>
+
             {/* Top Posts */}
 
             <section className="grid gap-6 xl:grid-cols-2">
                 {/* Most Viewed */}
 
-                <div className="overflow-hidden rounded-xl border border-border bg-card">
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/40">
                     <div className="flex items-center justify-between border-b border-border px-5 py-4">
                         <div>
                             <h2 className="font-semibold tracking-tight text-foreground">
@@ -417,7 +535,7 @@ export default async function StatisticsPage() {
                             </h2>
 
                             <p className="mt-1 text-xs text-muted-foreground">
-                                ভিউয়ের ভিত্তিতে শীর্ষ ৫টি
+                                ভিউয়ের ভিত্তিতে শীর্ষ ৫টি
                                 লেখা
                             </p>
                         </div>
@@ -475,8 +593,8 @@ export default async function StatisticsPage() {
                             )
                         ) : (
                             <div className="px-5 py-10 text-center text-sm text-muted-foreground">
-                                কোনো লেখা পাওয়া
-                                যায়নি।
+                                কোনো লেখা পাওয়া
+                                যায়নি।
                             </div>
                         )}
                     </div>
@@ -484,11 +602,11 @@ export default async function StatisticsPage() {
 
                 {/* Most Commented */}
 
-                <div className="overflow-hidden rounded-xl border border-border bg-card">
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/40">
                     <div className="flex items-center justify-between border-b border-border px-5 py-4">
                         <div>
                             <h2 className="font-semibold tracking-tight text-foreground">
-                                সর্বাধিক মন্তব্য পাওয়া
+                                সর্বাধিক মন্তব্য পাওয়া
                                 লেখা
                             </h2>
 
@@ -551,8 +669,8 @@ export default async function StatisticsPage() {
                             )
                         ) : (
                             <div className="px-5 py-10 text-center text-sm text-muted-foreground">
-                                কোনো মন্তব্য পাওয়া
-                                যায়নি।
+                                কোনো মন্তব্য পাওয়া
+                                যায়নি।
                             </div>
                         )}
                     </div>
@@ -564,14 +682,14 @@ export default async function StatisticsPage() {
             <section className="grid gap-6 xl:grid-cols-2">
                 {/* Categories */}
 
-                <div className="overflow-hidden rounded-xl border border-border bg-card">
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/40">
                     <div className="border-b border-border px-5 py-4">
                         <h2 className="font-semibold tracking-tight text-foreground">
                             বিভাগভিত্তিক লেখা
                         </h2>
 
                         <p className="mt-1 text-xs text-muted-foreground">
-                            কোন বিভাগে কতটি লেখা রয়েছে
+                            কোন বিভাগে কতটি লেখা রয়েছে
                         </p>
                     </div>
 
@@ -626,8 +744,8 @@ export default async function StatisticsPage() {
                             </div>
                         ) : (
                             <p className="py-6 text-center text-sm text-muted-foreground">
-                                কোনো বিভাগ পাওয়া
-                                যায়নি।
+                                কোনো বিভাগ পাওয়া
+                                যায়নি।
                             </p>
                         )}
                     </div>
@@ -635,14 +753,14 @@ export default async function StatisticsPage() {
 
                 {/* Tags */}
 
-                <div className="overflow-hidden rounded-xl border border-border bg-card">
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/40">
                     <div className="border-b border-border px-5 py-4">
                         <h2 className="font-semibold tracking-tight text-foreground">
-                            জনপ্রিয় ট্যাগ
+                            জনপ্রিয় ট্যাগ
                         </h2>
 
                         <p className="mt-1 text-xs text-muted-foreground">
-                            সবচেয়ে বেশি ব্যবহৃত ১০টি ট্যাগ
+                            সবচেয়ে বেশি ব্যবহৃত ১০টি ট্যাগ
                         </p>
                     </div>
 
@@ -675,8 +793,8 @@ export default async function StatisticsPage() {
                             </div>
                         ) : (
                             <p className="py-6 text-center text-sm text-muted-foreground">
-                                কোনো ট্যাগ পাওয়া
-                                যায়নি।
+                                কোনো ট্যাগ পাওয়া
+                                যায়নি।
                             </p>
                         )}
                     </div>
@@ -685,7 +803,7 @@ export default async function StatisticsPage() {
 
             {/* Recent Posts */}
 
-            <section className="overflow-hidden rounded-xl border border-border bg-card">
+            <section className="overflow-hidden rounded-xl border border-border bg-muted/40">
                 <div className="border-b border-border px-5 py-4">
                     <h2 className="font-semibold tracking-tight text-foreground">
                         সর্বশেষ প্রকাশিত লেখা
@@ -753,7 +871,7 @@ export default async function StatisticsPage() {
                         ))
                     ) : (
                         <div className="px-5 py-10 text-center text-sm text-muted-foreground">
-                            কোনো লেখা পাওয়া যায়নি।
+                            কোনো লেখা পাওয়া যায়নি।
                         </div>
                     )}
                 </div>
