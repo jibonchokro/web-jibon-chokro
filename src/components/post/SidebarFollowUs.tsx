@@ -11,7 +11,7 @@ export default function SidebarFollowUs() {
     const socialLinks = [
         {
             name: "Facebook",
-            href: "https://facebook.com/jibonchokro",
+            href: "https://www.facebook.com/profile.php?id=61553329931242",
             icon: FaFacebookF,
         },
         {

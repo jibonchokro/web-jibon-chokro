@@ -2,230 +2,415 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Container from "@/components/ui/Container";
+
 import {
-    footerNavigation,
-    mainNavigation,
+    categoryNavigation,
+    exploreNavigation,
+    mainNavigation
 } from "@/constants/navigation";
 
 import {
     ArrowUpRight,
+    BookOpen,
     Mail,
 } from "lucide-react";
 
-import {
-    FaFacebook,
-} from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 
 export default function Footer() {
+    const currentYear = new Date().getFullYear();
+
     return (
         <footer className="border-t border-border bg-background text-foreground">
-
             <Container>
+                <div className="py-8 sm:py-10 lg:py-12">
+                    {/* Main Footer */}
 
-                <div className="py-14 lg:py-16">
-
-                    {/* Top */}
-
-                    <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
-
+                    <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.2fr] lg:gap-8 xl:gap-10">
                         {/* Brand */}
 
-                        <div>
-
+                        <div className="mt-0 sm:-mt-2 sm:col-span-2 lg:col-span-1">
                             <Link
                                 href="/"
-                                aria-label="জীবন চক্র"
+                                aria-label="জীবনচক্র"
                                 className="relative inline-flex h-12 w-[180px] items-center"
                             >
                                 {/* Light mode logo */}
+
                                 <Image
                                     src="/logo.png"
-                                    alt="জীবন চক্র"
+                                    alt="জীবনচক্র"
                                     width={180}
                                     height={50}
                                     priority
-                                    className="
-                                        h-12
-                                        w-auto
-                                        object-contain
-                                        opacity-100
-                                        dark:opacity-0
-                                    "
+                                    className="h-12 w-auto object-contain opacity-100 dark:opacity-0"
                                 />
 
                                 {/* Dark mode logo */}
+
                                 <Image
                                     src="/logo-white.png"
-                                    alt="জীবন চক্র"
+                                    alt="জীবনচক্র"
                                     width={180}
                                     height={50}
                                     priority
-                                    className="
-                                        absolute
-                                        inset-0
-                                        h-12
-                                        w-auto
-                                        object-contain
-                                        opacity-0
-                                        dark:opacity-100
-                                    "
+                                    className="absolute inset-0 h-12 w-auto object-contain opacity-0 dark:opacity-100"
                                 />
                             </Link>
 
-                            <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
-                                জীবনকে আরও সুন্দর, সচেতন এবং অর্থবহ করে তুলতে
-                                উপদেশ, উক্তি, শিক্ষণীয় গল্প, বাস্তব ঘটনা ও
-                                অনুপ্রেরণামূলক বিভিন্ন লেখা প্রকাশ করা হয়।
+                            <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
+                                জীবনকে আরও সুন্দর, সচেতন এবং
+                                অর্থবহ করে তুলতে উপদেশ, উক্তি,
+                                শিক্ষণীয় গল্প, বাস্তব ঘটনা ও
+                                অনুপ্রেরণামূলক বিভিন্ন লেখা
+                                প্রকাশ করা হয়।
                             </p>
 
-                            {/* Social */}
+                            {/* Social / Contact */}
 
-                            <div className="mt-6 flex items-center gap-3">
-
+                            <div className="mt-6 flex items-center gap-2.5">
                                 <Link
-                                    href="https://facebook.com"
+                                    href="https://www.facebook.com/profile.php?id=61553329931242"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Facebook"
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                    className="flex size-9 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                                 >
-                                    <FaFacebook size={18} />
+                                    <FaFacebook size={17} />
                                 </Link>
 
-                                <Link
-                                    href="/contact"
-                                    aria-label="যোগাযোগ"
-                                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                <a
+                                    href="mailto:jibonchokro2000@gmail.com"
+                                    aria-label="ইমেইল"
+                                    className="flex size-9 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                                 >
                                     <Mail size={17} />
-                                </Link>
-
+                                </a>
                             </div>
-
                         </div>
-
 
                         {/* Navigation */}
 
                         <div>
-
-                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-foreground">
+                            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground">
                                 নেভিগেশন
                             </h3>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-2.5">
+                                {mainNavigation.map(
+                                    (item) => {
+                                        const Icon =
+                                            item.icon;
 
-                                {mainNavigation.map((item) => (
+                                        return (
+                                            <li
+                                                key={
+                                                    item.href
+                                                }
+                                            >
+                                                <Link
+                                                    href={
+                                                        item.href
+                                                    }
+                                                    className="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                                                >
+                                                    {Icon && (
+                                                        <Icon
+                                                            size={
+                                                                15
+                                                            }
+                                                            strokeWidth={
+                                                                1.9
+                                                            }
+                                                            className="shrink-0"
+                                                        />
+                                                    )}
 
-                                    <li key={item.href}>
+                                                    <span>
+                                                        {
+                                                            item.label
+                                                        }
+                                                    </span>
 
-                                        <Link
-                                            href={item.href}
-                                            className="group flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                                        >
+                                                    <ArrowUpRight
+                                                        size={
+                                                            13
+                                                        }
+                                                        className="ml-auto opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        );
+                                    }
+                                )}
 
-                                            {item.label}
+                                {/* Featured */}
 
-                                            <ArrowUpRight size={13} className="opacity-0 transition group-hover:opacity-100" />
+                                {exploreNavigation
+                                    .slice(0, 1)
+                                    .map((item) => {
+                                        const Icon =
+                                            item.icon;
 
-                                        </Link>
+                                        return (
+                                            <li
+                                                key={
+                                                    item.href
+                                                }
+                                            >
+                                                <Link
+                                                    href={
+                                                        item.href
+                                                    }
+                                                    className="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                                                >
+                                                    {Icon && (
+                                                        <Icon
+                                                            size={
+                                                                15
+                                                            }
+                                                            strokeWidth={
+                                                                1.9
+                                                            }
+                                                            className="shrink-0"
+                                                        />
+                                                    )}
 
-                                    </li>
+                                                    <span>
+                                                        {
+                                                            item.label
+                                                        }
+                                                    </span>
 
-                                ))}
-
+                                                    <ArrowUpRight
+                                                        size={
+                                                            13
+                                                        }
+                                                        className="ml-auto opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
                             </ul>
-
                         </div>
 
-
-                        {/* Information */}
+                        {/* Categories */}
 
                         <div>
-
-                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-foreground">
-                                তথ্য
+                            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground">
+                                বিভাগসমূহ
                             </h3>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-2.5">
+                                {categoryNavigation.items
+                                    .slice(0, 3)
+                                    .map((item) => {
+                                        const Icon =
+                                            item.icon;
 
-                                {footerNavigation.map((item) => (
+                                        return (
+                                            <li
+                                                key={
+                                                    item.href
+                                                }
+                                            >
+                                                <Link
+                                                    href={
+                                                        item.href
+                                                    }
+                                                    className="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                                                >
+                                                    {Icon && (
+                                                        <Icon
+                                                            size={
+                                                                15
+                                                            }
+                                                            strokeWidth={
+                                                                1.9
+                                                            }
+                                                            className="shrink-0"
+                                                        />
+                                                    )}
 
-                                    <li key={item.href}>
+                                                    <span>
+                                                        {
+                                                            item.label
+                                                        }
+                                                    </span>
 
-                                        <Link
-                                            href={item.href}
-                                            className="group flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                                        >
+                                                    <ArrowUpRight
+                                                        size={
+                                                            13
+                                                        }
+                                                        className="ml-auto opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
 
-                                            {item.label}
+                                <li>
+                                    <Link
+                                        href="/categories"
+                                        className="group flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
+                                    >
+                                        <BookOpen
+                                            size={15}
+                                            strokeWidth={1.9}
+                                        />
 
-                                            <ArrowUpRight size={13} className="opacity-0 transition group-hover:opacity-100" />
+                                        <span>
+                                            সব বিভাগ দেখুন
+                                        </span>
 
-                                        </Link>
-
-                                    </li>
-
-                                ))}
-
+                                        <ArrowUpRight
+                                            size={13}
+                                            className="ml-auto transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                        />
+                                    </Link>
+                                </li>
                             </ul>
-
                         </div>
 
+                        {/* Explore */}
+
+                        <div>
+                            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground">
+                                আবিষ্কার করুন
+                            </h3>
+
+                            <ul className="space-y-2.5">
+                                {exploreNavigation
+                                    .slice(1)
+                                    .map((item) => {
+                                        const Icon =
+                                            item.icon;
+
+                                        return (
+                                            <li
+                                                key={
+                                                    item.href
+                                                }
+                                            >
+                                                <Link
+                                                    href={
+                                                        item.href
+                                                    }
+                                                    className="group flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                                                >
+                                                    {Icon && (
+                                                        <Icon
+                                                            size={
+                                                                15
+                                                            }
+                                                            strokeWidth={
+                                                                1.9
+                                                            }
+                                                            className="shrink-0"
+                                                        />
+                                                    )}
+
+                                                    <span>
+                                                        {
+                                                            item.label
+                                                        }
+                                                    </span>
+
+                                                    <ArrowUpRight
+                                                        size={
+                                                            13
+                                                        }
+                                                        className="ml-auto opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                            </ul>
+                        </div>
 
                         {/* Contact */}
 
-                        <div>
+                        <div className="rounded-xl border border-border bg-muted/40 p-5">
+                            <div className="flex size-9 items-center justify-center rounded-lg border border-border bg-background">
+                                <Mail
+                                    size={17}
+                                    className="text-muted-foreground"
+                                />
+                            </div>
 
-                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-foreground">
-                                আমাদের সাথে
+                            <h3 className="mt-4 text-sm font-semibold">
+                                আমাদের সাথে যোগাযোগ করুন
                             </h3>
 
-                            <p className="text-sm leading-6 text-muted-foreground">
-                                নতুন লেখা, শিক্ষা ও অনুপ্রেরণামূলক
-                                কনটেন্ট পেতে আমাদের সাথে থাকুন।
+                            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                কোনো প্রশ্ন, পরামর্শ বা
+                                সহযোগিতার প্রয়োজন হলে
+                                আমাদের সাথে যোগাযোগ করুন।
                             </p>
+
+                            <a
+                                href="mailto:jibonchokro2000@gmail.com"
+                                className="mt-4 block break-all text-sm font-medium text-foreground transition-colors hover:text-muted-foreground"
+                            >
+                                jibonchokro2000@gmail.com
+                            </a>
 
                             <Link
                                 href="/contact"
-                                className="mt-5 inline-flex items-center rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:opacity-90"
+                                className="mt-4 inline-flex h-9 items-center rounded-lg bg-foreground px-3.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
                             >
-
                                 যোগাযোগ করুন
 
-                                <ArrowUpRight size={15} className="ml-1" />
-
+                                <ArrowUpRight
+                                    size={14}
+                                    className="ml-1.5"
+                                />
                             </Link>
-
                         </div>
-
                     </div>
-
 
                     {/* Divider */}
 
                     <div className="my-10 border-t border-border" />
 
-
                     {/* Bottom */}
 
-                    <div className="flex flex-col items-center justify-between gap-3 text-sm text-muted-foreground md:flex-row">
-
+                    <div className="flex flex-col gap-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
                         <p>
-                            © {new Date().getFullYear()} জীবন চক্র।
+                            © {currentYear} জীবনচক্র।
                             সর্বস্বত্ব সংরক্ষিত।
                         </p>
 
-                        <p>
-                            Designed &amp; Developed by Nirdeshona Inc.
-                        </p>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                            <Link
+                                href="/privacy"
+                                className="transition-colors hover:text-foreground"
+                            >
+                                গোপনীয়তা
+                            </Link>
 
+                            <Link
+                                href="/terms"
+                                className="transition-colors hover:text-foreground"
+                            >
+                                ব্যবহারের শর্তাবলী
+                            </Link>
+
+                            <span
+                                aria-hidden="true"
+                                className="hidden h-3.5 w-px bg-border sm:block"
+                            />
+
+                            <p>
+                                Designed &amp; Developed by
+                                Nirdeshona Inc.
+                            </p>
+                        </div>
                     </div>
-
                 </div>
-
             </Container>
-
         </footer>
     );
 }
