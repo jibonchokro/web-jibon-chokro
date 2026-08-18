@@ -404,8 +404,7 @@ export default function Footer() {
                             />
 
                             <p>
-                                Designed &amp; Developed by
-                                Nirdeshona Inc.
+                                Developed by Nirdeshona Inc.
                             </p>
                         </div>
                     </div>
